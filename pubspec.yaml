@@ -39,6 +39,10 @@ dependencies:
   firebase_analytics: ^8.3.4
   cloud_firestore: ^2.5.4
 
+  shared_preferences: ^2.0.8
+
+  jiffy: ^4.1.0
+
   fluttertoast: ^8.0.8
   flutter_svg: ^0.23.0+1
 

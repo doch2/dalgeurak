@@ -1,12 +1,14 @@
+import 'package:dalgeurak/controllers/bindings/main_binding.dart';
+import 'package:dalgeurak/services/shared_preference.dart';
 import 'package:dalgeurak/utils/root.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'controllers/bindings/auth_binding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  SharedPreference();
   runApp(MyApp());
 }
 
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
             child: child,
           ),
         ),
-        initialBinding: AuthBinding(),
+        initialBinding: MainBinding(),
         home: Root());
   }
 
