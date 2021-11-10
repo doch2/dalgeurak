@@ -1,11 +1,14 @@
 import 'package:dalgeurak/controllers/mealplanner_controller.dart';
 import 'package:dalgeurak/controllers/auth_controller.dart';
+import 'package:dalgeurak/controllers/notification_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class MainBinding extends Bindings {
   @override
   void dependencies() {
+    Get.put<NotificationController>(NotificationController(), permanent: true);
+
     Get.put<AuthController>(AuthController(), permanent: true);
 
     Get.lazyPut(() => Dio());
