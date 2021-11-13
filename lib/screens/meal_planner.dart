@@ -1,4 +1,5 @@
 import 'package:dalgeurak/controllers/mealplanner_controller.dart';
+import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,8 +25,8 @@ class MealPlanner extends GetWidget<MealPlannerController> {
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     return SizedBox(
-                      width: _width,
-                      height: _height * 0.8,
+                      width: _width * 0.95,
+                      height: _height * 0.83,
                       child: DefaultTabController(
                         length: 7,
                         initialIndex: (DateTime.now().weekday-1),
@@ -35,6 +36,10 @@ class MealPlanner extends GetWidget<MealPlannerController> {
                             child: Container(
                               height: 50.0,
                               child: TabBar(
+                                labelStyle: mealPlannerDate,
+                                labelColor: Colors.black,
+                                unselectedLabelColor: grayOne,
+                                indicatorWeight: _width * 0.0075,
                                 tabs: mealPlannerTab(),
                               ),
                             ),
@@ -72,7 +77,7 @@ class MealPlanner extends GetWidget<MealPlannerController> {
 
     for (int i=1; i<=7; i++) {
       result.add(
-        Tab(child: Text(controller.weekDay[i], style: mealPlannerTabText)),
+        Tab(child: Text(controller.weekDay[i])),
       );
     }
 
@@ -85,32 +90,60 @@ class MealPlanner extends GetWidget<MealPlannerController> {
     for (int i=1; i<=7; i++) {
       result.add(
         Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "${DateTime.now().month}월 ${(DateTime.now().day - (DateTime.now().weekday - 1)) + (i-1)}일 ${controller.weekDay[i]}요일 급식이에요!",
-              style: mealPlannerTitle
+            SizedBox(height: _height * 0.02),
+            Row(
+              children: [
+                SizedBox(width: _width * 0.025),
+                Text(
+                    "${DateTime.now().month}월 ${(DateTime.now().day - (DateTime.now().weekday - 1)) + (i-1)}일 ${controller.weekDay[i]}요일",
+                    style: mealPlannerDate
+                ),
+              ],
             ),
-            SizedBox(
-                height: _height * 0.1,
-                width: _width,
-                child: Text(data["$i"]["breakfast"])
-            ),
-            SizedBox(
-                height: _height * 0.1,
-                width: _width,
-                child: Text(data["$i"]["lunch"])
-            ),
-            SizedBox(
-                height: _height * 0.1,
-                width: _width,
-                child: Text(data["$i"]["dinner"])
-            ),
+            SizedBox(height: _height * 0.045),
+            mealPlannerPannel(data, i, "breakfast", "아침"),
+            SizedBox(height: _height * 0.06),
+            mealPlannerPannel(data, i, "lunch", "점심"),
+            SizedBox(height: _height * 0.06),
+            mealPlannerPannel(data, i, "dinner", "저녁"),
           ],
         )
       );
     }
 
     return result;
+  }
+
+  Column mealPlannerPannel(Map data, int index, String engMealType, String korMealType) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            SizedBox(width: _width * 0.025),
+            Container(
+              width: _width * 0.0075,
+              height: _height * 0.055,
+              decoration: BoxDecoration(
+                color: yellowOne,
+              ),
+            ),
+            SizedBox(width: _width * 0.02),
+            Text(
+              korMealType,
+              style: mealPlannerMealType,
+            ),
+          ],
+        ),
+        SizedBox(height: _height * 0.025),
+        SizedBox(
+            height: _height * 0.1,
+            width: _width * 0.775,
+            child: Text(data["$index"][engMealType], style: mealPlannerContent, textAlign: TextAlign.center)
+        ),
+      ],
+    );
   }
 }

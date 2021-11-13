@@ -1,6 +1,7 @@
 import 'package:dalgeurak/controllers/bindings/main_binding.dart';
 import 'package:dalgeurak/controllers/notification_controller.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
+import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/utils/root.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,15 @@ class MyApp extends StatelessWidget {
     _notiController.initialize();
 
     return GetMaterialApp(
+      theme: ThemeData(
+        accentColor: yellowOne,
+        scrollbarTheme: ScrollbarThemeData(
+            isAlwaysShown: true,
+            thickness: MaterialStateProperty.all(6),
+            thumbColor: MaterialStateProperty.all(yellowOne.withOpacity(0.8)),
+            radius: Radius.circular(10),
+            minThumbLength: 60),
+      ),
         builder: (context, child) => Scaffold(
           // 화면 클릭 시, 키보드 숨기기
           body: GestureDetector(
