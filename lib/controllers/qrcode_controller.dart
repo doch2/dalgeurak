@@ -48,7 +48,6 @@ class QrCodeController extends GetxController {
   analyzeQrCodeData(String? scanResult) async {
     scanController!.pauseCamera();
 
-    print(scanResult);
     if (scanResult!.contains("dalgeurak_checkin_qr://")) {
       try {
         List<int> cipherText = json.decode(scanResult.substring((scanResult.indexOf("qr://") + 5), scanResult.indexOf("_", scanResult.indexOf("qr://")))).cast<int>();
@@ -102,6 +101,7 @@ class QrCodeController extends GetxController {
         result["result"] = "alreadyRegister";
       } else {
         await FirestoreDatabase().setStudentMealStatus(studentClass, studentNumber, mealStatus, checkInTime);
+        await FirestoreDatabase().addStudentQrCodeLog(userID, mealKind);
         result["result"] = "success";
       }
     } catch(e) {

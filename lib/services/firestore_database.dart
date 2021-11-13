@@ -78,6 +78,27 @@ class FirestoreDatabase {
     }
   }
 
+  Future<bool> addStudentQrCodeLog(String userID, String mealKind) async {
+    try {
+      DateTime nowTime = DateTime.now();
+
+      if (((await _firestore.collection("users").doc(userID).collection("checkInLog").doc("${nowTime.year}").get()).data() as dynamic) == null) { await _firestore.collection("users").doc(userID).collection("checkInLog").doc("${nowTime.year}").set({}); } //checkInLog Collection이 생성되지 않았을 경우 새로 생성
+      if (((await _firestore.collection("users").doc(userID).collection("checkInLog").doc("${nowTime.year}").get()).data() as dynamic)[nowTime.month.toString()] == null) { await _firestore.collection("users").doc(userID).collection("checkInLog").doc("${nowTime.year}").set({nowTime.month.toString(): {}}); } //checkInLog Collection의 현재 달 Field 생성되지 않았을 경우 새로 생성
+
+      Map checkInLog = ((await _firestore.collection("users").doc(userID).collection("checkInLog").doc("${nowTime.year}").get()).data() as dynamic)[nowTime.month.toString()];
+      if (checkInLog[nowTime.day.toString()] == null) { checkInLog[nowTime.day.toString()] = {}; }
+      checkInLog[nowTime.day.toString()][mealKind] = "${DateTime.now().hour}${DateTime.now().minute}";
+
+      await _firestore.collection("users").doc(userID).collection("checkInLog").doc("${nowTime.year}").update({
+        nowTime.month.toString(): checkInLog
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<String> getKey() async {
     try {
       DocumentSnapshot _doc =
