@@ -28,6 +28,7 @@ class MealPlanner extends GetWidget<MealPlannerController> {
                       height: _height * 0.8,
                       child: DefaultTabController(
                         length: 7,
+                        initialIndex: (DateTime.now().weekday-1),
                         child: Scaffold(
                           appBar: PreferredSize(
                             preferredSize: Size.fromHeight(kToolbarHeight),

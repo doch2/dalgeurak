@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/models/user.dart';
+import 'package:dalgeurak/screens/auth/signup_studentinfo.dart';
 import 'package:dalgeurak/services/firestore_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,9 @@ class AuthController extends GetxController {
 
   Rxn<User> _firebaseUser = Rxn<User>();
   User? get user => _firebaseUser.value;
+  Map loginUserInfo = {}; //userID, email, name, profileImgUrl, isEmailSignUp
+
+  RxBool isLogin = false.obs;
 
   @override
   onInit() {
@@ -34,7 +38,13 @@ class AuthController extends GetxController {
     );
     UserCredential _authResult = await FirebaseAuth.instance.signInWithCredential(credential);
 
-    writeAccountInfo(_authResult.user?.uid, googleUser?.email, googleUser?.displayName, googleUser?.photoUrl, false);
+    loginUserInfo["userid"] = _authResult.user?.uid;
+    loginUserInfo["email"] = googleUser?.email;
+    loginUserInfo["name"] = googleUser?.displayName;
+    loginUserInfo["profileImgUrl"] = googleUser?.photoUrl;
+    loginUserInfo["isEmailSignUp"] = false;
+
+    Get.to(SignUpStudentInfo());
   }
 
   void logOut() async {
@@ -42,6 +52,8 @@ class AuthController extends GetxController {
       await authInstance.signOut();
 
       Get.find<UserController>().clear();
+
+      isLogin = false.obs;
 
       Fluttertoast.showToast(
           msg: "로그아웃 되었습니다.",
@@ -61,26 +73,27 @@ class AuthController extends GetxController {
     }
   }
 
-  void writeAccountInfo(String? userID, String? email, String? name, String? profileImgUrl, bool isEmailSignUp) async {
+  void writeAccountInfo() async {
     UserModel _user = UserModel(
-      id: userID,
-      email: email,
-      name: name,
-      profileImg: profileImgUrl,
+      id: loginUserInfo["userid"],
+      email: loginUserInfo["email"],
+      name: loginUserInfo["name"],
+      profileImg: loginUserInfo["profileImgUrl"],
+      studentId: "${loginUserInfo["grade"]}${loginUserInfo["class"]}${loginUserInfo["number"]}"
     );
 
-    if (isEmailSignUp) {
+    if (loginUserInfo["isEmailSignUp"]) {
       if (await FirestoreDatabase().createNewUser(_user)) {
         Get.find<UserController>().user = _user;
       }
     } else {
       FirebaseFirestore.instance
           .collection("users")
-          .doc(userID)
+          .doc(loginUserInfo["userid"])
           .get()
           .then((doc) async {
         if (doc.exists) {
-          print("exists");
+          print("User info is already exist");
         } else {
           if (await FirestoreDatabase().createNewUser(_user)) {
             Get.find<UserController>().user = _user;
@@ -89,5 +102,11 @@ class AuthController extends GetxController {
       }
       );
     }
+  }
+
+  addStudentInfo() async {
+    bool result = await FirestoreDatabase().addStudentInfo(loginUserInfo["grade"], loginUserInfo["class"], loginUserInfo["number"], loginUserInfo["name"], loginUserInfo["userid"]);
+
+    if (result) { isLogin.value = true; Get.back(); }
   }
 }

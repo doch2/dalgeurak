@@ -1,4 +1,6 @@
+import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyProfile extends StatelessWidget {
   MyProfile({Key? key}) : super(key: key);
@@ -16,6 +18,10 @@ class MyProfile extends StatelessWidget {
           children: <Widget>[
             Text("Profile Page"),
             SizedBox(height: _height * 0.1),
+            GetBuilder<AuthController> (
+              init: AuthController(),
+              builder: (authController) => GestureDetector(onTap: () => authController.logOut(), child: Icon(Icons.logout)),
+            ),
           ],
         ),
       ),

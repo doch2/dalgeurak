@@ -37,12 +37,19 @@ dependencies:
   firebase_auth: ^3.1.4
   google_sign_in: ^5.2.1
   firebase_analytics: ^8.3.4
+  firebase_database: ^8.0.1
   cloud_firestore: ^2.5.4
   firebase_messaging: ^11.1.0
   flutter_local_notifications: ^9.0.3
 
+  qr_flutter: ^4.0.0
+  qr_code_scanner: ^0.6.1
+
   shared_preferences: ^2.0.8
+  cryptography: ^2.0.4
+  cryptography_flutter: ^2.0.2
   url_launcher: ^6.0.12
+  permission_handler: ^8.2.5
 
   jiffy: ^4.1.0
 
