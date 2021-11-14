@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dalgeurak/controllers/auth_controller.dart';
+import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/models/user.dart';
 import 'package:get/get.dart';
@@ -31,6 +33,55 @@ class FirestoreDatabase {
       rethrow;
     }
   }
+
+  Future<String> getUserMealTime(String? mealKind) async {
+    try {
+      String? studentId = (await getUser(Get.find<AuthController>().user?.uid)).studentId;
+
+      DocumentSnapshot _doc = await _firestore.collection("reference").doc("mealSequence").get();
+      int mealSequence = (_doc.data() as dynamic)[mealKind][studentId!.substring(0, 1)][studentId.substring(1, 2)];
+
+      _doc = await _firestore.collection("reference").doc("mealTime").get();
+      String mealTime = (_doc.data() as dynamic)[mealKind][studentId.substring(0, 1)][mealSequence.toString()].toString();
+      return "${mealTime.substring(0, 2)}시 ${mealTime.substring(2, 4)}분";
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<bool> getStudentIsNotEatMeal() async {
+    try {
+      String? studentId = (await getUser(Get.find<AuthController>().user?.uid)).studentId;
+
+      Map studentInfo = ((await _firestore.collection("students").doc("${studentId!.substring(0, 1)}-${studentId.substring(1, 2)}").get()).data() as dynamic)[studentId.substring(2)];
+
+      if (studentInfo["isNotEatMeal"] == null) { return false; } else { return studentInfo["isNotEatMeal"]; }
+
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<bool> setStudentIsNotEatMeal() async {
+    try {
+      String? studentId = (await getUser(Get.find<AuthController>().user?.uid)).studentId;
+      String studentClass = "${studentId!.substring(0, 1)}-${studentId.substring(1, 2)}"; String studentNumber = studentId.substring(2);
+      Map studentInfo = ((await _firestore.collection("students").doc(studentClass).get()).data() as dynamic)[studentNumber];
+      studentInfo["isNotEatMeal"] = Get.find<MealController>().userNotEatMeal.value;
+      studentInfo["lastCheckInTime"] = "${DateTime.now().month}${DateTime.now().day}_${Get.find<MealController>().getMealKind("eng")}";
+
+      await _firestore.collection("students").doc(studentClass).update({
+        studentNumber: studentInfo,
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
 
   Future<Map> getUserInfoForCheckIn(String uid) async {
     try {

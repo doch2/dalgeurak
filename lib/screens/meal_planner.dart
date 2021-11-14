@@ -1,10 +1,10 @@
-import 'package:dalgeurak/controllers/mealplanner_controller.dart';
+import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MealPlanner extends GetWidget<MealPlannerController> {
+class MealPlanner extends GetWidget<MealController> {
   MealPlanner({Key? key}) : super(key: key);
 
   late double _height, _width;

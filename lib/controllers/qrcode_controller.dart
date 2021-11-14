@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cryptography/cryptography.dart';
+import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/services/data_cryptography.dart';
 import 'package:dalgeurak/services/firestore_database.dart';
 import 'package:flutter/material.dart';
@@ -20,18 +21,22 @@ class QrCodeController extends GetxController {
   bool isCreateRefreshTimer = false;
 
   Future<void> refreshTimer() async {
-    while (true) {
-      await Future.delayed(
-          Duration(seconds: 1),
-              () async {
-            if (refreshTime.value == 0) {
-              await getData();
-              refreshTime.value = 30;
-            } else {
-              refreshTime.value = refreshTime.value - 1;
+    try {
+      while (true) {
+        await Future.delayed(
+            Duration(seconds: 1),
+                () async {
+              if (refreshTime.value == 0) {
+                await getData();
+                refreshTime.value = 30;
+              } else {
+                refreshTime.value = refreshTime.value - 1;
+              }
             }
-          }
-      );
+        );
+      }
+    } catch (e) { //중간에 로그아웃 되서 타이머가 오류가 났을 경우
+      isCreateRefreshTimer = false;
     }
   }
 
@@ -91,7 +96,7 @@ class QrCodeController extends GetxController {
 
       String nowMinute = DateTime.now().minute.toString(); if (int.parse(nowMinute) < 10) { nowMinute = "0$nowMinute"; }
       int nowTime = int.parse("${DateTime.now().hour}$nowMinute");
-      String mealKind; if (nowTime < 1400) { mealKind = "lunch"; } else { mealKind = "dinner"; }
+      String mealKind = Get.find<MealController>().getMealKind("eng");
       int classTime = await FirestoreDatabase().getMealTimeForCheckIn(studentClass, mealKind);
       String mealStatus; if (nowTime <= classTime) { mealStatus = "onTime"; } else { mealStatus = "tardy"; }
 

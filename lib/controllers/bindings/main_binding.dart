@@ -1,4 +1,4 @@
-import 'package:dalgeurak/controllers/mealplanner_controller.dart';
+import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/controllers/qrcode_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/controllers/auth_controller.dart';
@@ -18,6 +18,6 @@ class MainBinding extends Bindings {
 
     Get.put<QrCodeController>(QrCodeController());
 
-    Get.lazyPut<MealPlannerController>(() => MealPlannerController());
+    Get.lazyPut<MealController>(() => MealController());
   }
 }

@@ -5,6 +5,7 @@ import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/utils/root.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 void main() async {
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     NotificationController _notiController = Get.put<NotificationController>(NotificationController(), permanent: true);
     _notiController.initialize();
 
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark));
     return GetMaterialApp(
       theme: ThemeData(
         accentColor: yellowOne,

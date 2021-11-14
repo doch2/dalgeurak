@@ -54,6 +54,7 @@ dependencies:
   jiffy: ^4.1.0
 
   fluttertoast: ^8.0.8
+  flutter_switch: ^0.3.2
   flutter_svg: ^0.23.0+1
 
   # The following adds the Cupertino Icons font to your application.
