@@ -28,14 +28,21 @@ class MealInfo {
         month = nowTime.month;
       }
 
-      Response response = await _dio.get(apiUrl, queryParameters: {"document_srl": await getMealPostNum(month, day)});
+      try {
+        Response response = await _dio.get(apiUrl, queryParameters: {"document_srl": await getMealPostNum(month, day)});
 
-      String data = response.data.toString();
+        String data = response.data.toString();
 
-      result["$tempWeekDay"] = {};
-      result["$tempWeekDay"]["breakfast"] = data.substring(data.indexOf('<meta name="description" content="*조식 : ') + 40, data.indexOf(" *중식")).replaceAll("/", ", ");
-      result["$tempWeekDay"]["lunch"] = data.substring(data.indexOf("중식 : ") + 5, data.indexOf(" *석식")).replaceAll("/", ", ");
-      result["$tempWeekDay"]["dinner"] = data.substring(data.indexOf("석식 : ") + 5, data.indexOf('" />', data.indexOf("석식 : "))).replaceAll("/", ", ");
+        result["$tempWeekDay"] = {};
+        result["$tempWeekDay"]["breakfast"] = data.substring(data.indexOf('<meta name="description" content="*조식 : ') + 40, data.indexOf(" *중식")).replaceAll("/", ", ");
+        result["$tempWeekDay"]["lunch"] = data.substring(data.indexOf("중식 : ") + 5, data.indexOf(" *석식")).replaceAll("/", ", ");
+        result["$tempWeekDay"]["dinner"] = data.substring(data.indexOf("석식 : ") + 5, data.indexOf('" />', data.indexOf("석식 : "))).replaceAll("/", ", ");
+      } catch (e) {
+        if (result["$tempWeekDay"] == null) { result["$tempWeekDay"] = {}; }
+        if (result["$tempWeekDay"]["breakfast"] == null) { result["$tempWeekDay"]["breakfast"] = "급식 정보가 없습니다."; }
+        if (result["$tempWeekDay"]["lunch"] == null) { result["$tempWeekDay"]["lunch"] = "급식 정보가 없습니다."; }
+        if (result["$tempWeekDay"]["dinner"] == null) { result["$tempWeekDay"]["dinner"] = "급식 정보가 없습니다."; }
+      }
     }
 
     result["weekNo"] = "${Jiffy().week}";
