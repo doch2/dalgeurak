@@ -44,7 +44,7 @@ class AuthController extends GetxController {
     loginUserInfo["profileImgUrl"] = googleUser?.photoUrl;
     loginUserInfo["isEmailSignUp"] = false;
 
-    Get.to(SignUpStudentInfo());
+    if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpStudentInfo()); }
   }
 
   void logOut() async {

@@ -47,7 +47,7 @@ class NotificationController extends GetxController {
 
     await flutterLocalNotificationsPlugin.initialize(
         InitializationSettings(
-            android: AndroidInitializationSettings('@drawable/testicon'), iOS: IOSInitializationSettings()),
+            android: AndroidInitializationSettings('@drawable/logo'), iOS: IOSInitializationSettings()),
         onSelectNotification: (String? payload) async {});
 
     FirebaseMessaging.onMessage.listen((RemoteMessage rm) {

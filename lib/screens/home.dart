@@ -164,6 +164,9 @@ class Home extends StatelessWidget {
                               GestureDetector(
                                 onTap: () => Get.dialog(
                                   Dialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(21))
+                                    ),
                                     child: Container(
                                       width: _width * 0.784,
                                       height: _height * 0.65,

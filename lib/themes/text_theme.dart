@@ -1,8 +1,10 @@
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 
-final titleText = TextStyle(
-    fontSize: 17, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+final loginTitle = TextStyle(
+    fontSize: 40, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final loginBoxTitle = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
 
 final homeMealKind = TextStyle(
     fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
