@@ -44,7 +44,7 @@ class AuthController extends GetxController {
     loginUserInfo["profileImgUrl"] = googleUser?.photoUrl;
     loginUserInfo["isEmailSignUp"] = false;
 
-    if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpStudentInfo()); }
+    if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpStudentInfo()); } else { isLogin.value = true; }
   }
 
   void logOut() async {
@@ -53,7 +53,7 @@ class AuthController extends GetxController {
 
       Get.find<UserController>().clear();
 
-      isLogin = false.obs;
+      isLogin.value = false;
 
       Fluttertoast.showToast(
           msg: "로그아웃 되었습니다.",
