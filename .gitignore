@@ -1,5 +1,8 @@
 google-services.json
 
+#Dalgeurak Release Key
+/android/app/*.jks
+
 # Miscellaneous
 *.class
 *.log
