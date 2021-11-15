@@ -97,7 +97,7 @@ class QrCodeController extends GetxController {
       String nowMinute = DateTime.now().minute.toString(); if (int.parse(nowMinute) < 10) { nowMinute = "0$nowMinute"; }
       int nowTime = int.parse("${DateTime.now().hour}$nowMinute");
       String mealKind = Get.find<MealController>().getMealKind("eng");
-      int classTime = await FirestoreDatabase().getMealTimeForCheckIn(studentClass, mealKind);
+      int classTime = await FirestoreDatabase().getMealTimeForCheckIn(studentInfo["studentId"].substring(0, 1), studentInfo["studentId"].substring(1, 2), mealKind);
       String mealStatus; if (nowTime <= classTime) { mealStatus = "onTime"; } else { mealStatus = "tardy"; }
 
       String checkInTime =  "${DateTime.now().month}${DateTime.now().day}_$mealKind";

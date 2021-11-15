@@ -100,11 +100,11 @@ class FirestoreDatabase {
     }
   }
 
-  Future<int> getMealTimeForCheckIn(String studentClass, String mealKind) async {
+  Future<int> getMealTimeForCheckIn(String studentGrade, String studentClass, String mealKind) async {
     try {
       DocumentSnapshot _doc = await _firestore.collection("reference").doc("mealTime").get();
 
-      int result = (_doc.data() as dynamic)[mealKind][studentClass];
+      int result = (_doc.data() as dynamic)[mealKind][studentGrade][studentClass];
 
       return result;
     } catch (e) {
