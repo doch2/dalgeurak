@@ -1,6 +1,6 @@
 google-services.json
 
-/lib/tokenit_reference.dart
+/lib/token_reference.dart
 /android/app/src/main/res/values/token_reference.xml
 
 #Dalgeurak Release Key
