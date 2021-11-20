@@ -11,10 +11,10 @@ class MainBinding extends Bindings {
   void dependencies() {
     Get.put<NotificationController>(NotificationController(), permanent: true);
 
+    Get.lazyPut(() => Dio());
+
     Get.put<UserController>(UserController());
     Get.put<AuthController>(AuthController(), permanent: true);
-
-    Get.lazyPut(() => Dio());
 
     Get.put<QrCodeController>(QrCodeController());
 

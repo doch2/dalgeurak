@@ -34,6 +34,16 @@ class FirestoreDatabase {
     }
   }
 
+  Future<bool> isAlreadyRegisterUser(String? uid) async {
+    try {
+      DocumentSnapshot _doc = await _firestore.collection("users").doc(uid).get();
+
+      if (_doc.data() == null) { return false; } else { return true; }
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<String> getUserMealTime(String? mealKind) async {
     try {
       String? studentId = (await getUser(Get.find<AuthController>().user?.uid)).studentId;

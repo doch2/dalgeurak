@@ -1,4 +1,5 @@
 import 'package:dalgeurak/controllers/auth_controller.dart';
+import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -76,7 +77,33 @@ class Login extends GetWidget<AuthController> {
                   ],
                 ),
               ),
-            )
+            ),
+            SizedBox(height: _height * 0.01),
+            GestureDetector(
+              onTap: () => controller.signInWithKakao(),
+              child: Container(
+                width: _width * 0.842,
+                height: _height * 0.08,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Color(0xF000000), width: 1),
+                  color: yellowFour,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(width: _width * 0.1),
+                    SvgPicture.asset(
+                      'assets/images/kakaoIcon.svg',
+                      width: _width * 0.08,
+                    ),
+                    SizedBox(width: _width * 0.15),
+                    Text("카카오톡으로 로그인", style: loginBoxTitle)
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

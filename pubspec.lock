@@ -64,6 +64,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.5.0"
+  cloud_functions:
+    dependency: "direct main"
+    description:
+      name: cloud_functions
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.1"
+  cloud_functions_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_functions_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.14"
+  cloud_functions_web:
+    dependency: transitive
+    description:
+      name: cloud_functions_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.1"
   collection:
     dependency: transitive
     description:
@@ -380,6 +401,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.3.0"
+  kakao_flutter_sdk:
+    dependency: "direct main"
+    description:
+      name: kakao_flutter_sdk
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.0"
   lints:
     dependency: transitive
     description:
@@ -401,6 +436,48 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  package_info_plus:
+    dependency: transitive
+    description:
+      name: package_info_plus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.0"
+  package_info_plus_linux:
+    dependency: transitive
+    description:
+      name: package_info_plus_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
+  package_info_plus_macos:
+    dependency: transitive
+    description:
+      name: package_info_plus_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.0"
+  package_info_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: package_info_plus_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
+  package_info_plus_web:
+    dependency: transitive
+    description:
+      name: package_info_plus_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
+  package_info_plus_windows:
+    dependency: transitive
+    description:
+      name: package_info_plus_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   path:
     dependency: transitive
     description:

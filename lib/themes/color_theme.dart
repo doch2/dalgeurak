@@ -3,6 +3,7 @@ import 'package:flutter/painting.dart';
 final yellowOne = Color(0xFFFAB005);
 final yellowTwo = Color(0xFFFFF400);
 final yellowThree = Color(0xFFFF8A00);
+final yellowFour = Color(0xFFFAEA4F);
 final yellowTwoShadow = Color(0x80FFF400);
 
 final redOne = Color(0xFFFF5555);
