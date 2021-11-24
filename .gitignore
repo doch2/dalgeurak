@@ -1,7 +1,11 @@
+#Firebase Project Setting File
 google-services.json
+GoogleService-Info.plist
 
+#Project API Token
 /lib/token_reference.dart
 /android/app/src/main/res/values/token_reference.xml
+InfoPlist.strings
 
 #Dalgeurak Release Key
 /android/app/*.jks
