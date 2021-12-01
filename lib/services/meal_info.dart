@@ -15,21 +15,10 @@ class MealInfo {
 
     for (int i=weekFirstDay; i<weekFirstDay+7; i++) {
       int tempWeekDay = (i - weekFirstDay) + 1;
-
-      late int day, month;
-      if (i < 1) {
-        day = DateTime(nowTime.year, nowTime.month, 0).day - i.abs();
-        month = (nowTime.month-1 < 1) ? 12 : nowTime.month-1;
-      } else if (i > DateTime(nowTime.year, nowTime.month+1, 0).day) {
-        day = i - DateTime(nowTime.year, nowTime.month+1, 0).day;
-        month = (nowTime.month+1 > 12) ? 1 : nowTime.month+1;
-      } else {
-        day = i;
-        month = nowTime.month;
-      }
+      Map correctDate = getCorrectDate(i);
 
       try {
-        Response response = await _dio.get(apiUrl, queryParameters: {"document_srl": await getMealPostNum(month, day)});
+        Response response = await _dio.get(apiUrl, queryParameters: {"document_srl": await getMealPostNum(correctDate["month"], correctDate["day"])});
 
         String data = response.data.toString();
 
@@ -58,5 +47,22 @@ class MealInfo {
     String postUrl = response.data.toString().substring(data.indexOf('https', strIndex-125), strIndex-2);
     
     return postUrl.substring(postUrl.indexOf("&document_srl=") + 14);
+  }
+
+  Map getCorrectDate(int nowDay) {
+    Map result = {};
+
+    if (nowDay < 1) {
+      result["day"] = DateTime(nowTime.year, nowTime.month, 0).day - nowDay.abs();
+      result["month"] = (nowTime.month-1 < 1) ? 12 : nowTime.month-1;
+    } else if (nowDay > DateTime(nowTime.year, nowTime.month+1, 0).day) {
+      result["day"] = nowDay - DateTime(nowTime.year, nowTime.month+1, 0).day;
+      result["month"] = (nowTime.month+1 > 12) ? 1 : nowTime.month+1;
+    } else {
+      result["day"] = nowDay;
+      result["month"] = nowTime.month;
+    }
+
+    return result;
   }
 }

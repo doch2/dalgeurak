@@ -1,4 +1,5 @@
 import 'package:dalgeurak/controllers/meal_controller.dart';
+import 'package:dalgeurak/services/meal_info.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +89,8 @@ class MealPlanner extends GetWidget<MealController> {
     List<Widget> result = [];
 
     for (int i=1; i<=7; i++) {
+      Map correctDate = MealInfo().getCorrectDate((DateTime.now().day - (DateTime.now().weekday - 1)) + (i-1));
+
       result.add(
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -98,7 +101,7 @@ class MealPlanner extends GetWidget<MealController> {
               children: [
                 SizedBox(width: _width * 0.025),
                 Text(
-                    "${DateTime.now().month}월 ${(DateTime.now().day - (DateTime.now().weekday - 1)) + (i-1)}일 ${controller.weekDay[i]}요일",
+                    "${correctDate["month"]}월 ${correctDate["day"]}일 ${controller.weekDay[i]}요일",
                     style: mealPlannerDate
                 ),
               ],
