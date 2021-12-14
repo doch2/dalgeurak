@@ -1,5 +1,6 @@
 import 'package:dalgeurak/screens/meal_planner.dart';
 import 'package:dalgeurak/screens/my_profile.dart';
+import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dalgeurak/screens/home.dart';
@@ -29,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
+        backgroundColor: blueThree,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.grey.withOpacity(0.6),
         selectedFontSize: 12,

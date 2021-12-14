@@ -8,16 +8,21 @@ final loginSubTitle = TextStyle(
 final loginBoxTitle = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 
-final homeMealKind = TextStyle(
-    fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final homeMealTitle = TextStyle(
+    fontSize: 20, color: graySeven, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final homeMealTime = TextStyle(
     fontSize: 26, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
 final homeNotEatMeal = TextStyle(
     fontSize: 14, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
 final homeQrRefreshTime = TextStyle(
     fontSize: 13, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final homeMealSequenceTitle = TextStyle(
+    fontSize: 16, color: Colors.white, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+final homeMealSequenceClass = TextStyle(
+    fontSize: 15, color: Colors.white, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+
 final homeWaitingStatusTitle = TextStyle(
-    fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+    fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
 final homeStatusTrafficLightOn_congest = TextStyle(
     fontSize: 15, color: Colors.white, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final homeStatusTrafficLightOn_confusion = TextStyle(
@@ -32,6 +37,7 @@ final homeStatusTrafficLightHelpDetailDescription = TextStyle(
     fontSize: 12, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
 final homeStatusTrafficLightOff = TextStyle(
     fontSize: 15, color: grayOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+
 final homeMealSequenceWidgetOn = TextStyle(
     fontSize: 13, color: Colors.white, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final homeMealSequenceWidgetOff = TextStyle(
