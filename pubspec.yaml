@@ -123,3 +123,9 @@ flutter:
           weight: 900
         - asset: assets/fonts/NanumSquareRoundB.ttf
           weight: 700
+    - family: MapleStory
+      fonts:
+        - asset: assets/fonts/MapleStory-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/MapleStory-Light.ttf
+          weight: 500

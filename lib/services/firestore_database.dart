@@ -14,6 +14,7 @@ class FirestoreDatabase {
         "name": user.name,
         "email": user.email,
         "profileImg": user.profileImg,
+        "group": user.group,
         "studentId": user.studentId,
       });
       return true;
@@ -171,13 +172,14 @@ class FirestoreDatabase {
     }
   }
 
-  Future<bool> addStudentInfo(int grade, int _class, int number, String name, String userID) async {
+  Future<bool> addStudentInfo(int grade, int _class, int number, String name, String group, String userID) async {
     try {
       await _firestore.collection("students").doc("$grade-$_class").update({
         "studentAmount": 1,
         "$number": {
           "name": name,
-          "userID": userID
+          "userID": userID,
+          "group": group,
         },
       });
       return true;

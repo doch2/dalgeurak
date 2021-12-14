@@ -1,4 +1,6 @@
 import 'package:dalgeurak/controllers/auth_controller.dart';
+import 'package:dalgeurak/services/check_text_validate.dart';
+import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,92 +14,113 @@ class SignUpStudentInfo extends GetWidget<AuthController> {
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
 
-    final gradeTextController = TextEditingController();
-    final classTextController = TextEditingController();
-    final numberTextController = TextEditingController();
+    final studentNumTextController = TextEditingController();
+    final nameTextController = TextEditingController();
+
+    FocusNode studentNumFocus = new FocusNode();
+    FocusNode nameFocus = new FocusNode();
+
+    GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: _width * 0.2,
-                  child: TextField(
-                      controller: gradeTextController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '학년',
-                      ),
-                      style: signup_student_info
-                  ),
-                ),
-                SizedBox(
-                  width: _width * 0.2,
-                  child: TextField(
-                      controller: classTextController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '반',
-                      ),
-                      style: signup_student_info
-                  ),
-                ),
-                SizedBox(
-                  width: _width * 0.2,
-                  child: TextField(
-                      controller: numberTextController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: '번호',
-                      ),
-                      style: signup_student_info
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: _height * 0.25),
-            GestureDetector(
-              onTap: () {
-                controller.loginUserInfo["grade"] = int.parse(gradeTextController.text);
-                controller.loginUserInfo["class"] = int.parse(classTextController.text);
-                controller.loginUserInfo["number"] = int.parse(numberTextController.text);
-
-                controller.writeAccountInfo();
-                controller.addStudentInfo();
-              },
-              child: Container(
-                height: _height * 0.075,
-                width: _width * 0.5,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xFF2c2c2c).withOpacity(0.1),
-                        spreadRadius: 4,
-                        blurRadius: 10,
-                      )
-                    ]
-                ),
+        child: SafeArea(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(width: _width, height: _height),
+              Positioned(
+                top: _height * 0.1,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Image.asset(
+                      "assets/images/logo.png",
+                      width: _width * 0.15,
+                      height: _width * 0.15,
+                    ),
+                    SizedBox(height: _height * 0.04),
                     Text(
-                        "가입하기",
-                        style: TextStyle(
-                            fontSize: 18, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w900)
-                    )
+                      "정보를 입력해 주세요.",
+                      style: signup_student_info_description,
+                    ),
                   ],
                 ),
               ),
-            )
-          ],
-        ),
+              Positioned(
+                top: _height * 0.45,
+                child: Form(
+                    key: formKey,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: _width * 0.25,
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            controller: studentNumTextController,
+                            focusNode: studentNumFocus,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                              labelText: "학번",
+                              labelStyle: signup_student_info_textfield,
+                            ),
+                            validator: (value) => CheckTextValidate().validateStudentNum(studentNumFocus, value!),
+                          ),
+                        ),
+                        SizedBox(width: _width * 0.085),
+                        SizedBox(
+                          width: _width * 0.25,
+                          child: TextFormField(
+                            keyboardType: TextInputType.name,
+                            controller: nameTextController,
+                            focusNode: nameFocus,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                              labelText: "이름",
+                              labelStyle: signup_student_info_textfield,
+                            ),
+                            validator: (value) => CheckTextValidate().validateName(nameFocus, value!),
+                          ),
+                        )
+                      ],
+                    )
+                ),
+              ),
+              Positioned(
+                top: _height * 0.875,
+                child: GestureDetector(
+                  onTap: () {
+                    if (formKey.currentState!.validate()) {
+                      controller.loginUserInfo["grade"] = int.parse(studentNumTextController.text.substring(0, 1));
+                      controller.loginUserInfo["class"] = int.parse(studentNumTextController.text.substring(1, 2));
+                      controller.loginUserInfo["number"] = int.parse(studentNumTextController.text.substring(2));
+                      controller.loginUserInfo["name"] = nameTextController.text;
+
+                      controller.writeAccountInfo();
+                      controller.addStudentInfo();
+                    }
+                  },
+                  child: Container(
+                    width: _width * 0.861,
+                    height: _height * 0.075,
+                    decoration: BoxDecoration(
+                        color: blueOne,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                              color: blueTwo,
+                              blurRadius: 10
+                          )
+                        ]
+                    ),
+                    child: Center(child: Text("가입하기", style: signupNextBtn)),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
       ),
     );
   }

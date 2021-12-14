@@ -15,97 +15,154 @@ class Login extends GetWidget<AuthController> {
 
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            Image.asset(
-              "assets/images/logo.png",
-              width: _width * 0.336,
-              height: _width * 0.336,
-            ),
-            SizedBox(height: _height * 0.05),
-            Text("달그락", style: loginTitle),
-            SizedBox(height: _height * 0.175),
-            GestureDetector(
-              onTap: () => {controller.signInWithGoogle()},
-              child: Container(
-                width: _width * 0.842,
-                height: _height * 0.08,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Color(0xF000000), width: 1),
-                  color: Colors.white,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(width: _width * 0.1),
-                    SvgPicture.asset(
-                      'assets/images/googleIcon.svg',
-                      width: _width * 0.08,
-                    ),
-                    SizedBox(width: _width * 0.15),
-                    Text("Google로 로그인", style: loginBoxTitle)
-                  ],
-                ),
+            Container(
+              width: _width,
+              height: _height,
+              decoration: BoxDecoration(
+                color: blueOne,
               ),
             ),
-            SizedBox(height: _height * 0.01),
-            GestureDetector(
-              onTap: () => Get.snackbar('애플 로그인 오류', '현재 애플 로그인은 지원되지 않습니다.', snackPosition: SnackPosition.BOTTOM),
+            Positioned(
+              top: 0,
               child: Container(
-                width: _width * 0.842,
-                height: _height * 0.08,
+                width: _width,
+                height: _height * 0.93,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Color(0xF000000), width: 1),
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
                   color: Colors.white,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(width: _width * 0.1),
-                    SvgPicture.asset(
-                      'assets/images/appleIcon.svg',
-                      width: _width * 0.08,
+                    Image.asset(
+                      "assets/images/logo.png",
+                      width: _width * 0.25,
+                      height: _width * 0.25,
                     ),
-                    SizedBox(width: _width * 0.15),
-                    Text("Apple로 로그인", style: loginBoxTitle)
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: _height * 0.01),
-            GestureDetector(
-              onTap: () => controller.signInWithKakao(),
-              child: Container(
-                width: _width * 0.842,
-                height: _height * 0.08,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Color(0xF000000), width: 1),
-                  color: yellowFour,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(width: _width * 0.1),
-                    SvgPicture.asset(
-                      'assets/images/kakaoIcon.svg',
-                      width: _width * 0.08,
+                    SizedBox(height: _height * 0.01),
+                    Text("달그락", style: loginTitle),
+                    Text("편리한 급식 시간의 시작", style: loginSubTitle),
+                    SizedBox(height: _height * 0.125),
+                    GestureDetector(
+                      onTap: () => {controller.signInWithGoogle()},
+                      child: Container(
+                        width: _width * 0.842,
+                        height: _height * 0.08,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, -1)
+                              ),
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5)
+                              )
+                            ]
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(width: _width * 0.1),
+                            SvgPicture.asset(
+                              'assets/images/googleIcon.svg',
+                              width: _width * 0.07,
+                            ),
+                            SizedBox(width: _width * 0.15),
+                            Text("구글로 로그인", style: loginBoxTitle)
+                          ],
+                        ),
+                      ),
                     ),
-                    SizedBox(width: _width * 0.15),
-                    Text("카카오톡으로 로그인", style: loginBoxTitle)
+                    SizedBox(height: _height * 0.025),
+                    GestureDetector(
+                      onTap: () => Get.snackbar('애플 로그인 오류', '현재 애플 로그인은 지원되지 않습니다.', snackPosition: SnackPosition.BOTTOM),
+                      child: Container(
+                        width: _width * 0.842,
+                        height: _height * 0.08,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, -1)
+                              ),
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5)
+                              )
+                            ]
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(width: _width * 0.1),
+                            SvgPicture.asset(
+                              'assets/images/appleIcon.svg',
+                              width: _width * 0.07,
+                            ),
+                            SizedBox(width: _width * 0.15),
+                            Text("Apple로 로그인", style: loginBoxTitle)
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: _height * 0.025),
+                    GestureDetector(
+                      onTap: () => controller.signInWithKakao(),
+                      child: Container(
+                        width: _width * 0.842,
+                        height: _height * 0.08,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: yellowFour,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, -1)
+                              ),
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5)
+                              )
+                            ]
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(width: _width * 0.1),
+                            SvgPicture.asset(
+                              'assets/images/kakaoIcon.svg',
+                              width: _width * 0.07,
+                            ),
+                            SizedBox(width: _width * 0.15),
+                            Text("카카오톡으로 로그인", style: loginBoxTitle)
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
           ],
-        ),
+        )
       ),
     );
   }

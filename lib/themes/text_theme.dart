@@ -2,9 +2,11 @@ import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 
 final loginTitle = TextStyle(
-    fontSize: 40, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+    fontSize: 48, color: Colors.black, fontFamily: 'MapleStory', fontWeight: FontWeight.w500);
+final loginSubTitle = TextStyle(
+    fontSize: 12, color: grayFour, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final loginBoxTitle = TextStyle(
-    fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+    fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 
 final homeMealKind = TextStyle(
     fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
@@ -45,5 +47,14 @@ final mealPlannerContent = TextStyle(
 final mealPlannerTabText = TextStyle(
     fontSize: 15, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 
-final signup_student_info = TextStyle(
+
+final signup_student_info_title = TextStyle(
+    fontSize: 28, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final signup_student_info_description = TextStyle(
+    fontSize: 20, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+final signup_student_info_textfield = TextStyle(
     fontSize: 18, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final signupGroupSelectBtn = TextStyle(
+    fontSize: 16, color: grayFive, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final signupNextBtn = TextStyle(
+    fontSize: 18, color: Colors.white, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);

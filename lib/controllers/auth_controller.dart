@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/models/user.dart';
-import 'package:dalgeurak/screens/auth/signup_studentinfo.dart';
+import 'package:dalgeurak/screens/auth/signup_selectgroup.dart';
 import 'package:dalgeurak/services/firestore_database.dart';
 import 'package:dalgeurak/token_reference.dart';
 import 'package:dio/dio.dart';
@@ -19,6 +18,7 @@ class AuthController extends GetxController {
   Rxn<User> _firebaseUser = Rxn<User>();
   User? get user => _firebaseUser.value;
   Map loginUserInfo = {}; //userID, email, name, profileImgUrl
+  RxString selectGroupName = "init".obs;
 
   RxBool isLogin = false.obs;
 
@@ -53,7 +53,7 @@ class AuthController extends GetxController {
     loginUserInfo["name"] = googleUser?.displayName;
     loginUserInfo["profileImgUrl"] = googleUser?.photoUrl;
 
-    if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpStudentInfo()); } else { isLogin.value = true; }
+    if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpSelectGroup()); } else { isLogin.value = true; }
   }
 
   void signInWithKakao() async {
@@ -83,7 +83,7 @@ class AuthController extends GetxController {
 
       await FirebaseAuth.instance.signInWithCustomToken(response.data["result"]);
 
-      if (await FirestoreDatabase().isAlreadyRegisterUser(loginUserInfo["userid"])) { isLogin.value = true; } else { Get.to(SignUpStudentInfo()); }
+      if (await FirestoreDatabase().isAlreadyRegisterUser(loginUserInfo["userid"])) { isLogin.value = true; } else { Get.to(SignUpSelectGroup()); }
     } catch (e) {
       if (e.toString().contains("User canceled login.")) {
         Fluttertoast.showToast(
@@ -133,6 +133,7 @@ class AuthController extends GetxController {
       email: loginUserInfo["email"],
       name: loginUserInfo["name"],
       profileImg: loginUserInfo["profileImgUrl"],
+      group: loginUserInfo["group"],
       studentId: "${loginUserInfo["grade"]}${loginUserInfo["class"]}${loginUserInfo["number"]}"
     );
 
@@ -153,7 +154,7 @@ class AuthController extends GetxController {
   }
 
   addStudentInfo() async {
-    bool result = await FirestoreDatabase().addStudentInfo(loginUserInfo["grade"], loginUserInfo["class"], loginUserInfo["number"], loginUserInfo["name"], loginUserInfo["userid"]);
+    bool result = await FirestoreDatabase().addStudentInfo(loginUserInfo["grade"], loginUserInfo["class"], loginUserInfo["number"], loginUserInfo["name"], loginUserInfo["group"], loginUserInfo["userid"]);
 
     if (result) { isLogin.value = true; Get.back(); }
   }
