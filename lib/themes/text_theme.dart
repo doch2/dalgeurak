@@ -52,12 +52,14 @@ final homeMealSequenceWidgetOff = TextStyle(
     fontSize: 13, color: grayOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 
 
+final mealPlannerTabDate = TextStyle(
+    fontSize: 15, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final mealPlannerDate = TextStyle(
-    fontSize: 14, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+    fontSize: 20, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
 final mealPlannerMealType = TextStyle(
-    fontSize: 24, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+    fontSize: 15, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
 final mealPlannerContent = TextStyle(
-    fontSize: 14, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+    fontSize: 13, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final mealPlannerTabText = TextStyle(
     fontSize: 15, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 

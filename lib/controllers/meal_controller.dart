@@ -32,18 +32,24 @@ class MealController extends GetxController {
     }
   }
 
-  getMealKind(String resultKind) { //kor, eng
+  getMealKind(String resultKind, bool includeBreakfast) { //kor, eng
     String nowMinute = DateTime.now().minute.toString(); if (int.parse(nowMinute) < 10) { nowMinute = "0$nowMinute"; }
     int nowTime = int.parse("${DateTime.now().hour}$nowMinute");
 
-    String mealKind;
-    if (nowTime < 1400) {
+    String mealKind = "";
+    if (nowTime < 0830 || nowTime >= 2000) {
+      if (resultKind == "kor") {
+        mealKind = "아침";
+      } else {
+        mealKind = "breakfast";
+      }
+    } else if (nowTime < 1400) {
       if (resultKind == "kor") {
         mealKind = "점심";
       } else {
         mealKind = "lunch";
       }
-    } else {
+    } else if (nowTime < 2000) {
       if (resultKind == "kor") {
         mealKind = "저녁";
       } else {
@@ -55,7 +61,7 @@ class MealController extends GetxController {
   }
 
   getMealTime() async {
-    String mealKind = getMealKind("eng");
+    String mealKind = getMealKind("eng", false);
 
     userMealTime.value = await FirestoreDatabase().getUserMealTime(mealKind);
   }

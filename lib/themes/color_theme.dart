@@ -6,6 +6,7 @@ final yellowThree = Color(0xFFFF8A00);
 final yellowFour = Color(0xFFFAEA4F);
 final yellowFive = Color(0xFFFF8F00);
 final yellowSix = Color(0xFFE58100);
+final yellowSeven = Color(0xFFFADFB2);
 final yellowTwoShadow = Color(0x80FFF400);
 
 final redOne = Color(0xFFFF5555);
@@ -14,6 +15,7 @@ final redShadowOne = Color(0x4AFF0000);
 
 final greenOne = Color(0xFF7AFF64);
 final greenTwo = Color(0xFF009329);
+final greenThree = Color(0xFFDCEDC4);
 final greenShadowOne = Color(0x8022F900);
 
 final blueOne = Color(0xFF3D73DD);
@@ -22,6 +24,7 @@ final blueThree = Color(0xFFF3F5F9);
 final blueFour = Color(0xFF2C6EDC);
 final blueFive = Color(0xFF2152B0);
 final blueSix = Color(0xFF1952B6);
+final blueSeven = Color(0xFFD6DBFF);
 
 final grayOne = Color(0xFFC4C4C4);
 final grayTwo = Color(0xFFF5F5F5);

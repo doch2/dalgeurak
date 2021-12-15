@@ -74,7 +74,7 @@ class Home extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "${snapshot.data.studentId.substring(1, 2)}반 " + mealController.getMealKind("kor"),
+                                "${snapshot.data.studentId.substring(1, 2)}반 " + mealController.getMealKind("kor", false),
                                 style: homeMealTitle,
                               ),
                               SizedBox(width: _width * 0.015),

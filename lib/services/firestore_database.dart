@@ -81,7 +81,7 @@ class FirestoreDatabase {
       String studentClass = "${studentId!.substring(0, 1)}-${studentId.substring(1, 2)}"; String studentNumber = studentId.substring(2);
       Map studentInfo = ((await _firestore.collection("students").doc(studentClass).get()).data() as dynamic)[studentNumber];
       studentInfo["isNotEatMeal"] = Get.find<MealController>().userNotEatMeal.value;
-      studentInfo["lastCheckInTime"] = "${DateTime.now().month}${DateTime.now().day}_${Get.find<MealController>().getMealKind("eng")}";
+      studentInfo["lastCheckInTime"] = "${DateTime.now().month}${DateTime.now().day}_${Get.find<MealController>().getMealKind("eng", false)}";
 
       await _firestore.collection("students").doc(studentClass).update({
         studentNumber: studentInfo,

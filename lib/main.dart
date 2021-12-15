@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark));
     return GetMaterialApp(
       theme: ThemeData(
-        accentColor: yellowOne,
+        accentColor: yellowFive,
         scrollbarTheme: ScrollbarThemeData(
             isAlwaysShown: true,
             thickness: MaterialStateProperty.all(6),

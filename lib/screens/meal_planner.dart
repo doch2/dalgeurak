@@ -3,6 +3,7 @@ import 'package:dalgeurak/services/meal_info.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class MealPlanner extends GetWidget<MealController> {
@@ -17,58 +18,69 @@ class MealPlanner extends GetWidget<MealController> {
 
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            FutureBuilder(
-                future: controller.getMealPlanner(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return SizedBox(
-                      width: _width * 0.95,
-                      height: _height * 0.83,
-                      child: DefaultTabController(
-                        length: 7,
-                        initialIndex: (DateTime.now().weekday-1),
-                        child: Scaffold(
-                          appBar: PreferredSize(
-                            preferredSize: Size.fromHeight(kToolbarHeight),
-                            child: Container(
-                              height: 50.0,
-                              child: TabBar(
-                                labelStyle: mealPlannerDate,
-                                labelColor: Colors.black,
-                                unselectedLabelColor: grayOne,
-                                indicatorWeight: _width * 0.0075,
-                                tabs: mealPlannerTab(),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              width: _width,
+              height: _height,
+              color: blueThree
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                FutureBuilder(
+                    future: controller.getMealPlanner(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          width: _width * 0.95,
+                          height: _height * 0.875,
+                          child: DefaultTabController(
+                            length: 7,
+                            initialIndex: (DateTime.now().weekday-1),
+                            child: Scaffold(
+                              backgroundColor: Colors.transparent,
+                              appBar: PreferredSize(
+                                preferredSize: Size.fromHeight(kToolbarHeight),
+                                child: Container(
+                                  height: 50.0,
+                                  child: TabBar(
+                                    labelStyle: mealPlannerTabDate,
+                                    labelColor: Colors.black,
+                                    unselectedLabelColor: grayOne,
+                                    indicatorWeight: _width * 0.0075,
+                                    tabs: mealPlannerTab(),
+                                  ),
+                                ),
+                              ),
+                              body: TabBarView(
+                                children: mealPlannerView(snapshot.data),
                               ),
                             ),
                           ),
-                          body: TabBarView(
-                            children: mealPlannerView(snapshot.data),
-                          ),
-                        ),
-                      ),
-                    );
-                  } else if (snapshot.hasError) { //데이터를 정상적으로 불러오지 못했을 때
-                    return Column(
-                      children: [
-                        Text("데이터를 정상적으로 불러오지 못했습니다. \n다시 시도해 주세요.", textAlign: TextAlign.center)
-                      ],
-                    );
-                  } else { //데이터를 불러오는 중
-                    return Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Center(child: CircularProgressIndicator()),
-                      ],
-                    );
-                  }
-                }
+                        );
+                      } else if (snapshot.hasError) { //데이터를 정상적으로 불러오지 못했을 때
+                        return Column(
+                          children: [
+                            Text("데이터를 정상적으로 불러오지 못했습니다. \n다시 시도해 주세요.", textAlign: TextAlign.center)
+                          ],
+                        );
+                      } else { //데이터를 불러오는 중
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Center(child: CircularProgressIndicator()),
+                          ],
+                        );
+                      }
+                    }
+                ),
+              ],
             ),
           ],
-        ),
+        )
       ),
     );
   }
@@ -93,25 +105,25 @@ class MealPlanner extends GetWidget<MealController> {
 
       result.add(
         Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: _height * 0.02),
-            Row(
-              children: [
-                SizedBox(width: _width * 0.025),
-                Text(
-                    "${correctDate["month"]}월 ${correctDate["day"]}일 ${controller.weekDay[i]}요일",
-                    style: mealPlannerDate
-                ),
-              ],
+            Image.asset(
+              "assets/images/logo.png",
+              width: _width * 0.085,
+              height: _width * 0.085,
             ),
-            SizedBox(height: _height * 0.045),
-            mealPlannerPannel(data, i, "breakfast", "아침"),
-            SizedBox(height: _height * 0.06),
-            mealPlannerPannel(data, i, "lunch", "점심"),
-            SizedBox(height: _height * 0.06),
-            mealPlannerPannel(data, i, "dinner", "저녁"),
+            Text(
+                "${correctDate["month"]}월 ${correctDate["day"]}일",
+                style: mealPlannerDate
+            ),
+            SizedBox(height: _height * 0.02),
+            mealPlannerPanel(data, i, "breakfast", "아침"),
+            SizedBox(height: _height * 0.02),
+            mealPlannerPanel(data, i, "lunch", "점심"),
+            SizedBox(height: _height * 0.02),
+            mealPlannerPanel(data, i, "dinner", "저녁"),
           ],
         )
       );
@@ -120,31 +132,87 @@ class MealPlanner extends GetWidget<MealController> {
     return result;
   }
 
-  Column mealPlannerPannel(Map data, int index, String engMealType, String korMealType) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            SizedBox(width: _width * 0.025),
-            Container(
-              width: _width * 0.0075,
-              height: _height * 0.055,
-              decoration: BoxDecoration(
-                color: yellowOne,
-              ),
-            ),
-            SizedBox(width: _width * 0.02),
-            Text(
-              korMealType,
-              style: mealPlannerMealType,
-            ),
-          ],
+  Stack mealPlannerPanel(Map data, int index, String engMealType, String korMealType) {
+    Color smallBoxColor = emptyColor;
+    Color bigBoxColor = Colors.white;
+    TextStyle mealTextStyle = mealPlannerContent;
+    List<BoxShadow> boxShadow = [];
+
+    if (korMealType == '아침') {
+      smallBoxColor = greenThree;
+    } else if (korMealType == '점심') {
+      smallBoxColor = yellowSeven;
+    } else if (korMealType == '저녁') {
+      smallBoxColor = blueSeven;
+    }
+
+    if (controller.getMealKind("eng", true) == engMealType) {
+      bigBoxColor = blueOne;
+      mealTextStyle = mealTextStyle.copyWith(color: Colors.white);
+      boxShadow = [
+        BoxShadow(
+          offset: Offset(0, 5),
+          blurRadius: 20,
+          color: grayEight,
         ),
-        SizedBox(height: _height * 0.025),
+      ];
+    }
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
         SizedBox(
-            height: _height * 0.1,
-            width: _width * 0.775,
-            child: Text(data["$index"][engMealType], style: mealPlannerContent, textAlign: TextAlign.center)
+          width: _width * 0.866,
+          height: _height * 0.21,
+        ),
+        Positioned(
+          top: _height * 0.1,
+          child: Container(
+            width: _width * 0.866,
+            height: _height * 0.07,
+            decoration: BoxDecoration(
+              color: bigBoxColor,
+              borderRadius: BorderRadius.circular(13),
+              boxShadow: boxShadow,
+            ),
+          ),
+        ),
+        Container(
+          width: _width * 0.866,
+          height: _height * 0.17,
+          decoration: BoxDecoration(
+            color: bigBoxColor,
+            borderRadius: BorderRadius.circular(13)
+          ),
+          child: Center(
+              child: SizedBox(
+                width: _width * 0.77,
+                child: Text(data["$index"][engMealType], style: mealTextStyle, textAlign: TextAlign.center),
+              )
+          ),
+        ),
+        Positioned(
+          top: 0,
+          left: _height * 0.04,
+          child: Container(
+            width: _width * 0.2,
+            height: _height * 0.04,
+            decoration: BoxDecoration(
+                color: smallBoxColor,
+                borderRadius: BorderRadius.circular(4)
+            ),
+            child: Row(
+              children: [
+                SizedBox(width: _width * 0.02),
+                SvgPicture.asset(
+                  'assets/images/mealPlanner_$engMealType.svg',
+                  width: _width * 0.06,
+                ),
+                SizedBox(width: _width * 0.02),
+                Text(korMealType, style: mealPlannerMealType)
+              ],
+            ),
+          ),
         ),
       ],
     );
