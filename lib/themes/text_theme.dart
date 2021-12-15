@@ -12,8 +12,16 @@ final homeMealTitle = TextStyle(
     fontSize: 20, color: graySeven, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final homeMealTime = TextStyle(
     fontSize: 26, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
-final homeNotEatMeal = TextStyle(
-    fontSize: 14, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+
+final homeNotEatMealDialogWarning = TextStyle(
+    fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+final homeNotEatMealDialogTitle = TextStyle(
+    fontSize: 15, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final homeNotEatMealDialogDescription = TextStyle(
+    fontSize: 13, color: grayTen, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final homeNotEatMealDialogBtn = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+
 final homeQrRefreshTime = TextStyle(
     fontSize: 13, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final homeMealSequenceTitle = TextStyle(

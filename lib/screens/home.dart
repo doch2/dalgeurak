@@ -12,6 +12,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
 
+  late MealController mealController;
   late double _height, _width;
 
   @override
@@ -21,7 +22,7 @@ class Home extends StatelessWidget {
 
     if (!Get.find<QrCodeController>().isCreateRefreshTimer) { Get.find<QrCodeController>().refreshTimer(); Get.find<QrCodeController>().isCreateRefreshTimer = true; }
 
-    MealController mealController = Get.find<MealController>();
+    mealController = Get.find<MealController>();
     mealController.getMealTime();
 
     AuthController authController = Get.find<AuthController>();
@@ -176,7 +177,7 @@ class Home extends StatelessWidget {
                                         style: homeMealSequenceTitle
                                     ),
                                     GestureDetector(
-                                      onTap: () => Get.dialog(statusTrafficLightInfoDialog()),
+                                      onTap: () => Get.dialog(setUserNotEatMealDialog()),
                                       child: Icon(Icons.warning_amber_rounded, color: yellowFive),
                                     )
                                   ],
@@ -358,6 +359,106 @@ class Home extends StatelessWidget {
         ],
       ),
       child: Center(child: Text(status, style: textStyle)),
+    );
+  }
+
+  Dialog setUserNotEatMealDialog() {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16))
+      ),
+      child: Container(
+        width: _width * 0.784,
+        height: _height * 0.24,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: grayTwo,
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              top: _height * 0.018,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.warning_rounded,
+                        color: yellowFive,
+                      ),
+                      SizedBox(width: _width * 0.015),
+                      Text("Warning", style: homeNotEatMealDialogWarning)
+                    ],
+                  ),
+                  SizedBox(height: _height * 0.017),
+                  Text("점심 급식을 드시지 않을 건가요?", style: homeNotEatMealDialogTitle),
+                  SizedBox(height: _height * 0.004),
+                  Text("신중하게 결정해주세요.", style: homeNotEatMealDialogDescription)
+                ],
+              )
+            ),
+            Positioned(
+              left: 0,
+              bottom: 0,
+              child: Material(
+                color: grayTwo,
+                borderRadius:  BorderRadius.only(bottomLeft: Radius.circular(16)),
+                child: InkWell(
+                  onTap: () {
+                    mealController.setUserIsNotEatMeal(true);
+                    Get.back();
+                  },
+                  child: Container(
+                    width: _width * 0.392,
+                    height: _height * 0.075,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                    child: Center(child: Text("네", style: homeNotEatMealDialogBtn)),
+                  ),
+                ),
+              )
+            ),
+            Positioned(
+                right: 0,
+                bottom: 0,
+                child: Material(
+                  color: grayTwo,
+                  borderRadius:  BorderRadius.only(bottomRight: Radius.circular(16)),
+                  child: InkWell(
+                    onTap: () => Get.back(),
+                    child: Container(
+                      width: _width * 0.392,
+                      height: _height * 0.075,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                      child: Center(child: Text("아니요", style: homeNotEatMealDialogBtn)),
+                    ),
+                  ),
+                )
+            ),
+            Positioned(
+              bottom: _height * 0.075,
+              child: Container(
+                width: _width * 0.784,
+                height: 2,
+                color: grayNine,
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                width: 2,
+                height: _height * 0.075,
+                color: grayNine,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
