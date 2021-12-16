@@ -1,5 +1,5 @@
 import 'package:dalgeurak/screens/meal_planner.dart';
-import 'package:dalgeurak/screens/my_profile.dart';
+import 'package:dalgeurak/screens/profile/my_profile.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:flutter/material.dart';
 

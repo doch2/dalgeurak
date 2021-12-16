@@ -27,9 +27,10 @@ class AuthController extends GetxController {
 
 
   @override
-  onInit() {
+  onInit() async {
     _firebaseUser.bindStream(authInstance.authStateChanges());
     _firebaseUser.value = authInstance.currentUser;
+    Get.find<UserController>().user = await FirestoreDatabase().getUser(user!.uid);
 
     kakaoFlutterLib.KakaoContext.clientId = TokenReference().kakaoNativeKey;
   }
@@ -54,7 +55,7 @@ class AuthController extends GetxController {
     loginUserInfo["name"] = googleUser?.displayName;
     loginUserInfo["profileImgUrl"] = googleUser?.photoUrl;
 
-    if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpSelectGroup()); } else { isLogin.value = true; }
+    if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpSelectGroup()); } else { isLogin.value = true; Get.find<UserController>().user = await FirestoreDatabase().getUser(user!.uid); }
   }
 
   void signInWithApple() async {
@@ -78,7 +79,7 @@ class AuthController extends GetxController {
       loginUserInfo["name"] = "${appleCredential.familyName}${appleCredential.givenName}";
       loginUserInfo["profileImgUrl"] = "";
 
-      if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpSelectGroup()); } else { isLogin.value = true; }
+      if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpSelectGroup()); } else { isLogin.value = true; Get.find<UserController>().user = await FirestoreDatabase().getUser(user!.uid); }
     } catch(error) {
       print(error);
     }
@@ -111,7 +112,7 @@ class AuthController extends GetxController {
 
       await FirebaseAuth.instance.signInWithCustomToken(response.data["result"]);
 
-      if (await FirestoreDatabase().isAlreadyRegisterUser(loginUserInfo["userid"])) { isLogin.value = true; } else { Get.to(SignUpSelectGroup()); }
+      if (await FirestoreDatabase().isAlreadyRegisterUser(loginUserInfo["userid"])) { isLogin.value = true; Get.find<UserController>().user = await FirestoreDatabase().getUser(this.user!.uid); } else { Get.to(SignUpSelectGroup()); }
     } catch (e) {
       if (e.toString().contains("User canceled login.")) {
         Fluttertoast.showToast(
@@ -165,7 +166,7 @@ class AuthController extends GetxController {
       studentId: "${loginUserInfo["grade"]}${loginUserInfo["class"]}${loginUserInfo["number"]}"
     );
 
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection("users")
         .doc(loginUserInfo["userid"])
         .get()
@@ -173,12 +174,12 @@ class AuthController extends GetxController {
       if (doc.exists) {
         print("User info is already exist");
       } else {
-        if (await FirestoreDatabase().createNewUser(_user)) {
-          Get.find<UserController>().user = _user;
-        }
+        await FirestoreDatabase().createNewUser(_user);
       }
     }
     );
+
+    Get.find<UserController>().user = _user;
   }
 
   addStudentInfo() async {

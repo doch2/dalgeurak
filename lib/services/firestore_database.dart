@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 class FirestoreDatabase {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final UserController userController = Get.find<UserController>();
 
   Future<bool> createNewUser(UserModel user) async {
     try {
@@ -47,7 +48,7 @@ class FirestoreDatabase {
 
   Future<String> getUserMealTime(String? mealKind) async {
     try {
-      String? studentId = (await getUser(Get.find<AuthController>().user?.uid)).studentId;
+      String? studentId = userController.user.studentId;
 
       DocumentSnapshot _doc = await _firestore.collection("reference").doc("mealSequence").get();
       int mealSequence = (_doc.data() as dynamic)[mealKind][studentId!.substring(0, 1)][studentId.substring(1, 2)];
@@ -63,7 +64,7 @@ class FirestoreDatabase {
 
   Future<bool> getStudentIsNotEatMeal() async {
     try {
-      String? studentId = (await getUser(Get.find<AuthController>().user?.uid)).studentId;
+      String? studentId = userController.user.studentId;
 
       Map studentInfo = ((await _firestore.collection("students").doc("${studentId!.substring(0, 1)}-${studentId.substring(1, 2)}").get()).data() as dynamic)[studentId.substring(2)];
 
@@ -77,7 +78,7 @@ class FirestoreDatabase {
 
   Future<bool> setStudentIsNotEatMeal() async {
     try {
-      String? studentId = (await getUser(Get.find<AuthController>().user?.uid)).studentId;
+      String? studentId = userController.user.studentId;
       String studentClass = "${studentId!.substring(0, 1)}-${studentId.substring(1, 2)}"; String studentNumber = studentId.substring(2);
       Map studentInfo = ((await _firestore.collection("students").doc(studentClass).get()).data() as dynamic)[studentNumber];
       studentInfo["isNotEatMeal"] = Get.find<MealController>().userNotEatMeal.value;

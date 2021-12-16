@@ -37,13 +37,13 @@ class MealController extends GetxController {
     int nowTime = int.parse("${DateTime.now().hour}$nowMinute");
 
     String mealKind = "";
-    if (nowTime < 0830 || nowTime >= 2000) {
+    if ((nowTime < 0830 || nowTime >= 2000) && includeBreakfast) {
       if (resultKind == "kor") {
         mealKind = "아침";
       } else {
         mealKind = "breakfast";
       }
-    } else if (nowTime < 1400) {
+    } else if (nowTime < 1400 || nowTime >= 2000) {
       if (resultKind == "kor") {
         mealKind = "점심";
       } else {

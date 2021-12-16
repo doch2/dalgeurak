@@ -1,6 +1,7 @@
 import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/controllers/qrcode_controller.dart';
+import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/qrcode_scan.dart';
 import 'package:dalgeurak/services/firestore_database.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
@@ -13,6 +14,7 @@ class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
 
   late MealController mealController;
+  late UserController userController;
   late double _height, _width;
 
   @override
@@ -23,9 +25,7 @@ class Home extends StatelessWidget {
     if (!Get.find<QrCodeController>().isCreateRefreshTimer) { Get.find<QrCodeController>().refreshTimer(); Get.find<QrCodeController>().isCreateRefreshTimer = true; }
 
     mealController = Get.find<MealController>();
-    mealController.getMealTime();
-
-    AuthController authController = Get.find<AuthController>();
+    userController = Get.find<UserController>();
 
 
     return Scaffold(
@@ -40,13 +40,13 @@ class Home extends StatelessWidget {
                 color: blueThree
               ),
             ),
-            Positioned(
+            /*Positioned(
               top: _height * 0.025,
               child: GetBuilder<QrCodeController> (
                 init: QrCodeController(),
                 builder: (qrCodeController) => GestureDetector(onTap: () => Get.to(QrCodeScan()), child: Text("<임시버튼> QR코드 스캔하러 가기")),
               ),
-            ),
+            ), */
             Positioned(
               top: _height * 0.055,
               right: _width * 0.02,
@@ -66,40 +66,41 @@ class Home extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FutureBuilder(
-                      future: FirestoreDatabase().getUser(authController.user?.uid),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) { //데이터를 정상적으로 받았을때
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "${snapshot.data.studentId.substring(1, 2)}반 " + mealController.getMealKind("kor", false),
-                                style: homeMealTitle,
-                              ),
-                              SizedBox(width: _width * 0.015),
-                              Image.asset(
-                                "assets/images/logo.png",
-                                width: _width * 0.05,
-                                height: _width * 0.05,
-                              ),
-                            ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Obx(() {
+                        if (userController.user.studentId != null) {
+                          return Text(
+                            "${Get.find<UserController>().user.studentId!.substring(1, 2)}반 " + mealController.getMealKind("kor", false),
+                            style: homeMealTitle,
                           );
-                        } else if (snapshot.hasError) { //데이터를 정상적으로 불러오지 못했을 때
-                          return Text("데이터 로드 오류", textAlign: TextAlign.center);
-                        } else { //데이터를 불러오는 중
+                        } else {
                           return SizedBox(
-                            width: _width * 0.055,
-                            height: _width * 0.055,
-                            child: Center(child: CircularProgressIndicator()),
+                              width: _width * 0.055,
+                              height: _width * 0.055,
+                              child: Center(child: CircularProgressIndicator()),
                           );
                         }
-                      }
+                      }),
+                      SizedBox(width: _width * 0.015),
+                      Image.asset(
+                        "assets/images/logo.png",
+                        width: _width * 0.05,
+                        height: _width * 0.05,
+                      ),
+                    ],
                   ),
-                  Obx(() => Text(
-                    mealController.userMealTime.value,
-                    style: homeMealTime,
-                  )),
+                  Obx(() {
+                    if (userController.user.studentId != null) {
+                      mealController.getMealTime();
+                    }
+
+                    return Text(
+                      mealController.userMealTime.value,
+                      style: homeMealTime,
+                    );
+                  }),
                 ],
               )
             ),

@@ -11,6 +11,7 @@ final yellowTwoShadow = Color(0x80FFF400);
 
 final redOne = Color(0xFFFF5555);
 final redTwo = Color(0xFFFF3838);
+final redThree = Color(0xFFFF0000);
 final redShadowOne = Color(0x4AFF0000);
 
 final greenOne = Color(0xFF7AFF64);

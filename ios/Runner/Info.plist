@@ -35,7 +35,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>KAKAO_NATIVE_KEY</string>
+				<string>KAKAO-NATIVE-KEY</string>
 			</array>
 		</dict>
 	</array>

@@ -13,7 +13,7 @@ class MainBinding extends Bindings {
 
     Get.lazyPut(() => Dio());
 
-    Get.put<UserController>(UserController());
+    Get.put<UserController>(UserController(), permanent: true);
     Get.put<AuthController>(AuthController(), permanent: true);
 
     Get.put<QrCodeController>(QrCodeController());

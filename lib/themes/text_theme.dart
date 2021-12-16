@@ -63,6 +63,17 @@ final mealPlannerContent = TextStyle(
 final mealPlannerTabText = TextStyle(
     fontSize: 15, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 
+final myProfileTitle = TextStyle(
+    fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final myProfileSubTitle = TextStyle(
+    fontSize: 20, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+final myProfileName = TextStyle(
+    fontSize: 21, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final myProfileStudentId = TextStyle(
+    fontSize: 14, color: grayOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final myProfileMenuTitle = TextStyle(
+    fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+
 
 final signup_student_info_title = TextStyle(
     fontSize: 28, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
