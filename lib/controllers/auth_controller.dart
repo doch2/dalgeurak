@@ -11,6 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/all.dart'as kakaoFlutterLib;
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth authInstance = FirebaseAuth.instance;
@@ -54,6 +55,33 @@ class AuthController extends GetxController {
     loginUserInfo["profileImgUrl"] = googleUser?.photoUrl;
 
     if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpSelectGroup()); } else { isLogin.value = true; }
+  }
+
+  void signInWithApple() async {
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        accessToken: appleCredential.authorizationCode,
+      );
+
+      UserCredential _authResult = await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+
+      loginUserInfo["userid"] = _authResult.user?.uid;
+      loginUserInfo["email"] = appleCredential.email;
+      loginUserInfo["name"] = "${appleCredential.familyName}${appleCredential.givenName}";
+      loginUserInfo["profileImgUrl"] = "";
+
+      if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpSelectGroup()); } else { isLogin.value = true; }
+    } catch(error) {
+      print(error);
+    }
   }
 
   void signInWithKakao() async {

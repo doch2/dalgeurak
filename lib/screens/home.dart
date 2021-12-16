@@ -156,16 +156,17 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          height: _height * 0.17,
+                          height: _height * 0.18,
                           width: _width * 0.9,
-                          margin: EdgeInsets.only(top: _height * 0.04),
+                          margin: EdgeInsets.only(top: _height * 0.02),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(27),
+                            borderRadius: BorderRadius.circular(13),
                             color: blueOne,
                           ),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
+                              SizedBox(height: _height * 0.02),
                               SizedBox(
                                 width: _width * 0.775,
                                 child: Row(
@@ -232,7 +233,7 @@ class Home extends StatelessWidget {
                     width: _width * 0.9,
                     margin: EdgeInsets.only(top: _height * 0.02),
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(27),
+                        borderRadius: BorderRadius.circular(13),
                         color: Colors.white,
                     ),
                     child: Column(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
@@ -85,7 +87,13 @@ class Login extends GetWidget<AuthController> {
                     ),
                     SizedBox(height: _height * 0.025),
                     GestureDetector(
-                      onTap: () => Get.snackbar('애플 로그인 오류', '현재 애플 로그인은 지원되지 않습니다.', snackPosition: SnackPosition.BOTTOM),
+                      onTap: () {
+                        if (Platform.isAndroid) {
+                          Get.snackbar('애플 로그인 오류', '현재 안드로이드 기기에서 \n애플 로그인은 지원되지 않습니다.', snackPosition: SnackPosition.BOTTOM);
+                        } else if (Platform.isIOS) {
+                          controller.signInWithApple();
+                        }
+                      },
                       child: Container(
                         width: _width * 0.842,
                         height: _height * 0.08,

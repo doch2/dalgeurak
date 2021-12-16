@@ -17,70 +17,76 @@ class MealPlanner extends GetWidget<MealController> {
     _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              width: _width,
-              height: _height,
-              color: blueThree
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                FutureBuilder(
-                    future: controller.getMealPlanner(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        return SizedBox(
-                          width: _width * 0.95,
-                          height: _height * 0.875,
-                          child: DefaultTabController(
-                            length: 7,
-                            initialIndex: (DateTime.now().weekday-1),
-                            child: Scaffold(
-                              backgroundColor: Colors.transparent,
-                              appBar: PreferredSize(
-                                preferredSize: Size.fromHeight(kToolbarHeight),
-                                child: Container(
-                                  height: 50.0,
-                                  child: TabBar(
-                                    labelStyle: mealPlannerTabDate,
-                                    labelColor: Colors.black,
-                                    unselectedLabelColor: grayOne,
-                                    indicatorWeight: _width * 0.0075,
-                                    tabs: mealPlannerTab(),
+      backgroundColor: blueThree,
+      body: SafeArea(
+        child: Center(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: _width,
+                height: _height,
+                color: blueThree
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  FutureBuilder(
+                      future: controller.getMealPlanner(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return SizedBox(
+                            width: _width * 0.95,
+                            height: _height * 0.87,
+                            child: DefaultTabController(
+                              length: 7,
+                              initialIndex: (DateTime.now().weekday-1),
+                              child: Scaffold(
+                                backgroundColor: Colors.transparent,
+                                appBar: PreferredSize(
+                                  preferredSize: Size.fromHeight(kToolbarHeight),
+                                  child: Container(
+                                    height: 50.0,
+                                    child: TabBar(
+                                      labelStyle: mealPlannerTabDate,
+                                      labelColor: Colors.black,
+                                      unselectedLabelColor: grayOne,
+                                      indicatorWeight: _width * 0.0075,
+                                      tabs: mealPlannerTab(),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              body: TabBarView(
-                                children: mealPlannerView(snapshot.data),
+                                body: TabBarView(
+                                  children: mealPlannerView(snapshot.data),
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      } else if (snapshot.hasError) { //데이터를 정상적으로 불러오지 못했을 때
-                        return Column(
-                          children: [
-                            Text("데이터를 정상적으로 불러오지 못했습니다. \n다시 시도해 주세요.", textAlign: TextAlign.center)
-                          ],
-                        );
-                      } else { //데이터를 불러오는 중
-                        return Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Center(child: CircularProgressIndicator()),
-                          ],
-                        );
+                          );
+                        } else if (snapshot.hasError) { //데이터를 정상적으로 불러오지 못했을 때
+                          return Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              SizedBox(width: _width, height: _height * 0.87),
+                              Center(child: Text("데이터를 정상적으로 불러오지 못했습니다. \n다시 시도해 주세요.", textAlign: TextAlign.center)),
+                            ],
+                          );
+                        } else { //데이터를 불러오는 중
+                          return Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              SizedBox(width: _width, height: _height * 0.87),
+                              Center(child: CircularProgressIndicator()),
+                            ],
+                          );
+                        }
                       }
-                    }
-                ),
-              ],
-            ),
-          ],
-        )
+                  ),
+                ],
+              ),
+            ],
+          )
+        ),
       ),
     );
   }
@@ -118,11 +124,11 @@ class MealPlanner extends GetWidget<MealController> {
                 "${correctDate["month"]}월 ${correctDate["day"]}일",
                 style: mealPlannerDate
             ),
-            SizedBox(height: _height * 0.02),
+            SizedBox(height: _height * 0.018),
             mealPlannerPanel(data, i, "breakfast", "아침"),
-            SizedBox(height: _height * 0.02),
+            SizedBox(height: _height * 0.018),
             mealPlannerPanel(data, i, "lunch", "점심"),
-            SizedBox(height: _height * 0.02),
+            SizedBox(height: _height * 0.018),
             mealPlannerPanel(data, i, "dinner", "저녁"),
           ],
         )

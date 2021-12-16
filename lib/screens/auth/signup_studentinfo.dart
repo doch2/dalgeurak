@@ -7,20 +7,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class SignUpStudentInfo extends GetWidget<AuthController> {
-  const SignUpStudentInfo({Key? key}) : super(key: key);
+  SignUpStudentInfo({Key? key}) : super(key: key);
+
+  static GlobalKey<FormState> formKey = new GlobalKey<FormState>();
+
+  final studentNumTextController = TextEditingController();
+  final nameTextController = TextEditingController();
+
+  final FocusNode studentNumFocus = new FocusNode();
+  final FocusNode nameFocus = new FocusNode();
 
   @override
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
-
-    final studentNumTextController = TextEditingController();
-    final nameTextController = TextEditingController();
-
-    FocusNode studentNumFocus = new FocusNode();
-    FocusNode nameFocus = new FocusNode();
-
-    GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -65,7 +65,10 @@ class SignUpStudentInfo extends GetWidget<AuthController> {
                               labelText: "학번",
                               labelStyle: signup_student_info_textfield,
                             ),
-                            validator: (value) => CheckTextValidate().validateStudentNum(studentNumFocus, value!),
+                            validator: (value) {
+                              CheckTextValidate().validateStudentNum(studentNumFocus, value!);
+                              formKey.currentState!.save();
+                            },
                           ),
                         ),
                         SizedBox(width: _width * 0.085),
@@ -88,7 +91,7 @@ class SignUpStudentInfo extends GetWidget<AuthController> {
                 ),
               ),
               Positioned(
-                top: _height * 0.875,
+                top: _height * 0.825,
                 child: GestureDetector(
                   onTap: () {
                     if (formKey.currentState!.validate()) {
