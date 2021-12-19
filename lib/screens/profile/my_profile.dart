@@ -76,15 +76,38 @@ class MyProfile extends GetWidget<UserController> {
                   children: [
                     menuWidget([
                       Text("알림허용", style: myProfileMenuTitle),
-                      FlutterSwitch(
-                        height: _height * 0.0325,
-                        width: _width * 0.12,
-                        padding: 2.0,
-                        toggleSize: _width * 0.04,
-                        borderRadius: 16.0,
-                        activeColor: yellowOne,
-                        value: true,
-                        onToggle: (value) => false,
+                      FutureBuilder(
+                          future: controller.checkUserAllowAlert(),
+                          builder: (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              return Obx(() => FlutterSwitch(
+                                height: _height * 0.0325,
+                                width: _width * 0.12,
+                                padding: 2.0,
+                                toggleSize: _width * 0.04,
+                                borderRadius: 16.0,
+                                activeColor: yellowOne,
+                                value: controller.isAllowAlert.value,
+                                onToggle: (value) => controller.setUserAllowAlert(value),
+                              ));
+                            } else if (snapshot.hasError) { //데이터를 정상적으로 불러오지 못했을 때
+                              return Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  SizedBox(width: _width, height: _height * 0.4),
+                                  Center(child: Text("데이터를 정상적으로 불러오지 못했습니다. \n다시 시도해 주세요.", textAlign: TextAlign.center)),
+                                ],
+                              );
+                            } else { //데이터를 불러오는 중
+                              return Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  SizedBox(width: _width * 0.1, height: _height * 0.03),
+                                  Center(child: CircularProgressIndicator()),
+                                ],
+                              );
+                            }
+                          }
                       )
                     ]),
                     Material(

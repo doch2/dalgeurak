@@ -73,6 +73,16 @@ final myProfileStudentId = TextStyle(
     fontSize: 14, color: grayOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final myProfileMenuTitle = TextStyle(
     fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+final myProfileDetailListTitle = TextStyle(
+    fontSize: 16, color: grayOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final myProfileQrLogDetailListSort = TextStyle(
+    fontSize: 13, color: grayOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+final myProfileDate = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final myProfileQrLogTime = TextStyle(
+    fontSize: 15, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+final myProfileTardyAmountNum = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
 
 
 final signup_student_info_title = TextStyle(

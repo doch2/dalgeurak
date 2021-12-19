@@ -106,7 +106,7 @@ class QrCodeController extends GetxController {
         result["result"] = "alreadyRegister";
       } else {
         await FirestoreDatabase().setStudentMealStatus(studentClass, studentNumber, mealStatus, checkInTime);
-        await FirestoreDatabase().addStudentQrCodeLog(userID, mealKind);
+        await FirestoreDatabase().addStudentQrCodeLog(userID, mealKind, mealStatus);
         result["result"] = "success";
       }
     } catch(e) {

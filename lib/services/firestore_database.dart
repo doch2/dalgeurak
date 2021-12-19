@@ -141,7 +141,7 @@ class FirestoreDatabase {
     }
   }
 
-  Future<bool> addStudentQrCodeLog(String userID, String mealKind) async {
+  Future<bool> addStudentQrCodeLog(String userID, String mealKind, String mealStatus) async {
     try {
       DateTime nowTime = DateTime.now();
 
@@ -150,7 +150,9 @@ class FirestoreDatabase {
 
       Map checkInLog = ((await _firestore.collection("users").doc(userID).collection("checkInLog").doc("${nowTime.year}").get()).data() as dynamic)[nowTime.month.toString()];
       if (checkInLog[nowTime.day.toString()] == null) { checkInLog[nowTime.day.toString()] = {}; }
-      checkInLog[nowTime.day.toString()][mealKind] = "${DateTime.now().hour}${DateTime.now().minute}";
+      if (checkInLog[nowTime.day.toString()][mealKind] == null) { checkInLog[nowTime.day.toString()][mealKind] = {}; }
+      checkInLog[nowTime.day.toString()][mealKind]["time"] = "${DateTime.now().hour}${DateTime.now().minute}";
+      checkInLog[nowTime.day.toString()][mealKind]["mealStatus"] = mealStatus;
 
       await _firestore.collection("users").doc(userID).collection("checkInLog").doc("${nowTime.year}").update({
         nowTime.month.toString(): checkInLog
@@ -159,6 +161,22 @@ class FirestoreDatabase {
     } catch (e) {
       print(e);
       return false;
+    }
+  }
+
+  Future<Map<String, dynamic>?> getStudentQrCodeLog(String? userID) async {
+    try {
+      DateTime nowTime = DateTime.now();
+
+      Map<String, dynamic>? checkInLog = (await _firestore.collection("users")
+          .doc(userID)
+          .collection("checkInLog")
+          .doc("${nowTime.year}").get()).data();
+
+      return checkInLog;
+    } catch (e) {
+      print(e);
+      return null;
     }
   }
 

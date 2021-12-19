@@ -40,13 +40,13 @@ class Home extends StatelessWidget {
                 color: blueThree
               ),
             ),
-            /*Positioned(
+            Positioned(
               top: _height * 0.025,
               child: GetBuilder<QrCodeController> (
                 init: QrCodeController(),
                 builder: (qrCodeController) => GestureDetector(onTap: () => Get.to(QrCodeScan()), child: Text("<임시버튼> QR코드 스캔하러 가기")),
               ),
-            ), */
+            ),
             Positioned(
               top: _height * 0.055,
               right: _width * 0.02,
