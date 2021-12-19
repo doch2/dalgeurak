@@ -1,9 +1,11 @@
+import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/meal_planner.dart';
 import 'package:dalgeurak/screens/profile/my_profile.dart';
+import 'package:dalgeurak/screens/home.dart';
+import 'package:dalgeurak/screens/admin_page.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:flutter/material.dart';
-
-import 'package:dalgeurak/screens/home.dart';
+import 'package:get/get.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key? key}) : super(key: key);
@@ -18,14 +20,37 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _height = MediaQuery.of(context).size.height;
-    final _width = MediaQuery.of(context).size.width;
+    String? userGroup = Get.find<UserController>().user.group;
 
     List pages = [
       Home(),
       MealPlanner(),
       MyProfile()
     ];
+
+    List<BottomNavigationBarItem> bottomNavigatorItem = [
+      BottomNavigationBarItem(
+          label: "홈",
+          icon: Icon(Icons.home_filled)
+      ),
+      BottomNavigationBarItem(
+          label: "급식표",
+          icon: Icon(Icons.calendar_today)
+      ),
+      BottomNavigationBarItem(
+          label: "내 정보",
+          icon: Icon(Icons.person)
+      ),
+    ];
+
+    if (userGroup != null && userGroup != "student") {
+      pages.insert(1, AdminPage());
+
+      bottomNavigatorItem.insert(1, BottomNavigationBarItem(
+          label: "급식 정보",
+          icon: Icon(Icons.edit)
+      ));
+    }
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
@@ -40,20 +65,7 @@ class _MainScreenState extends State<MainScreen> {
             _selectIndex = index;
           });
         },
-        items: const [
-          BottomNavigationBarItem(
-            label: "홈",
-            icon: Icon(Icons.home_filled)
-          ),
-          BottomNavigationBarItem(
-              label: "급식표",
-              icon: Icon(Icons.calendar_today)
-          ),
-          BottomNavigationBarItem(
-              label: "내 정보",
-              icon: Icon(Icons.person)
-          ),
-        ],
+        items: bottomNavigatorItem,
       ),
       body: pages[_selectIndex]
     );

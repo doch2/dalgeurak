@@ -51,6 +51,18 @@ final homeMealSequenceWidgetOn = TextStyle(
 final homeMealSequenceWidgetOff = TextStyle(
     fontSize: 13, color: grayOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 
+final adminPageLeftPeopleTitle = TextStyle(
+    fontSize: 20, color: graySeven, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+final adminPageLeftPeopleAmount = TextStyle(
+    fontSize: 26, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+final adminPageLeftPeopleDetailTitle = TextStyle(
+    fontSize: 16, color: grayOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+final adminPageGradeBoxTitle = TextStyle(
+    fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+final adminPageGradeBoxLeftPeople = TextStyle(
+    fontSize: 14, color: redThree, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+final adminPageClassBoxTitle = TextStyle(
+    fontSize: 14, color: Colors.white, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
 
 final mealPlannerTabDate = TextStyle(
     fontSize: 15, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);

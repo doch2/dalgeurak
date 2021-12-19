@@ -38,7 +38,7 @@ class MealPlanner extends GetWidget<MealController> {
                         if (snapshot.hasData) {
                           return SizedBox(
                             width: _width * 0.95,
-                            height: _height * 0.87,
+                            height: _height * 0.837,
                             child: DefaultTabController(
                               length: 7,
                               initialIndex: (DateTime.now().weekday-1),

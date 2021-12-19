@@ -19,6 +19,9 @@ class MealController extends GetxController {
 
   RxString userMealTime = "로드 중..".obs;
   RxBool userNotEatMeal = false.obs;
+  Map classLeftPeople = {};
+
+  FirestoreDatabase firestoreDatabase = FirestoreDatabase();
 
   getMealPlanner() async {
     String? stringData = SharedPreference().getMealPlanner();
@@ -63,13 +66,34 @@ class MealController extends GetxController {
   getMealTime() async {
     String mealKind = getMealKind("eng", false);
 
-    userMealTime.value = await FirestoreDatabase().getUserMealTime(mealKind);
+    userMealTime.value = await firestoreDatabase.getUserMealTime(mealKind);
   }
 
-  isUserNotEatMeal() async => await FirestoreDatabase().getStudentIsNotEatMeal();
+  isUserNotEatMeal() async => await firestoreDatabase.getStudentIsNotEatMeal();
 
   setUserIsNotEatMeal(bool value) async {
     userNotEatMeal.value = value;
     FirestoreDatabase().setStudentIsNotEatMeal();
+  }
+
+  getGradeLeftPeopleAmount() async {
+    int result = 0;
+
+    for (int grade=1; grade<=3; grade++) {
+      int gradeLeftPeople = 0;
+      classLeftPeople[grade] = {};
+      for (int classNum=1; classNum<=6; classNum++) {
+        classLeftPeople[grade][classNum] = (await firestoreDatabase.getLeftStudentAmount(grade, classNum));
+
+        if (classLeftPeople[grade][classNum]["leftPeople"] != null) {
+          result = result + (classLeftPeople[grade][classNum]["leftPeople"] as int);
+          gradeLeftPeople = gradeLeftPeople + (classLeftPeople[grade][classNum]["leftPeople"] as int);
+        }
+      }
+
+      classLeftPeople[grade]["totalPeople"] = gradeLeftPeople;
+    }
+
+    return result;
   }
 }

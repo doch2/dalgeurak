@@ -40,5 +40,6 @@ final grayTen = Color(0xFFAFAFAF);
 final grayShadowOne = Color(0xA3CAC9C9);
 final grayShadowTwo = Color(0xDA7A7A7);
 final grayShadowThree = Color(0x80000000);
+final grayShadowFour = Color(0xb3c5b8a5);
 
 final emptyColor = Color(0xFFFFFF);

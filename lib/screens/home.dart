@@ -41,10 +41,29 @@ class Home extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: _height * 0.025,
-              child: GetBuilder<QrCodeController> (
+              top: _height * 0.12,
+              right: _width * 0.15,
+              child: GetBuilder<QrCodeController>(
                 init: QrCodeController(),
-                builder: (qrCodeController) => GestureDetector(onTap: () => Get.to(QrCodeScan()), child: Text("<임시버튼> QR코드 스캔하러 가기")),
+                builder: (qrCodeController) => GestureDetector(
+                    onTap: () => Get.to(QrCodeScan()),
+                    child: Container(
+                      height: _height * 0.05,
+                      width: _width * 0.25,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(14.5),
+                        color: blueOne,
+                        boxShadow: [
+                          BoxShadow(
+                            color: blueOne,
+                            offset: Offset(0, 0),
+                            blurRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: Center(child: Text("QR코드 인식", style: homeMealSequenceWidgetOn.copyWith(fontSize: 13))),
+                    ),
+                ),
               ),
             ),
             Positioned(
