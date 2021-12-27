@@ -5,7 +5,10 @@
 각 반의 급식 시간과 식단을 알려주어 학생들이 편하게 급식을 먹을 수 있게 해줍니다.
 또한, QR코드 체크인을 진행하여 디넌과 급식실의 급식 지도를 편리하게 만들어줍니다.
 
- * 2021 교내IT공모전 공모작이며, 20기 웹프로그래밍과 유도희와 이비즈니스과 라윤지가 제작하였습니다.
+ * Google Play Store: https://play.google.com/store/apps/details?id=com.iceluna.dalgeurak
+ * Apple App Store: https://apps.apple.com/kr/app/%EB%8B%AC%EA%B7%B8%EB%9D%BD/id1599863433
+
+※2021 교내IT공모전 공모작이며, 20기 웹프로그래밍과 유도희와 이비즈니스과 라윤지가 제작하였습니다.
 
 ## 개발을 위해선
 
