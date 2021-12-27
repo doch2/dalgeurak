@@ -62,10 +62,57 @@ class FirestoreDatabase {
     }
   }
 
+  Future<String> getMealWaitStatus() async {
+    try {
+      String waitStatus = ((await _firestore.collection("reference").doc("mealStatus").get()).data() as dynamic)["waitStatus"];
+
+      return waitStatus;
+
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  setMealWaitStatus(String mealStatus) async {
+    try {
+      await _firestore.collection("reference").doc("mealStatus").update({
+        "waitStatus": mealStatus,
+      });
+
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<int> getMealSequence() async {
+    try {
+      int mealSequence = ((await _firestore.collection("reference").doc("mealSequence").get()).data() as dynamic)["nowSequence"];
+
+      return mealSequence;
+
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  setMealSequence(int mealSequence) async {
+    try {
+      await _firestore.collection("reference").doc("mealSequence").update({
+        "nowSequence": mealSequence,
+      });
+
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
   Future<bool> getStudentIsNotEatMeal() async {
     try {
       String? studentId = userController.user.studentId;
-
       Map studentInfo = ((await _firestore.collection("students").doc("${studentId!.substring(0, 1)}-${studentId.substring(1, 2)}").get()).data() as dynamic)[studentId.substring(2)];
 
       if (studentInfo["isNotEatMeal"] == null) { return false; } else { return studentInfo["isNotEatMeal"]; }

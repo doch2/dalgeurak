@@ -34,7 +34,6 @@ class MealInfo {
       }
     }
 
-    result["weekNo"] = "${Jiffy().week}";
     return result;
   }
 

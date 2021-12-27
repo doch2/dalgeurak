@@ -19,14 +19,22 @@ class MealController extends GetxController {
 
   RxString userMealTime = "로드 중..".obs;
   RxBool userNotEatMeal = false.obs;
+  RxString mealWaitStatus = "initData".obs;
+  RxString mealWaitStatusInSetDialog = "initData".obs;
+  RxInt mealSequence = 0.obs;
+  RxInt mealClassSequenceInSetDialog = 0.obs;
   Map classLeftPeople = {};
 
   FirestoreDatabase firestoreDatabase = FirestoreDatabase();
+  MealInfo mealInfo = MealInfo();
+  DateTime nowTime = DateTime.now();
 
   getMealPlanner() async {
     String? stringData = SharedPreference().getMealPlanner();
-    if (stringData == null || json.decode(stringData)["weekNo"] != "${Jiffy().week}") {
-      Map data = await MealInfo().getMealPlanner();
+    int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
+
+    if (stringData == null || (json.decode(stringData)).containsKey(mealInfo.getCorrectDate(weekFirstDay)['day']) == false) {
+      Map data = await mealInfo.getMealPlanner();
 
       SharedPreference().saveMealPlanner(data);
       return data;
@@ -74,6 +82,20 @@ class MealController extends GetxController {
   setUserIsNotEatMeal(bool value) async {
     userNotEatMeal.value = value;
     FirestoreDatabase().setStudentIsNotEatMeal();
+  }
+
+  getMealWaitStatus() async => mealWaitStatus.value = (await firestoreDatabase.getMealWaitStatus());
+
+  setMealWaitStatus(String mealStatus) async {
+    await firestoreDatabase.setMealWaitStatus(mealStatus);
+    mealWaitStatus.value = mealStatus;
+  }
+
+  getMealSequence() async => mealSequence.value = (await firestoreDatabase.getMealSequence());
+
+  setMealSequence(int mealSequence) async {
+    await firestoreDatabase.setMealSequence(mealSequence);
+    this.mealSequence.value = mealSequence;
   }
 
   getGradeLeftPeopleAmount() async {

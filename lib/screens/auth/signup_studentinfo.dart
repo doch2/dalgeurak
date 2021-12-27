@@ -1,4 +1,5 @@
 import 'package:dalgeurak/controllers/auth_controller.dart';
+import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/services/check_text_validate.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
@@ -21,6 +22,26 @@ class SignUpStudentInfo extends GetWidget<AuthController> {
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
+
+    late SizedBox studentIdTextField;
+    if (controller.loginUserInfo["group"] != "teacher") {
+      studentIdTextField = SizedBox(
+        width: _width * 0.25,
+        child: TextFormField(
+          keyboardType: TextInputType.number,
+          controller: studentNumTextController,
+          focusNode: studentNumFocus,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+            labelText: "학번",
+            labelStyle: signup_student_info_textfield,
+          ),
+          validator: (value) => CheckTextValidate().validateStudentNum(studentNumFocus, value!),
+        ),
+      );
+    } else {
+      studentIdTextField = SizedBox();
+    }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -54,23 +75,7 @@ class SignUpStudentInfo extends GetWidget<AuthController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          width: _width * 0.25,
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            controller: studentNumTextController,
-                            focusNode: studentNumFocus,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.fromLTRB(0, 16, 0, 0),
-                              labelText: "학번",
-                              labelStyle: signup_student_info_textfield,
-                            ),
-                            validator: (value) {
-                              CheckTextValidate().validateStudentNum(studentNumFocus, value!);
-                              formKey.currentState!.save();
-                            },
-                          ),
-                        ),
+                        studentIdTextField,
                         SizedBox(width: _width * 0.085),
                         SizedBox(
                           width: _width * 0.25,
@@ -91,13 +96,19 @@ class SignUpStudentInfo extends GetWidget<AuthController> {
                 ),
               ),
               Positioned(
-                top: _height * 0.825,
+                top: _height * 0.8,
                 child: GestureDetector(
                   onTap: () {
                     if (formKey.currentState!.validate()) {
-                      controller.loginUserInfo["grade"] = int.parse(studentNumTextController.text.substring(0, 1));
-                      controller.loginUserInfo["class"] = int.parse(studentNumTextController.text.substring(1, 2));
-                      controller.loginUserInfo["number"] = int.parse(studentNumTextController.text.substring(2));
+                      if (controller.loginUserInfo["group"] == "teacher") {
+                        controller.loginUserInfo["grade"] = 0;
+                        controller.loginUserInfo["class"] = 0;
+                        controller.loginUserInfo["number"] = 0;
+                      } else {
+                        controller.loginUserInfo["grade"] = int.parse(studentNumTextController.text.substring(0, 1));
+                        controller.loginUserInfo["class"] = int.parse(studentNumTextController.text.substring(1, 2));
+                        controller.loginUserInfo["number"] = int.parse(studentNumTextController.text.substring(2));
+                      }
                       controller.loginUserInfo["name"] = nameTextController.text;
 
                       controller.writeAccountInfo();

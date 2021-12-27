@@ -99,7 +99,7 @@ class Login extends GetWidget<AuthController> {
                         height: _height * 0.08,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
+                            color: Colors.black,
                             boxShadow: [
                               BoxShadow(
                                   color: grayShadowTwo,
@@ -121,9 +121,10 @@ class Login extends GetWidget<AuthController> {
                             SvgPicture.asset(
                               'assets/images/appleIcon.svg',
                               width: _width * 0.07,
+                              color: Colors.white,
                             ),
                             SizedBox(width: _width * 0.15),
-                            Text("Apple로 로그인", style: loginBoxTitle)
+                            Text("Apple로 로그인", style: loginBoxTitle.copyWith(color: Colors.white))
                           ],
                         ),
                       ),

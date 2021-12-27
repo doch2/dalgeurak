@@ -37,7 +37,7 @@ class SignUpSelectGroup extends GetWidget<AuthController> {
               ),
             ),
             Positioned(
-              top: _height * 0.875,
+              top: _height * 0.8,
               child: GestureDetector(
                 onTap: () {
                   controller.loginUserInfo["group"] = controller.selectGroupName.value;

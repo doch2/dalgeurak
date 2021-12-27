@@ -27,6 +27,143 @@ class Home extends StatelessWidget {
     mealController = Get.find<MealController>();
     userController = Get.find<UserController>();
 
+    late GetBuilder<QrCodeController> qrCodeScanBtn;
+    if (userController.user.group != "student") {
+      qrCodeScanBtn = GetBuilder<QrCodeController>(
+        init: QrCodeController(),
+        builder: (qrCodeController) => GestureDetector(
+          onTap: () => Get.to(QrCodeScan()),
+          child: Container(
+            height: _height * 0.05,
+            width: _width * 0.25,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14.5),
+              color: blueOne,
+              boxShadow: [
+                BoxShadow(
+                  color: blueOne,
+                  offset: Offset(0, 0),
+                  blurRadius: 2,
+                ),
+              ],
+            ),
+            child: Center(child: Text("QR코드 인식", style: homeMealSequenceWidgetOn.copyWith(fontSize: 13))),
+          ),
+        ),
+      );
+    } else {
+      qrCodeScanBtn = GetBuilder<QrCodeController>(
+        init: QrCodeController(),
+        builder: (qrCodeController) => SizedBox(),
+      );
+    }
+
+    late Column studentMealTimeWidget;
+    late GetBuilder<QrCodeController> studentQrCodeWidget;
+    if (userController.user.group != "teacher") {
+      studentMealTimeWidget = Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Obx(() {
+                if (userController.user.studentId != null) {
+                  return Text(
+                    "${Get.find<UserController>().user.studentId!.substring(1, 2)}반 " + mealController.getMealKind("kor", false),
+                    style: homeMealTitle,
+                  );
+                } else {
+                  return SizedBox(
+                    width: _width * 0.055,
+                    height: _width * 0.055,
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                }
+              }),
+              SizedBox(width: _width * 0.015),
+              Image.asset(
+                "assets/images/logo.png",
+                width: _width * 0.05,
+                height: _width * 0.05,
+              ),
+            ],
+          ),
+          Obx(() {
+            if (userController.user.studentId != null) {
+              mealController.getMealTime();
+            }
+
+            return Text(
+              mealController.userMealTime.value,
+              style: homeMealTime,
+            );
+          }),
+        ],
+      );
+
+      studentQrCodeWidget = GetBuilder<QrCodeController> (
+        init: QrCodeController(),
+        builder: (qrCodeController) => Obx(() {
+          String data = qrCodeController.qrImageData.value;
+          if (data == "initData") {
+            return CircularProgressIndicator();
+          } else {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                QrImage(
+                  data: qrCodeController.qrImageData.value,
+                  version: QrVersions.auto,
+                  size: _width * 0.5,
+                ),
+                Text(
+                  "남은 시간 : ${qrCodeController.refreshTime.value}",
+                  style: homeQrRefreshTime,
+                )
+              ],
+            );
+          }
+        }),
+      );
+    } else {
+      studentMealTimeWidget = Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+              "안녕하세요!",
+                style: homeMealTitle,
+              ),
+            ],
+          ),
+          Obx(() {
+            if (userController.user.name != null) {
+              return Text(
+                "${userController.user.name}님",
+                style: homeMealTime,
+              );
+            } else {
+              return SizedBox(
+                width: _width * 0.055,
+                height: _width * 0.055,
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
+          }),
+        ],
+      );
+
+      studentQrCodeWidget = GetBuilder<QrCodeController>(
+        init: QrCodeController(),
+        builder: (qrCodeController) => SizedBox(),
+      );
+    }
+
 
     return Scaffold(
       body: Center(
@@ -43,28 +180,7 @@ class Home extends StatelessWidget {
             Positioned(
               top: _height * 0.12,
               right: _width * 0.15,
-              child: GetBuilder<QrCodeController>(
-                init: QrCodeController(),
-                builder: (qrCodeController) => GestureDetector(
-                    onTap: () => Get.to(QrCodeScan()),
-                    child: Container(
-                      height: _height * 0.05,
-                      width: _width * 0.25,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14.5),
-                        color: blueOne,
-                        boxShadow: [
-                          BoxShadow(
-                            color: blueOne,
-                            offset: Offset(0, 0),
-                            blurRadius: 2,
-                          ),
-                        ],
-                      ),
-                      child: Center(child: Text("QR코드 인식", style: homeMealSequenceWidgetOn.copyWith(fontSize: 13))),
-                    ),
-                ),
-              ),
+              child: qrCodeScanBtn,
             ),
             Positioned(
               top: _height * 0.055,
@@ -81,47 +197,7 @@ class Home extends StatelessWidget {
             Positioned(
               top: _height * 0.1,
               left: _width * 0.1,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Obx(() {
-                        if (userController.user.studentId != null) {
-                          return Text(
-                            "${Get.find<UserController>().user.studentId!.substring(1, 2)}반 " + mealController.getMealKind("kor", false),
-                            style: homeMealTitle,
-                          );
-                        } else {
-                          return SizedBox(
-                              width: _width * 0.055,
-                              height: _width * 0.055,
-                              child: Center(child: CircularProgressIndicator()),
-                          );
-                        }
-                      }),
-                      SizedBox(width: _width * 0.015),
-                      Image.asset(
-                        "assets/images/logo.png",
-                        width: _width * 0.05,
-                        height: _width * 0.05,
-                      ),
-                    ],
-                  ),
-                  Obx(() {
-                    if (userController.user.studentId != null) {
-                      mealController.getMealTime();
-                    }
-
-                    return Text(
-                      mealController.userMealTime.value,
-                      style: homeMealTime,
-                    );
-                  }),
-                ],
-              )
+              child: studentMealTimeWidget
             ),
             Positioned(
               top: _height * 0.22,
@@ -129,30 +205,7 @@ class Home extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  GetBuilder<QrCodeController> (
-                    init: QrCodeController(),
-                    builder: (qrCodeController) => Obx(() {
-                      String data = qrCodeController.qrImageData.value;
-                      if (data == "initData") {
-                        return CircularProgressIndicator();
-                      } else {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            QrImage(
-                              data: qrCodeController.qrImageData.value,
-                              version: QrVersions.auto,
-                              size: _width * 0.5,
-                            ),
-                            Text(
-                              "남은 시간 : ${qrCodeController.refreshTime.value}",
-                              style: homeQrRefreshTime,
-                            )
-                          ],
-                        );
-                      }
-                    }),
-                  ),
+                  studentQrCodeWidget,
                   SizedBox(
                     height: _height * 0.19,
                     width: _width * 0.9,
@@ -197,9 +250,21 @@ class Home extends StatelessWidget {
                                         "급식 순서",
                                         style: homeMealSequenceTitle
                                     ),
-                                    GestureDetector(
-                                      onTap: () => Get.dialog(setUserNotEatMealDialog()),
-                                      child: Icon(Icons.warning_amber_rounded, color: yellowFive),
+                                    SizedBox(
+                                      width: _width * 0.17,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () => Get.dialog(setUserNotEatMealDialog()),
+                                            child: Icon(Icons.warning_amber_rounded, color: yellowFive),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () => Get.dialog(setMealSequenceDialog()),
+                                            child: Icon(Icons.settings_rounded, color: yellowFive),
+                                          ),
+                                        ],
+                                      ),
                                     )
                                   ],
                                 ),
@@ -207,18 +272,21 @@ class Home extends StatelessWidget {
                               SizedBox(height: _height * 0.0225),
                               SizedBox(
                                 width: _width * 0.65,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    mealSequenceClassBox(1, false),
-                                    mealSequenceClassBox(2, true),
-                                    mealSequenceClassBox(3, false),
-                                    mealSequenceClassBox(4, false),
-                                    mealSequenceClassBox(5, false),
-                                    mealSequenceClassBox(6, false),
-                                  ],
-                                ),
+                                child: Obx(() {
+                                  mealController.getMealSequence();
+                                  int mealSequence = mealController.mealSequence.value;
+
+                                  List<Widget> widgetList = [];
+                                  for (int i=1; i<=6; i++) {
+                                    widgetList.add(mealSequenceClassBox(i, ((mealSequence == i) ? true : false), false));
+                                  }
+
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: widgetList,
+                                  );
+                                }),
                               ),
                               SizedBox(height: _height * 0.0075),
                               Stack(
@@ -232,14 +300,14 @@ class Home extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(14.5)
                                     ),
                                   ),
-                                  Container(
-                                    width: ((_width * 0.63) / 6) * 2,
+                                  Obx(() => Container(
+                                    width: ((_width * 0.63) / 6) * mealController.mealSequence.value,
                                     height: 5,
                                     decoration: BoxDecoration(
                                         color: yellowFive,
                                         borderRadius: BorderRadius.circular(14.5)
                                     ),
-                                  ),
+                                  )),
                                 ],
                               )
                             ],
@@ -269,9 +337,21 @@ class Home extends StatelessWidget {
                                   "대기 상태",
                                   style: homeWaitingStatusTitle
                               ),
-                              GestureDetector(
-                                onTap: () => Get.dialog(statusTrafficLightInfoDialog()),
-                                child: Icon(Icons.help_outline_rounded),
+                              SizedBox(
+                                width: _width * 0.17,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () => Get.dialog(statusTrafficLightInfoDialog()),
+                                      child: Icon(Icons.help_outline_rounded),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () => Get.dialog(setMealWaitStatusDialog()),
+                                      child: Icon(Icons.settings_rounded),
+                                    ),
+                                  ],
+                                ),
                               )
                             ],
                           ),
@@ -279,15 +359,21 @@ class Home extends StatelessWidget {
                         SizedBox(height: _height * 0.015),
                         SizedBox(
                           width: _width * 0.65,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              mealStatusTrafficLightWidget(true, "정체"),
-                              mealStatusTrafficLightWidget(false, "혼잡"),
-                              mealStatusTrafficLightWidget(false, "원활")
-                            ],
-                          ),
+                          height: _height * 0.08,
+                          child: Obx(() {
+                            mealController.getMealWaitStatus();
+                            String waitStatus = mealController.mealWaitStatus.value;
+
+                            return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  mealStatusTrafficLightWidget((waitStatus == "red"), "정체"),
+                                  mealStatusTrafficLightWidget((waitStatus == "yellow"), "혼잡"),
+                                  mealStatusTrafficLightWidget((waitStatus == "green"), "원활")
+                                ],
+                            );
+                          }),
                         )
                       ],
                     ),
@@ -301,9 +387,11 @@ class Home extends StatelessWidget {
     );
   }
 
-  Container mealSequenceClassBox(int classNum, bool isOn) {
+  Container mealSequenceClassBox(int classNum, bool isOn, bool isDialog) {
     Color color = emptyColor;
-    if (isOn) { color = blueSix; }
+    TextStyle textStyle = homeMealSequenceClass;
+    if (isDialog) { textStyle = textStyle.copyWith(color: Colors.black); }
+    if (isOn) { color = blueSix; if (isDialog) { textStyle = textStyle.copyWith(color: Colors.white); }}
 
     return Container(
       width: _width * 0.084,
@@ -312,7 +400,7 @@ class Home extends StatelessWidget {
         color: color,
         borderRadius: BorderRadius.circular(5),
       ),
-      child: Center(child: Text("$classNum반", style: homeMealSequenceClass)),
+      child: Center(child: Text("$classNum반", style: textStyle)),
     );
   }
 
@@ -380,6 +468,186 @@ class Home extends StatelessWidget {
         ],
       ),
       child: Center(child: Text(status, style: textStyle)),
+    );
+  }
+
+  Dialog setMealWaitStatusDialog() {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(21))
+      ),
+      child: Container(
+        width: _width * 0.784,
+        height: _height * 0.4,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(21),
+          color: grayTwo,
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              top: _height * 0.023,
+              left: _width * 0.07,
+              child: GestureDetector(
+                onTap: () => Get.back(),
+                child: Icon(Icons.arrow_back_sharp),
+              ),
+            ),
+            Positioned(
+                top: _height * 0.0225,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("대기 상태 설정", style: homeDialogTitle),
+                    SizedBox(height: _height * 0.017),
+                    Text("현재 급식실 앞의 대기 줄 상태를\n설정해주세요!", style: homeNotEatMealDialogTitle, textAlign: TextAlign.center),
+                  ],
+                )
+            ),
+            Positioned(
+                top: _height * 0.175,
+                child: Obx(() {
+                  String waitStatus = mealController.mealWaitStatusInSetDialog.value;
+
+                  return SizedBox(
+                    width: _width * 0.6,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () => mealController.mealWaitStatusInSetDialog.value = "red",
+                          child: mealStatusTrafficLightWidget((waitStatus == "red"), "정체"),
+                        ),
+                        GestureDetector(
+                          onTap: () => mealController.mealWaitStatusInSetDialog.value = "yellow",
+                          child: mealStatusTrafficLightWidget((waitStatus == "yellow"), "혼잡"),
+                        ),
+                        GestureDetector(
+                          onTap: () => mealController.mealWaitStatusInSetDialog.value = "green",
+                          child: mealStatusTrafficLightWidget((waitStatus == "green"), "원활"),
+                        )
+                      ],
+                    ),
+                  );
+                }),
+            ),
+            Positioned(
+              top: _height * 0.32,
+              child: GestureDetector(
+               onTap: () {
+                  mealController.setMealWaitStatus(mealController.mealWaitStatusInSetDialog.value);
+                  Get.back();
+                },
+                child: Container(
+                  width: _width * 0.4,
+                  height: _height * 0.05,
+                  decoration: BoxDecoration(
+                      color: blueOne,
+                      borderRadius: BorderRadius.circular(4),
+                      boxShadow: [
+                        BoxShadow(
+                          color: blueOne,
+                          blurRadius: 2,
+                        )
+                      ]
+                  ),
+                  child: Center(child: Text("확인", style: homeDialogOkBtn)),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Dialog setMealSequenceDialog() {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(21))
+      ),
+      child: Container(
+        width: _width * 0.784,
+        height: _height * 0.4,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(21),
+          color: grayTwo,
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              top: _height * 0.023,
+              left: _width * 0.07,
+              child: GestureDetector(
+                onTap: () => Get.back(),
+                child: Icon(Icons.arrow_back_sharp),
+              ),
+            ),
+            Positioned(
+                top: _height * 0.0225,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("급식 순서 설정", style: homeDialogTitle),
+                    SizedBox(height: _height * 0.017),
+                    Text("현재 입장 완료한 반을\n선택해주세요!", style: homeNotEatMealDialogTitle, textAlign: TextAlign.center),
+                  ],
+                )
+            ),
+            Positioned(
+              top: _height * 0.175,
+              child: Obx(() {
+                int mealSequence = mealController.mealClassSequenceInSetDialog.value;
+
+                List<Widget> classBoxList = [];
+                for (int i=1; i<=6; i++) {
+                  classBoxList.add(
+                    GestureDetector(
+                      onTap: () => mealController.mealClassSequenceInSetDialog.value = i,
+                      child: mealSequenceClassBox(i, (mealSequence == i), true),
+                    ),
+                  );
+                }
+
+                return SizedBox(
+                  width: _width * 0.65,
+                  height: _height * 0.08,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: classBoxList,
+                  ),
+                );
+              }),
+            ),
+            Positioned(
+              top: _height * 0.32,
+              child: GestureDetector(
+                onTap: () {
+                  mealController.setMealSequence(mealController.mealClassSequenceInSetDialog.value);
+                  Get.back();
+                },
+                child: Container(
+                  width: _width * 0.4,
+                  height: _height * 0.05,
+                  decoration: BoxDecoration(
+                      color: blueOne,
+                      borderRadius: BorderRadius.circular(4),
+                      boxShadow: [
+                        BoxShadow(
+                          color: blueOne,
+                          blurRadius: 2,
+                        )
+                      ]
+                  ),
+                  child: Center(child: Text("확인", style: homeDialogOkBtn)),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -512,12 +780,12 @@ class Home extends StatelessWidget {
               children: [
                 Text(
                     "대기 상태",
-                    style: homeStatusTrafficLightHelpTitle
+                    style: homeDialogTitle
                 ),
                 SizedBox(height: _height * 0.03),
                 Text(
                   "현재 급식실 앞의 대기 줄 상태를\n알 수 있어요!",
-                  style: homeStatusTrafficLightHelpDescription,
+                  style: homeDialogDescription,
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: _height * 0.07),

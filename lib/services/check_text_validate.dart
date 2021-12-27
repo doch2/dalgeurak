@@ -6,7 +6,7 @@ class CheckTextValidate {
       focusNode.requestFocus();
       return '값이 비었습니다.';
     }else {
-      String pattern = r'^([1-3]{1})([0-9]{1})([0-9]{1})([0-9]{1})$';
+      String pattern = r'^([1-3]{1})([1-9]{1})([0-9]{1})([0-9]{1})$';
       RegExp regExp = new RegExp(pattern);
       if(!regExp.hasMatch(value)){
         focusNode.requestFocus();

@@ -30,7 +30,7 @@ class AuthController extends GetxController {
   onInit() async {
     _firebaseUser.bindStream(authInstance.authStateChanges());
     _firebaseUser.value = authInstance.currentUser;
-    Get.find<UserController>().user = await FirestoreDatabase().getUser(user!.uid);
+    if (user != null) { Get.find<UserController>().user = await FirestoreDatabase().getUser(user!.uid); }
 
     kakaoFlutterLib.KakaoContext.clientId = TokenReference().kakaoNativeKey;
   }
