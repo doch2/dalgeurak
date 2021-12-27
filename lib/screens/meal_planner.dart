@@ -21,7 +21,7 @@ class MealPlanner extends GetWidget<MealController> {
       body: SafeArea(
         child: Center(
           child: Stack(
-            alignment: Alignment.center,
+            alignment: Alignment.topCenter,
             children: [
               Container(
                 width: _width,
@@ -38,7 +38,7 @@ class MealPlanner extends GetWidget<MealController> {
                         if (snapshot.hasData) {
                           return SizedBox(
                             width: _width * 0.95,
-                            height: _height * 0.87,
+                            height: _height * 0.855,
                             child: DefaultTabController(
                               length: 7,
                               initialIndex: (DateTime.now().weekday-1),
@@ -67,7 +67,7 @@ class MealPlanner extends GetWidget<MealController> {
                           return Stack(
                             alignment: Alignment.center,
                             children: [
-                              SizedBox(width: _width, height: _height * 0.87),
+                              SizedBox(width: _width, height: _height * 0.835),
                               Center(child: Text("데이터를 정상적으로 불러오지 못했습니다. \n다시 시도해 주세요.", textAlign: TextAlign.center)),
                             ],
                           );
@@ -75,7 +75,7 @@ class MealPlanner extends GetWidget<MealController> {
                           return Stack(
                             alignment: Alignment.center,
                             children: [
-                              SizedBox(width: _width, height: _height * 0.87),
+                              SizedBox(width: _width, height: _height * 0.835),
                               Center(child: CircularProgressIndicator()),
                             ],
                           );
@@ -124,11 +124,11 @@ class MealPlanner extends GetWidget<MealController> {
                 "${correctDate["month"]}월 ${correctDate["day"]}일",
                 style: mealPlannerDate
             ),
-            SizedBox(height: _height * 0.017),
+            SizedBox(height: _height * 0.0165),
             mealPlannerPanel(data, i, "breakfast", "아침"),
-            SizedBox(height: _height * 0.017),
+            SizedBox(height: _height * 0.0165),
             mealPlannerPanel(data, i, "lunch", "점심"),
-            SizedBox(height: _height * 0.017),
+            SizedBox(height: _height * 0.0165),
             mealPlannerPanel(data, i, "dinner", "저녁"),
           ],
         )

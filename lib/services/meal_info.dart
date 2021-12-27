@@ -34,6 +34,8 @@ class MealInfo {
       }
     }
 
+    result["weekFirstDay"] = getCorrectDate(weekFirstDay)['day'];
+
     return result;
   }
 

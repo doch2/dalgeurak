@@ -33,7 +33,7 @@ class MealController extends GetxController {
     String? stringData = SharedPreference().getMealPlanner();
     int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
 
-    if (stringData == null || (json.decode(stringData)).containsKey(mealInfo.getCorrectDate(weekFirstDay)['day']) == false) {
+    if (stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
       Map data = await mealInfo.getMealPlanner();
 
       SharedPreference().saveMealPlanner(data);
