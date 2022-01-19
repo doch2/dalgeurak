@@ -1,3 +1,5 @@
+<img width="93" alt="logo" src="https://user-images.githubusercontent.com/30923566/150146974-a592e74b-078c-4bac-a6ed-f8d6a9928fa7.png">
+
 # 달그락
 
 디미고 학생들을 위하여 만들어진 학교 급식 어플리케이션, 달그락입니다.
@@ -8,7 +10,9 @@
  * Google Play Store: https://play.google.com/store/apps/details?id=com.iceluna.dalgeurak
  * Apple App Store: https://apps.apple.com/kr/app/%EB%8B%AC%EA%B7%B8%EB%9D%BD/id1599863433
 
-※2021 교내IT공모전 공모작이며, 20기 웹프로그래밍과 유도희와 이비즈니스과 라윤지가 제작하였습니다.
+※ 2021 교내IT공모전 공모작이며, 20기 웹프로그래밍과 유도희와 이비즈니스과 라윤지가 제작하였습니다.<br>  
+
+<div align="center"><img width="640" alt="ScreenShot" src="https://user-images.githubusercontent.com/30923566/150146120-fe6e52eb-ca62-4a98-b11e-534f8c9b385c.png"></div> 
 
 ## 개발을 위해선
 
