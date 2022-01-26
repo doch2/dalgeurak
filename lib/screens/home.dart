@@ -7,6 +7,7 @@ import 'package:dalgeurak/services/firestore_database.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -28,27 +29,45 @@ class Home extends StatelessWidget {
     userController = Get.find<UserController>();
 
     late GetBuilder<QrCodeController> qrCodeScanBtn;
+    late SizedBox mealSequenceSettingBtn;
+    late SizedBox mealWaitStatusSettingBtn;
     if (userController.user.group != "student") {
       qrCodeScanBtn = GetBuilder<QrCodeController>(
         init: QrCodeController(),
         builder: (qrCodeController) => GestureDetector(
           onTap: () => Get.to(QrCodeScan()),
-          child: Container(
-            height: _height * 0.05,
-            width: _width * 0.25,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14.5),
-              color: blueOne,
-              boxShadow: [
-                BoxShadow(
-                  color: blueOne,
-                  offset: Offset(0, 0),
-                  blurRadius: 2,
+          child: SizedBox(
+            height: _height * 0.0425,
+            width: _width * 0.175,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/images/qrCodeScan_btnEdge.svg',
+                  width: _width * 0.175,
                 ),
+                Text(
+                  "QR 스캔",
+                  style: homeMealSequenceWidgetOn.copyWith(color: blueOne, fontSize: 14),
+                )
+
               ],
             ),
-            child: Center(child: Text("QR코드 인식", style: homeMealSequenceWidgetOn.copyWith(fontSize: 13))),
-          ),
+          )
+        ),
+      );
+
+      mealSequenceSettingBtn = SizedBox(
+        child: GestureDetector(
+          onTap: () => Get.dialog(setMealSequenceDialog()),
+          child: Icon(Icons.settings_rounded, color: yellowFive),
+        ),
+      );
+
+      mealWaitStatusSettingBtn = SizedBox(
+        child: GestureDetector(
+          onTap: () => Get.dialog(setMealWaitStatusDialog()),
+          child: Icon(Icons.settings_rounded),
         ),
       );
     } else {
@@ -56,6 +75,9 @@ class Home extends StatelessWidget {
         init: QrCodeController(),
         builder: (qrCodeController) => SizedBox(),
       );
+
+      mealSequenceSettingBtn = SizedBox(width: 24);
+      mealWaitStatusSettingBtn = SizedBox(width: 24);
     }
 
     late Column studentMealTimeWidget;
@@ -255,13 +277,10 @@ class Home extends StatelessWidget {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
+                                          mealSequenceSettingBtn,
                                           GestureDetector(
                                             onTap: () => Get.dialog(setUserNotEatMealDialog()),
                                             child: Icon(Icons.warning_amber_rounded, color: yellowFive),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () => Get.dialog(setMealSequenceDialog()),
-                                            child: Icon(Icons.settings_rounded, color: yellowFive),
                                           ),
                                         ],
                                       ),
@@ -342,13 +361,10 @@ class Home extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
+                                    mealWaitStatusSettingBtn,
                                     GestureDetector(
                                       onTap: () => Get.dialog(statusTrafficLightInfoDialog()),
                                       child: Icon(Icons.help_outline_rounded),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () => Get.dialog(setMealWaitStatusDialog()),
-                                      child: Icon(Icons.settings_rounded),
                                     ),
                                   ],
                                 ),
