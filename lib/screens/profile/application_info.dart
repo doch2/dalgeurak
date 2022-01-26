@@ -98,7 +98,7 @@ class ApplicationInfo extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        SizedBox(height: _height * 0.15),
+                        SizedBox(height: _height * 0.125),
                         Text.rich(
                           TextSpan(
                             children: [
@@ -197,6 +197,11 @@ class ApplicationInfo extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: appInfo,
                         ),
+                        SizedBox(height: _height * 0.03),
+                        GestureDetector(
+                          onTap: () => Get.to(LicensePage()),
+                          child: Text("사용한 오픈소스의 라이선스 보러가기", style: appInfo.copyWith(color: grayFive, decoration: TextDecoration.underline)),
+                        )
                       ],
                     ),
                   )
