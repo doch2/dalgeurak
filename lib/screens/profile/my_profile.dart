@@ -2,6 +2,7 @@ import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/profile/qr_checkin_log.dart';
 import 'package:dalgeurak/screens/profile/user_late_amount.dart';
+import 'package:dalgeurak/screens/profile/application_info.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,13 @@ class MyProfile extends GetWidget<UserController> {
             }
         )
       ]),
+      Material(
+        color: Colors.white,
+        child: InkWell(
+          onTap: () => Get.to(ApplicationInfo(), transition: Transition.rightToLeft),
+          child: menuWidget([Text("어플리케이션 정보", style: myProfileMenuTitle), Icon(Icons.navigate_next_sharp, size: _width * 0.09)]),
+        ),
+      ),
       Material(
         color: Colors.white,
         child: InkWell(

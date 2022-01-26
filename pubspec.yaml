@@ -53,6 +53,7 @@ dependencies:
   cryptography_flutter: ^2.0.2
   url_launcher: ^6.0.12
   permission_handler: ^8.2.5
+  package_info_plus: ^1.2.0
 
   jiffy: ^4.1.0
 

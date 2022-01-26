@@ -98,6 +98,9 @@ final myProfileQrLogTime = TextStyle(
 final myProfileTardyAmountNum = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
 
+final appInfo = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+
 
 final signup_student_info_title = TextStyle(
     fontSize: 28, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
