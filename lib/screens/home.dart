@@ -94,7 +94,7 @@ class Home extends StatelessWidget {
               top: _height * 0.1,
               left: _width * 0.1,
               child: Obx(() {
-                if (userController.user.group != "teacher") {
+                if (userController.user.group != null && userController.user.group != "teacher") {
                   mealController.getMealTime();
 
                   return Column(
@@ -152,11 +152,10 @@ class Home extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Obx(() {
-                    print(userController.user.group);
                     if (userController.user.group != "teacher") {
                       return GetBuilder<QrCodeController> (
                         init: QrCodeController(),
-                        builder: (qrCodeController) {
+                        builder: (qrCodeController) => Obx(() {
                           String data = qrCodeController.qrImageData.value;
                           if (data == "initData") {
                             return CircularProgressIndicator();
@@ -176,7 +175,7 @@ class Home extends StatelessWidget {
                               ],
                             );
                           }
-                        },
+                        }),
                       );
                     } else {
                       return GetBuilder<QrCodeController>(
