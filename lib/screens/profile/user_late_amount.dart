@@ -114,6 +114,14 @@ class UserLateAmount extends GetWidget<UserController> {
                                       )
                                   ),
                                 );
+                              } else if (snapshot.data == null) { //데이터가 없을 때
+                                return Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    SizedBox(width: _width, height: _height * 0.4),
+                                    Center(child: Text("현재 기록된 지각 내역이 없습니다.", textAlign: TextAlign.center)),
+                                  ],
+                                );
                               } else if (snapshot.hasError) { //데이터를 정상적으로 불러오지 못했을 때
                                 return Stack(
                                   alignment: Alignment.center,
