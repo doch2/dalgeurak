@@ -28,164 +28,6 @@ class Home extends StatelessWidget {
     mealController = Get.find<MealController>();
     userController = Get.find<UserController>();
 
-    late GetBuilder<QrCodeController> qrCodeScanBtn;
-    late SizedBox mealSequenceSettingBtn;
-    late SizedBox mealWaitStatusSettingBtn;
-    if (userController.user.group != "student") {
-      qrCodeScanBtn = GetBuilder<QrCodeController>(
-        init: QrCodeController(),
-        builder: (qrCodeController) => GestureDetector(
-          onTap: () => Get.to(QrCodeScan()),
-          child: SizedBox(
-            height: _height * 0.0425,
-            width: _width * 0.175,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                SvgPicture.asset(
-                  'assets/images/qrCodeScan_btnEdge.svg',
-                  width: _width * 0.175,
-                ),
-                Text(
-                  "QR 스캔",
-                  style: homeMealSequenceWidgetOn.copyWith(color: blueOne, fontSize: 14),
-                )
-
-              ],
-            ),
-          )
-        ),
-      );
-
-      mealSequenceSettingBtn = SizedBox(
-        child: GestureDetector(
-          onTap: () => Get.dialog(setMealSequenceDialog()),
-          child: Icon(Icons.settings_rounded, color: yellowFive),
-        ),
-      );
-
-      mealWaitStatusSettingBtn = SizedBox(
-        child: GestureDetector(
-          onTap: () => Get.dialog(setMealWaitStatusDialog()),
-          child: Icon(Icons.settings_rounded),
-        ),
-      );
-    } else {
-      qrCodeScanBtn = GetBuilder<QrCodeController>(
-        init: QrCodeController(),
-        builder: (qrCodeController) => SizedBox(),
-      );
-
-      mealSequenceSettingBtn = SizedBox(width: 24);
-      mealWaitStatusSettingBtn = SizedBox(width: 24);
-    }
-
-    late Column studentMealTimeWidget;
-    late GetBuilder<QrCodeController> studentQrCodeWidget;
-    if (userController.user.group != "teacher") {
-      studentMealTimeWidget = Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Obx(() {
-                if (userController.user.studentId != null) {
-                  return Text(
-                    "${Get.find<UserController>().user.studentId!.substring(1, 2)}반 " + mealController.getMealKind("kor", false),
-                    style: homeMealTitle,
-                  );
-                } else {
-                  return SizedBox(
-                    width: _width * 0.055,
-                    height: _width * 0.055,
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                }
-              }),
-              SizedBox(width: _width * 0.015),
-              Image.asset(
-                "assets/images/logo.png",
-                width: _width * 0.05,
-                height: _width * 0.05,
-              ),
-            ],
-          ),
-          Obx(() {
-            if (userController.user.studentId != null) {
-              mealController.getMealTime();
-            }
-
-            return Text(
-              mealController.userMealTime.value,
-              style: homeMealTime,
-            );
-          }),
-        ],
-      );
-
-      studentQrCodeWidget = GetBuilder<QrCodeController> (
-        init: QrCodeController(),
-        builder: (qrCodeController) => Obx(() {
-          String data = qrCodeController.qrImageData.value;
-          if (data == "initData") {
-            return CircularProgressIndicator();
-          } else {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                QrImage(
-                  data: qrCodeController.qrImageData.value,
-                  version: QrVersions.auto,
-                  size: _width * 0.5,
-                ),
-                Text(
-                  "남은 시간 : ${qrCodeController.refreshTime.value}",
-                  style: homeQrRefreshTime,
-                )
-              ],
-            );
-          }
-        }),
-      );
-    } else {
-      studentMealTimeWidget = Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-              "안녕하세요!",
-                style: homeMealTitle,
-              ),
-            ],
-          ),
-          Obx(() {
-            if (userController.user.name != null) {
-              return Text(
-                "${userController.user.name}님",
-                style: homeMealTime,
-              );
-            } else {
-              return SizedBox(
-                width: _width * 0.055,
-                height: _width * 0.055,
-                child: Center(child: CircularProgressIndicator()),
-              );
-            }
-          }),
-        ],
-      );
-
-      studentQrCodeWidget = GetBuilder<QrCodeController>(
-        init: QrCodeController(),
-        builder: (qrCodeController) => SizedBox(),
-      );
-    }
-
 
     return Scaffold(
       body: Center(
@@ -202,7 +44,39 @@ class Home extends StatelessWidget {
             Positioned(
               top: _height * 0.12,
               right: _width * 0.15,
-              child: qrCodeScanBtn,
+              child: Obx(() {
+                if (userController.user.group != "student") {
+                  return GetBuilder<QrCodeController>(
+                    init: QrCodeController(),
+                    builder: (qrCodeController) => GestureDetector(
+                        onTap: () => Get.to(QrCodeScan()),
+                        child: SizedBox(
+                          height: _height * 0.0425,
+                          width: _width * 0.175,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/qrCodeScan_btnEdge.svg',
+                                width: _width * 0.175,
+                              ),
+                              Text(
+                                "QR 스캔",
+                                style: homeMealSequenceWidgetOn.copyWith(color: blueOne, fontSize: 14),
+                              )
+
+                            ],
+                          ),
+                        )
+                    ),
+                  );
+                } else {
+                  return GetBuilder<QrCodeController>(
+                    init: QrCodeController(),
+                    builder: (qrCodeController) => SizedBox(),
+                  );
+                }
+              }),
             ),
             Positioned(
               top: _height * 0.055,
@@ -219,7 +93,57 @@ class Home extends StatelessWidget {
             Positioned(
               top: _height * 0.1,
               left: _width * 0.1,
-              child: studentMealTimeWidget
+              child: Obx(() {
+                if (userController.user.group != "teacher") {
+                  mealController.getMealTime();
+
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "${Get.find<UserController>().user.studentId!.substring(1, 2)}반 " + mealController.getMealKind("kor", false),
+                            style: homeMealTitle,
+                          ),
+                          SizedBox(width: _width * 0.015),
+                          Image.asset(
+                            "assets/images/logo.png",
+                            width: _width * 0.05,
+                            height: _width * 0.05,
+                          ),
+                        ],
+                      ),
+                      Text(
+                        mealController.userMealTime.value,
+                        style: homeMealTime,
+                      ),
+                    ],
+                  );
+                } else {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "안녕하세요!",
+                            style: homeMealTitle,
+                          ),
+                        ],
+                      ),
+                      Text(
+                        "${userController.user.name}님",
+                        style: homeMealTime,
+                      )
+                    ],
+                  );
+                }
+              }),
             ),
             Positioned(
               top: _height * 0.22,
@@ -227,7 +151,40 @@ class Home extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  studentQrCodeWidget,
+                  Obx(() {
+                    print(userController.user.group);
+                    if (userController.user.group != "teacher") {
+                      return GetBuilder<QrCodeController> (
+                        init: QrCodeController(),
+                        builder: (qrCodeController) {
+                          String data = qrCodeController.qrImageData.value;
+                          if (data == "initData") {
+                            return CircularProgressIndicator();
+                          } else {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                QrImage(
+                                  data: qrCodeController.qrImageData.value,
+                                  version: QrVersions.auto,
+                                  size: _width * 0.5,
+                                ),
+                                Text(
+                                  "남은 시간 : ${qrCodeController.refreshTime.value}",
+                                  style: homeQrRefreshTime,
+                                )
+                              ],
+                            );
+                          }
+                        },
+                      );
+                    } else {
+                      return GetBuilder<QrCodeController>(
+                        init: QrCodeController(),
+                        builder: (qrCodeController) => SizedBox(height: _height * 0.15),
+                      );
+                    }
+                  }),
                   SizedBox(
                     height: _height * 0.19,
                     width: _width * 0.9,
@@ -277,7 +234,18 @@ class Home extends StatelessWidget {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          mealSequenceSettingBtn,
+                                          Obx(() {
+                                            if (userController.user.group != "student") {
+                                              return SizedBox(
+                                                child: GestureDetector(
+                                                  onTap: () => Get.dialog(setMealSequenceDialog()),
+                                                  child: Icon(Icons.settings_rounded, color: yellowFive),
+                                                ),
+                                              );
+                                            } else {
+                                              return SizedBox(width: 24);
+                                            }
+                                          }),
                                           GestureDetector(
                                             onTap: () => Get.dialog(setUserNotEatMealDialog()),
                                             child: Icon(Icons.warning_amber_rounded, color: yellowFive),
@@ -361,7 +329,18 @@ class Home extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    mealWaitStatusSettingBtn,
+                                    Obx(() {
+                                      if (userController.user.group != "student") {
+                                        return SizedBox(
+                                          child: GestureDetector(
+                                            onTap: () => Get.dialog(setMealWaitStatusDialog()),
+                                            child: Icon(Icons.settings_rounded),
+                                          ),
+                                        );
+                                      } else {
+                                        return SizedBox(width: 24);
+                                      }
+                                    }),
                                     GestureDetector(
                                       onTap: () => Get.dialog(statusTrafficLightInfoDialog()),
                                       child: Icon(Icons.help_outline_rounded),

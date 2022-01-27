@@ -9,12 +9,12 @@ import 'package:get/get.dart';
 class MainBinding extends Bindings {
   @override
   void dependencies() {
-    Get.put<NotificationController>(NotificationController(), permanent: true);
-
     Get.lazyPut(() => Dio());
 
     Get.put<UserController>(UserController(), permanent: true);
     Get.put<AuthController>(AuthController(), permanent: true);
+
+    Get.put<NotificationController>(NotificationController(), permanent: true);
 
     Get.put<QrCodeController>(QrCodeController());
 

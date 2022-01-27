@@ -12,16 +12,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   SharedPreference();
+
+  NotificationController _notiController = Get.put<NotificationController>(NotificationController(), permanent: true);
+  await _notiController.initialize();
+
+
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    NotificationController _notiController = Get.put<NotificationController>(NotificationController(), permanent: true);
-    _notiController.initialize();
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark));
+
     return GetMaterialApp(
       theme: ThemeData(
         accentColor: yellowFive,
