@@ -76,7 +76,7 @@ class Login extends GetWidget<AuthController> {
                           children: [
                             SizedBox(width: _width * 0.1),
                             SvgPicture.asset(
-                              'assets/images/googleIcon.svg',
+                              'assets/images/googleLogo.svg',
                               width: _width * 0.07,
                             ),
                             SizedBox(width: _width * 0.15),
@@ -119,7 +119,7 @@ class Login extends GetWidget<AuthController> {
                           children: [
                             SizedBox(width: _width * 0.1),
                             SvgPicture.asset(
-                              'assets/images/appleIcon.svg',
+                              'assets/images/appleLogo.svg',
                               width: _width * 0.07,
                               color: Colors.white,
                             ),
@@ -157,7 +157,7 @@ class Login extends GetWidget<AuthController> {
                           children: [
                             SizedBox(width: _width * 0.1),
                             SvgPicture.asset(
-                              'assets/images/kakaoIcon.svg',
+                              'assets/images/kakaoLogo.svg',
                               width: _width * 0.07,
                             ),
                             SizedBox(width: _width * 0.15),

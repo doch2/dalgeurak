@@ -26,6 +26,7 @@ final blueFour = Color(0xFF2C6EDC);
 final blueFive = Color(0xFF2152B0);
 final blueSix = Color(0xFF1952B6);
 final blueSeven = Color(0xFFD6DBFF);
+final blueEight = Color(0xFF1564FF);
 
 final grayOne = Color(0xFFC4C4C4);
 final grayTwo = Color(0xFFF5F5F5);
@@ -37,6 +38,7 @@ final graySeven = Color(0xFF6A6E85);
 final grayEight = Color(0xFFA5B0C5);
 final grayNine = Color(0xFFEBEBEB);
 final grayTen = Color(0xFFAFAFAF);
+final grayEleven = Color(0xFFD4D4D4);
 final grayShadowOne = Color(0xA3CAC9C9);
 final grayShadowTwo = Color(0xDA7A7A7);
 final grayShadowThree = Color(0x80000000);

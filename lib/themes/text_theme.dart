@@ -12,6 +12,8 @@ final homeMealTitle = TextStyle(
     fontSize: 20, color: graySeven, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final homeMealTime = TextStyle(
     fontSize: 26, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+final homeBottomNavigationBarLabel = TextStyle(
+    fontSize: 12, color: blueEight, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 
 final homeNotEatMealDialogWarning = TextStyle(
     fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);

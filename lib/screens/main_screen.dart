@@ -5,7 +5,10 @@ import 'package:dalgeurak/screens/home.dart';
 import 'package:dalgeurak/screens/admin_page.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+
+import '../themes/text_theme.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key? key}) : super(key: key);
@@ -22,6 +25,13 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     String? userGroup = Get.find<UserController>().user.group;
 
+    Map pageIcon = {
+      '홈': 'home',
+      '급식표': 'calendar',
+      '관리': 'signDocu',
+      '내 정보': 'user'
+    };
+
     List pages = [
       Home(),
       MealPlanner(),
@@ -30,44 +40,58 @@ class _MainScreenState extends State<MainScreen> {
 
     List<BottomNavigationBarItem> bottomNavigatorItem = [
       BottomNavigationBarItem(
-          label: "홈",
-          icon: Icon(Icons.home_filled)
+        label: "홈",
+        icon: SvgPicture.asset('assets/images/icons/home_select.svg'),
       ),
       BottomNavigationBarItem(
-          label: "급식표",
-          icon: Icon(Icons.calendar_today)
+        label: "급식표",
+        icon: SvgPicture.asset('assets/images/icons/calendar_unselect.svg'),
       ),
       BottomNavigationBarItem(
-          label: "내 정보",
-          icon: Icon(Icons.person)
+        label: "내 정보",
+        icon: SvgPicture.asset('assets/images/icons/user_unselect.svg'),
       ),
     ];
 
     if (userGroup != null && userGroup != "student") {
-      pages.insert(1, AdminPage());
+      pages.insert(2, AdminPage());
 
-      bottomNavigatorItem.insert(1, BottomNavigationBarItem(
-          label: "급식 정보",
-          icon: Icon(Icons.edit)
+      bottomNavigatorItem.insert(2, BottomNavigationBarItem(
+          label: "관리",
+          icon: SvgPicture.asset('assets/images/icons/signDocu_unselect.svg'),
       ));
     }
 
+    for (int i=0; i<pages.length; i++) {
+      String? label = bottomNavigatorItem[i].label;
+      bottomNavigatorItem[i] = BottomNavigationBarItem(
+        label: label,
+        icon: SvgPicture.asset('assets/images/icons/${pageIcon[label]}_${_selectIndex == i ? "select" : "unselect"}.svg'),
+      );
+    }
+
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: blueThree,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey.withOpacity(0.6),
-        selectedFontSize: 12,
-        currentIndex: _selectIndex,
-        onTap: (int index) {
-          setState(() {
-            _selectIndex = index;
-          });
-        },
-        items: bottomNavigatorItem,
-      ),
-      body: pages[_selectIndex]
+        extendBody: true,
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(10),
+              topLeft: Radius.circular(10)),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
+            selectedItemColor: blueEight,
+            unselectedItemColor: grayEleven,
+            selectedLabelStyle: homeBottomNavigationBarLabel,
+            unselectedLabelStyle: homeBottomNavigationBarLabel,
+            currentIndex: _selectIndex,
+            onTap: (int index) {
+              setState(() {
+                _selectIndex = index;
+              });
+            },
+            items: bottomNavigatorItem,
+          ),
+        ),
+        body: pages[_selectIndex]
     );
   }
 }
