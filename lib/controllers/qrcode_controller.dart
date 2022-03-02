@@ -1,18 +1,18 @@
 import 'dart:convert';
 
 import 'package:cryptography/cryptography.dart';
-import 'package:dalgeurak/controllers/meal_controller.dart';
+import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/services/data_cryptography.dart';
-import 'package:dalgeurak/services/firestore_database.dart';
+import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-
-import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
 
 class QrCodeController extends GetxController {
   DataCryptography _dataCryptography = DataCryptography();
+  DalgeurakService _dalgeurakService = DalgeurakService();
 
   QRViewController? scanController;
 
@@ -44,7 +44,7 @@ class QrCodeController extends GetxController {
     String result = "dalgeurak_checkin_qr://";
 
     result = result + await _dataCryptography.encrypt(
-        Get.find<AuthController>().user!.uid + "_" + DateTime.now().add(Duration(seconds: 30)).microsecondsSinceEpoch.toString()
+        Get.find<UserController>().user!.studentId!.toString() + Get.find<UserController>().user!.name! + "_" + DateTime.now().add(Duration(seconds: 30)).microsecondsSinceEpoch.toString()
     );
 
     qrImageData.value = result;
@@ -65,7 +65,7 @@ class QrCodeController extends GetxController {
         if (int.parse(decryptData.substring(decryptData.indexOf("_") + 1)) < DateTime.now().microsecondsSinceEpoch) {
           showToast("QR코드의 유효기간이 지났습니다. \n다시 시도해 주세요.");
         } else {
-          Map checkInResult = await userCheckIn(decryptData.substring(0, decryptData.indexOf("_")));
+          Map checkInResult = await _dalgeurakService.mealCheckInByManager(int.parse(decryptData.substring(0, 4)), decryptData.substring(4, decryptData.indexOf("_")));
 
           if (checkInResult["result"] == "success") {
             showToast("${checkInResult['name']}님 체크인 되었습니다.");
@@ -83,38 +83,6 @@ class QrCodeController extends GetxController {
     }
 
     scanController!.resumeCamera();
-  }
-
-  Future<Map> userCheckIn(String userID) async {
-    Map result = {};
-
-    try {
-      Map studentInfo = await FirestoreDatabase().getUserInfoForCheckIn(userID);
-      result["name"] = studentInfo["name"];
-      String studentClass = studentInfo["studentId"].substring(0, 1) + "-" + studentInfo["studentId"].substring(1, 2);
-      String studentNumber = studentInfo["studentId"].substring(2);
-
-      String nowMinute = DateTime.now().minute.toString(); if (int.parse(nowMinute) < 10) { nowMinute = "0$nowMinute"; }
-      int nowTime = int.parse("${DateTime.now().hour}$nowMinute");
-      String mealKind = Get.find<MealController>().getMealKind("eng", false);
-      int classTime = await FirestoreDatabase().getMealTimeForCheckIn(studentInfo["studentId"].substring(0, 1), studentInfo["studentId"].substring(1, 2), mealKind);
-      String mealStatus; if (nowTime <= classTime) { mealStatus = "onTime"; } else { mealStatus = "tardy"; }
-
-      String checkInTime =  "${DateTime.now().month}${DateTime.now().day}_$mealKind";
-
-      if (checkInTime == studentInfo["lastCheckInTime"]) {
-        result["result"] = "alreadyRegister";
-      } else {
-        await FirestoreDatabase().setStudentMealStatus(studentClass, studentNumber, mealStatus, checkInTime);
-        await FirestoreDatabase().addStudentQrCodeLog(userID, mealKind, mealStatus);
-        result["result"] = "success";
-      }
-    } catch(e) {
-      result["result"] = "fail";
-    }
-
-
-    return result;
   }
 
   showToast(String message) => Fluttertoast.showToast(

@@ -1,11 +1,10 @@
-import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/controllers/qrcode_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/qrcode_scan.dart';
-import 'package:dalgeurak/services/firestore_database.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
+import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -16,6 +15,7 @@ class Home extends StatelessWidget {
 
   late MealController mealController;
   late UserController userController;
+  late QrCodeController qrCodeController;
   late double _height, _width;
 
   @override
@@ -23,10 +23,13 @@ class Home extends StatelessWidget {
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
 
-    if (!Get.find<QrCodeController>().isCreateRefreshTimer) { Get.find<QrCodeController>().refreshTimer(); Get.find<QrCodeController>().isCreateRefreshTimer = true; }
-
     mealController = Get.find<MealController>();
     userController = Get.find<UserController>();
+    qrCodeController = Get.find<QrCodeController>();
+
+    if (!qrCodeController.isCreateRefreshTimer) { qrCodeController.refreshTimer(); qrCodeController.isCreateRefreshTimer = true; }
+    if (!mealController.isCreateRefreshTimer) { mealController.refreshTimer(); mealController.isCreateRefreshTimer = true; }
+
 
 
     return Scaffold(
@@ -45,7 +48,7 @@ class Home extends StatelessWidget {
               top: _height * 0.12,
               right: _width * 0.15,
               child: Obx(() {
-                if (userController.user.group != "student") {
+                if (userController.user?.userType != DimigoinUserType.student) {
                   return GetBuilder<QrCodeController>(
                     init: QrCodeController(),
                     builder: (qrCodeController) => GestureDetector(
@@ -94,7 +97,7 @@ class Home extends StatelessWidget {
               top: _height * 0.1,
               left: _width * 0.1,
               child: Obx(() {
-                if (userController.user.group != null && userController.user.group != "teacher") {
+                if (userController.user?.userType != DimigoinUserType.teacher && userController.user?.userType != DimigoinUserType.dormitoryTeacher) {
                   mealController.getMealTime();
 
                   return Column(
@@ -105,7 +108,7 @@ class Home extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "${Get.find<UserController>().user.studentId!.substring(1, 2)}반 " + mealController.getMealKind("kor", false),
+                            "${Get.find<UserController>().user?.classNum}반 " + mealController.dalgeurakService.getMealKind(false).convertKorStr,
                             style: homeMealTitle,
                           ),
                           SizedBox(width: _width * 0.015),
@@ -137,7 +140,7 @@ class Home extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        "${userController.user.name}님",
+                        "${userController.user?.name}님",
                         style: homeMealTime,
                       )
                     ],
@@ -152,7 +155,7 @@ class Home extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Obx(() {
-                    if (userController.user.group != "teacher") {
+                    if (userController.user?.userType != DimigoinUserType.teacher) {
                       return GetBuilder<QrCodeController> (
                         init: QrCodeController(),
                         builder: (qrCodeController) => Obx(() {
@@ -228,30 +231,6 @@ class Home extends StatelessWidget {
                                         "급식 순서",
                                         style: homeMealSequenceTitle
                                     ),
-                                    SizedBox(
-                                      width: _width * 0.17,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Obx(() {
-                                            if (userController.user.group != "student") {
-                                              return SizedBox(
-                                                child: GestureDetector(
-                                                  onTap: () => Get.dialog(setMealSequenceDialog()),
-                                                  child: Icon(Icons.settings_rounded, color: yellowFive),
-                                                ),
-                                              );
-                                            } else {
-                                              return SizedBox(width: 24);
-                                            }
-                                          }),
-                                          GestureDetector(
-                                            onTap: () => Get.dialog(setUserNotEatMealDialog()),
-                                            child: Icon(Icons.warning_amber_rounded, color: yellowFive),
-                                          ),
-                                        ],
-                                      ),
-                                    )
                                   ],
                                 ),
                               ),
@@ -259,12 +238,19 @@ class Home extends StatelessWidget {
                               SizedBox(
                                 width: _width * 0.65,
                                 child: Obx(() {
-                                  mealController.getMealSequence();
-                                  int mealSequence = mealController.mealSequence.value;
+                                  Map mealSequence = mealController.mealSequence;
+
+                                  if (mealSequence.isEmpty) { return Center(child: Text("로딩중입니다..", style: TextStyle(color: Colors.white))); }
 
                                   List<Widget> widgetList = [];
                                   for (int i=1; i<=6; i++) {
-                                    widgetList.add(mealSequenceClassBox(i, ((mealSequence == i) ? true : false), false));
+                                    widgetList.add(
+                                        mealSequenceClassBox(
+                                            i,
+                                            ((mealSequence
+                                            [mealController.dalgeurakService.getMealKind(false).convertEngStr]
+                                            [(userController.user?.gradeNum)!-1]
+                                            [i-1] == i) ? true : false), false));
                                   }
 
                                   return Row(
@@ -287,7 +273,7 @@ class Home extends StatelessWidget {
                                     ),
                                   ),
                                   Obx(() => Container(
-                                    width: ((_width * 0.63) / 6) * mealController.mealSequence.value,
+                                    width: ((_width * 0.63) / 6) * mealController.studentClassMealSequence.value,
                                     height: 5,
                                     decoration: BoxDecoration(
                                         color: yellowFive,
@@ -299,76 +285,6 @@ class Home extends StatelessWidget {
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: _height * 0.17,
-                    width: _width * 0.9,
-                    margin: EdgeInsets.only(top: _height * 0.02),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(13),
-                        color: Colors.white,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: _width * 0.775,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                  "대기 상태",
-                                  style: homeWaitingStatusTitle
-                              ),
-                              SizedBox(
-                                width: _width * 0.17,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Obx(() {
-                                      if (userController.user.group != "student") {
-                                        return SizedBox(
-                                          child: GestureDetector(
-                                            onTap: () => Get.dialog(setMealWaitStatusDialog()),
-                                            child: Icon(Icons.settings_rounded),
-                                          ),
-                                        );
-                                      } else {
-                                        return SizedBox(width: 24);
-                                      }
-                                    }),
-                                    GestureDetector(
-                                      onTap: () => Get.dialog(statusTrafficLightInfoDialog()),
-                                      child: Icon(Icons.help_outline_rounded),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: _height * 0.015),
-                        SizedBox(
-                          width: _width * 0.65,
-                          height: _height * 0.08,
-                          child: Obx(() {
-                            mealController.getMealWaitStatus();
-                            String waitStatus = mealController.mealWaitStatus.value;
-
-                            return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  mealStatusTrafficLightWidget((waitStatus == "red"), "정체"),
-                                  mealStatusTrafficLightWidget((waitStatus == "yellow"), "혼잡"),
-                                  mealStatusTrafficLightWidget((waitStatus == "green"), "원활")
-                                ],
-                            );
-                          }),
-                        )
                       ],
                     ),
                   ),
@@ -424,480 +340,6 @@ class Home extends StatelessWidget {
         ],
       ),
       child: Center(child: Text(sequence, style: textStyle)),
-    );
-  }
-
-  Container mealStatusTrafficLightWidget(bool isOn, String status) {
-    TextStyle textStyle = homeStatusTrafficLightOff;
-    Color containerColor = grayThree;
-    Color containerShadowColor = grayShadowOne;
-    if (isOn) {
-      if (status == "정체") {
-        textStyle = homeStatusTrafficLightOn_congest;
-        containerColor = redOne;
-        containerShadowColor = redShadowOne;
-      } else if (status == "혼잡") {
-        textStyle = homeStatusTrafficLightOn_confusion;
-        containerColor = yellowTwo;
-        containerShadowColor = yellowTwoShadow;
-      } else if (status == "원활") {
-        textStyle = homeStatusTrafficLightOn_smoothly;
-        containerColor = greenOne;
-        containerShadowColor = greenShadowOne;
-      }
-    }
-
-    return Container(
-      height: _width * 0.16,
-      width: _width * 0.16,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: containerColor,
-        boxShadow: [
-          BoxShadow(
-            color: containerShadowColor,
-            offset: Offset(4, 4),
-            blurRadius: 4,
-          ),
-        ],
-      ),
-      child: Center(child: Text(status, style: textStyle)),
-    );
-  }
-
-  Dialog setMealWaitStatusDialog() {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(21))
-      ),
-      child: Container(
-        width: _width * 0.784,
-        height: _height * 0.4,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(21),
-          color: grayTwo,
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              top: _height * 0.023,
-              left: _width * 0.07,
-              child: GestureDetector(
-                onTap: () => Get.back(),
-                child: Icon(Icons.arrow_back_sharp),
-              ),
-            ),
-            Positioned(
-                top: _height * 0.0225,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("대기 상태 설정", style: homeDialogTitle),
-                    SizedBox(height: _height * 0.017),
-                    Text("현재 급식실 앞의 대기 줄 상태를\n설정해주세요!", style: homeNotEatMealDialogTitle, textAlign: TextAlign.center),
-                  ],
-                )
-            ),
-            Positioned(
-                top: _height * 0.175,
-                child: Obx(() {
-                  String waitStatus = mealController.mealWaitStatusInSetDialog.value;
-
-                  return SizedBox(
-                    width: _width * 0.6,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () => mealController.mealWaitStatusInSetDialog.value = "red",
-                          child: mealStatusTrafficLightWidget((waitStatus == "red"), "정체"),
-                        ),
-                        GestureDetector(
-                          onTap: () => mealController.mealWaitStatusInSetDialog.value = "yellow",
-                          child: mealStatusTrafficLightWidget((waitStatus == "yellow"), "혼잡"),
-                        ),
-                        GestureDetector(
-                          onTap: () => mealController.mealWaitStatusInSetDialog.value = "green",
-                          child: mealStatusTrafficLightWidget((waitStatus == "green"), "원활"),
-                        )
-                      ],
-                    ),
-                  );
-                }),
-            ),
-            Positioned(
-              top: _height * 0.32,
-              child: GestureDetector(
-               onTap: () {
-                  mealController.setMealWaitStatus(mealController.mealWaitStatusInSetDialog.value);
-                  Get.back();
-                },
-                child: Container(
-                  width: _width * 0.4,
-                  height: _height * 0.05,
-                  decoration: BoxDecoration(
-                      color: blueOne,
-                      borderRadius: BorderRadius.circular(4),
-                      boxShadow: [
-                        BoxShadow(
-                          color: blueOne,
-                          blurRadius: 2,
-                        )
-                      ]
-                  ),
-                  child: Center(child: Text("확인", style: homeDialogOkBtn)),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Dialog setMealSequenceDialog() {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(21))
-      ),
-      child: Container(
-        width: _width * 0.784,
-        height: _height * 0.4,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(21),
-          color: grayTwo,
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              top: _height * 0.023,
-              left: _width * 0.07,
-              child: GestureDetector(
-                onTap: () => Get.back(),
-                child: Icon(Icons.arrow_back_sharp),
-              ),
-            ),
-            Positioned(
-                top: _height * 0.0225,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("급식 순서 설정", style: homeDialogTitle),
-                    SizedBox(height: _height * 0.017),
-                    Text("현재 입장 완료한 반을\n선택해주세요!", style: homeNotEatMealDialogTitle, textAlign: TextAlign.center),
-                  ],
-                )
-            ),
-            Positioned(
-              top: _height * 0.175,
-              child: Obx(() {
-                int mealSequence = mealController.mealClassSequenceInSetDialog.value;
-
-                List<Widget> classBoxList = [];
-                for (int i=1; i<=6; i++) {
-                  classBoxList.add(
-                    GestureDetector(
-                      onTap: () => mealController.mealClassSequenceInSetDialog.value = i,
-                      child: mealSequenceClassBox(i, (mealSequence == i), true),
-                    ),
-                  );
-                }
-
-                return SizedBox(
-                  width: _width * 0.65,
-                  height: _height * 0.08,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: classBoxList,
-                  ),
-                );
-              }),
-            ),
-            Positioned(
-              top: _height * 0.32,
-              child: GestureDetector(
-                onTap: () {
-                  mealController.setMealSequence(mealController.mealClassSequenceInSetDialog.value);
-                  Get.back();
-                },
-                child: Container(
-                  width: _width * 0.4,
-                  height: _height * 0.05,
-                  decoration: BoxDecoration(
-                      color: blueOne,
-                      borderRadius: BorderRadius.circular(4),
-                      boxShadow: [
-                        BoxShadow(
-                          color: blueOne,
-                          blurRadius: 2,
-                        )
-                      ]
-                  ),
-                  child: Center(child: Text("확인", style: homeDialogOkBtn)),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Dialog setUserNotEatMealDialog() {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16))
-      ),
-      child: Container(
-        width: _width * 0.784,
-        height: _height * 0.24,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: grayTwo,
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              top: _height * 0.018,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.warning_rounded,
-                        color: yellowFive,
-                      ),
-                      SizedBox(width: _width * 0.015),
-                      Text("Warning", style: homeNotEatMealDialogWarning)
-                    ],
-                  ),
-                  SizedBox(height: _height * 0.017),
-                  Text("점심 급식을 드시지 않을 건가요?", style: homeNotEatMealDialogTitle),
-                  SizedBox(height: _height * 0.004),
-                  Text("신중하게 결정해주세요.", style: homeNotEatMealDialogDescription)
-                ],
-              )
-            ),
-            Positioned(
-              left: 0,
-              bottom: 0,
-              child: Material(
-                color: grayTwo,
-                borderRadius:  BorderRadius.only(bottomLeft: Radius.circular(16)),
-                child: InkWell(
-                  onTap: () {
-                    mealController.setUserIsNotEatMeal(true);
-                    Get.back();
-                  },
-                  child: Container(
-                    width: _width * 0.392,
-                    height: _height * 0.075,
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                    ),
-                    child: Center(child: Text("네", style: homeNotEatMealDialogBtn)),
-                  ),
-                ),
-              )
-            ),
-            Positioned(
-                right: 0,
-                bottom: 0,
-                child: Material(
-                  color: grayTwo,
-                  borderRadius:  BorderRadius.only(bottomRight: Radius.circular(16)),
-                  child: InkWell(
-                    onTap: () => Get.back(),
-                    child: Container(
-                      width: _width * 0.392,
-                      height: _height * 0.075,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                      ),
-                      child: Center(child: Text("아니요", style: homeNotEatMealDialogBtn)),
-                    ),
-                  ),
-                )
-            ),
-            Positioned(
-              bottom: _height * 0.075,
-              child: Container(
-                width: _width * 0.784,
-                height: 2,
-                color: grayNine,
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: Container(
-                width: 2,
-                height: _height * 0.075,
-                color: grayNine,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Dialog statusTrafficLightInfoDialog() {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(21))
-      ),
-      child: Container(
-        width: _width * 0.784,
-        height: _height * 0.65,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(21),
-          color: grayTwo,
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              top: _height * 0.0475,
-              left: _width * 0.07,
-              child: GestureDetector(
-                onTap: () => Get.back(),
-                child: Icon(Icons.arrow_back_sharp),
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                    "대기 상태",
-                    style: homeDialogTitle
-                ),
-                SizedBox(height: _height * 0.03),
-                Text(
-                  "현재 급식실 앞의 대기 줄 상태를\n알 수 있어요!",
-                  style: homeDialogDescription,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: _height * 0.07),
-                SizedBox(
-                  width: _width * 0.57,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      mealStatusTrafficLightWidget(true, "정체"),
-                      SizedBox(width: _width * 0.05),
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              style: homeStatusTrafficLightHelpDetailDescription,
-                              text: "대기 줄이 너무 길어요!\n",
-                            ),
-                            TextSpan(
-                              style: homeStatusTrafficLightHelpDetailDescription.copyWith(
-                                  color: redTwo,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11
-                              ),
-                              text: "5분 이상",
-                            ),
-                            TextSpan(
-                              style: homeStatusTrafficLightHelpDetailDescription.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11
-                              ),
-                              text: " 대기해야 해요.",
-                            ),
-                          ],
-                        ),
-                        style: homeStatusTrafficLightHelpDetailDescription,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: _height * 0.045),
-                SizedBox(
-                  width: _width * 0.57,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      mealStatusTrafficLightWidget(true, "혼잡"),
-                      SizedBox(width: _width * 0.05),
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              style: homeStatusTrafficLightHelpDetailDescription,
-                              text: "대기가 필요해요!\n",
-                            ),
-                            TextSpan(
-                              style: homeStatusTrafficLightHelpDetailDescription.copyWith(
-                                  color: yellowThree,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11
-                              ),
-                              text: "5분 안에",
-                            ),
-                            TextSpan(
-                              style: homeStatusTrafficLightHelpDetailDescription.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11
-                              ),
-                              text: " 입장 할 수 있어요.",
-                            ),
-                          ],
-                        ),
-                        style: homeStatusTrafficLightHelpDetailDescription,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: _height * 0.045),
-                SizedBox(
-                  width: _width * 0.57,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      mealStatusTrafficLightWidget(true, "원활"),
-                      SizedBox(width: _width * 0.05),
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              style: homeStatusTrafficLightHelpDetailDescription,
-                              text: "대기 줄이 없어요!\n",
-                            ),
-                            TextSpan(
-                              style: homeStatusTrafficLightHelpDetailDescription.copyWith(
-                                  color: greenTwo,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11
-                              ),
-                              text: "바로",
-                            ),
-                            TextSpan(
-                              style: homeStatusTrafficLightHelpDetailDescription.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 11
-                              ),
-                              text: " 입장할 수 있어요.",
-                            ),
-                          ],
-                        ),
-                        style: homeStatusTrafficLightHelpDetailDescription,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
     );
   }
 }

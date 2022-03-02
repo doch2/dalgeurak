@@ -4,6 +4,7 @@ import 'package:dalgeurak/screens/profile/my_profile.dart';
 import 'package:dalgeurak/screens/home.dart';
 import 'package:dalgeurak/screens/admin_page.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
+import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -23,7 +24,7 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String? userGroup = Get.find<UserController>().user.group;
+    DimigoinUserType? userGroup = Get.find<UserController>().user?.userType;
 
     Map pageIcon = {
       '홈': 'home',

@@ -5,6 +5,7 @@ import 'package:dalgeurak/screens/profile/user_late_amount.dart';
 import 'package:dalgeurak/screens/profile/application_info.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
+import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
@@ -73,7 +74,7 @@ class MyProfile extends GetWidget<UserController> {
       )
     ];
 
-    if (controller.user.group != "teacher") {
+    if (controller.user?.userType != DimigoinUserType.teacher) {
       menuWidgetList.insert(1, Material(
         color: Colors.white,
         child: InkWell(
@@ -121,11 +122,11 @@ class MyProfile extends GetWidget<UserController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        controller.user.name!,
+                        controller.user?.name as String,
                         style: myProfileName,
                       ),
                       Text(
-                        controller.user.studentId == '000' ? '선생님' : "${controller.user.studentId!.substring(0, 1)}학년 ${controller.user.studentId!.substring(1, 2)}반 ${controller.user.studentId!.substring(2)}번",
+                        controller.user?.studentId == '000' ? '선생님' : "${controller.user?.gradeNum}학년 ${controller.user?.classNum}반 ${controller.user?.studentNum}번",
                         style: myProfileStudentId
                       )
                     ],

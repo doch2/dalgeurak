@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:dalgeurak/services/firestore_database.dart';
 import 'package:dalgeurak/services/meal_info.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
+import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
 
 class MealController extends GetxController {
   Map weekDay = {
@@ -18,16 +18,37 @@ class MealController extends GetxController {
   };
 
   RxString userMealTime = "로드 중..".obs;
-  RxBool userNotEatMeal = false.obs;
-  RxString mealWaitStatus = "initData".obs;
-  RxString mealWaitStatusInSetDialog = "initData".obs;
-  RxInt mealSequence = 0.obs;
-  RxInt mealClassSequenceInSetDialog = 0.obs;
+  RxMap mealSequence = {}.obs;
+  RxInt studentClassMealSequence = 1.obs;
   Map classLeftPeople = {};
 
   FirestoreDatabase firestoreDatabase = FirestoreDatabase();
+  DalgeurakService dalgeurakService = DalgeurakService();
   MealInfo mealInfo = MealInfo();
   DateTime nowTime = DateTime.now();
+
+  RxInt refreshTime = 0.obs;
+  bool isCreateRefreshTimer = false;
+
+  Future<void> refreshTimer() async {
+    try {
+      while (true) {
+        await Future.delayed(
+            Duration(seconds: 1),
+                () async {
+              if (refreshTime.value == 0) {
+                await getMealSequence();
+                refreshTime.value = 60;
+              } else {
+                refreshTime.value = refreshTime.value - 1;
+              }
+            }
+        );
+      }
+    } catch (e) { //중간에 로그아웃 되서 타이머가 오류가 났을 경우
+      isCreateRefreshTimer = false;
+    }
+  }
 
   getMealPlanner() async {
     String? stringData = SharedPreference().getMealPlanner();
@@ -43,59 +64,12 @@ class MealController extends GetxController {
     }
   }
 
-  getMealKind(String resultKind, bool includeBreakfast) { //kor, eng
-    String nowMinute = DateTime.now().minute.toString(); if (int.parse(nowMinute) < 10) { nowMinute = "0$nowMinute"; }
-    int nowTime = int.parse("${DateTime.now().hour}$nowMinute");
-
-    String mealKind = "";
-    if ((nowTime < 0830 || nowTime >= 2000) && includeBreakfast) {
-      if (resultKind == "kor") {
-        mealKind = "아침";
-      } else {
-        mealKind = "breakfast";
-      }
-    } else if (nowTime < 1400 || nowTime >= 2000) {
-      if (resultKind == "kor") {
-        mealKind = "점심";
-      } else {
-        mealKind = "lunch";
-      }
-    } else if (nowTime < 2000) {
-      if (resultKind == "kor") {
-        mealKind = "저녁";
-      } else {
-        mealKind = "dinner";
-      }
-    }
-
-    return mealKind;
-  }
+  getMealSequence() async => mealSequence.value = (await dalgeurakService.getMealSequence())['content']['mealSequences'];
 
   getMealTime() async {
-    String mealKind = getMealKind("eng", false);
+    String mealKind = dalgeurakService.getMealKind(false).convertEngStr;
 
-    userMealTime.value = await firestoreDatabase.getUserMealTime(mealKind);
-  }
-
-  isUserNotEatMeal() async => await firestoreDatabase.getStudentIsNotEatMeal();
-
-  setUserIsNotEatMeal(bool value) async {
-    userNotEatMeal.value = value;
-    FirestoreDatabase().setStudentIsNotEatMeal();
-  }
-
-  getMealWaitStatus() async => mealWaitStatus.value = (await firestoreDatabase.getMealWaitStatus());
-
-  setMealWaitStatus(String mealStatus) async {
-    await firestoreDatabase.setMealWaitStatus(mealStatus);
-    mealWaitStatus.value = mealStatus;
-  }
-
-  getMealSequence() async => mealSequence.value = (await firestoreDatabase.getMealSequence());
-
-  setMealSequence(int mealSequence) async {
-    await firestoreDatabase.setMealSequence(mealSequence);
-    this.mealSequence.value = mealSequence;
+    userMealTime.value = "1365"; //TODO API 추가되면 변경필요
   }
 
   getGradeLeftPeopleAmount() async {
