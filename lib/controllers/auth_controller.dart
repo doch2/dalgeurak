@@ -1,15 +1,16 @@
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/auth/login_success.dart';
+import 'package:dalgeurak/screens/widget_reference.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   UserController userController = Get.find<UserController>();
   FirebaseAuth authInstance = FirebaseAuth.instance;
   DimigoinAccount _dimigoinAccount = DimigoinAccount();
+  WidgetReference _widgetReference = WidgetReference();
 
   Rxn<User> _firebaseUser = Rxn<User>();
   User? get user => _firebaseUser.value;
@@ -33,13 +34,13 @@ class AuthController extends GetxController {
   void logInWithDimigoinAccount() async {
     bool isSuccess = await _dimigoinAccount.login(userIdTextController.text, passwordTextController.text);
 
-    if (isSuccess) { Get.to(LoginSuccess()); } else { _showToast("로그인에 실패하였습니다. 다시 시도해주세요."); }
+    if (isSuccess) { Get.to(LoginSuccess()); } else { _widgetReference.showToast("로그인에 실패하였습니다. 다시 시도해주세요."); }
   }
 
   void logOut() async {
     await _dimigoinAccount.logout();
 
-    _showToast("로그아웃 되었습니다.");
+    _widgetReference.showToast("로그아웃 되었습니다.");
   }
 
   loginSuccessScreenAnimate(double height, double width) {
@@ -81,14 +82,4 @@ class AuthController extends GetxController {
             () { btnContainerPositioned.value = height * 0.1; }
     );
   }
-
-  _showToast(String content) => Fluttertoast.showToast(
-      msg: content,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Color(0xE6FFFFFF),
-      textColor: Colors.black,
-      fontSize: 13.0
-  );
 }

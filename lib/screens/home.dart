@@ -2,6 +2,7 @@ import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/controllers/qrcode_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/qrcode_scan.dart';
+import 'package:dalgeurak/screens/widget_reference.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
@@ -26,6 +27,7 @@ class Home extends StatelessWidget {
     mealController = Get.find<MealController>();
     userController = Get.find<UserController>();
     qrCodeController = Get.find<QrCodeController>();
+    WidgetReference _widgetReference = WidgetReference(width: _width, height: _height);
 
     if (!qrCodeController.isCreateRefreshTimer) { qrCodeController.refreshTimer(); qrCodeController.isCreateRefreshTimer = true; }
     if (!mealController.isCreateRefreshTimer) { mealController.refreshTimer(); mealController.isCreateRefreshTimer = true; }
@@ -41,7 +43,7 @@ class Home extends StatelessWidget {
               width: _width,
               height: _height,
               decoration: BoxDecoration(
-                color: blueThree
+                color: dalgeurakGrayOne
               ),
             ),
             Positioned(
@@ -65,7 +67,7 @@ class Home extends StatelessWidget {
                               ),
                               Text(
                                 "QR 스캔",
-                                style: homeMealSequenceWidgetOn.copyWith(color: blueOne, fontSize: 14),
+                                style: homeQrScanBtn,
                               )
 
                             ],
@@ -82,71 +84,30 @@ class Home extends StatelessWidget {
               }),
             ),
             Positioned(
-              top: _height * 0.055,
-              right: _width * 0.02,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  userMealSequenceWidget(true, "선밥"),
-                  SizedBox(width: _width * 0.02),
-                  userMealSequenceWidget(false, "후밥")
-                ],
-              ),
-            ),
-            Positioned(
-              top: _height * 0.1,
+              top: _height * 0.115,
               left: _width * 0.1,
               child: Obx(() {
                 if (userController.user?.userType != DimigoinUserType.teacher && userController.user?.userType != DimigoinUserType.dormitoryTeacher) {
                   mealController.getMealTime();
 
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "${Get.find<UserController>().user?.classNum}반 " + mealController.dalgeurakService.getMealKind(false).convertKorStr,
-                            style: homeMealTitle,
-                          ),
-                          SizedBox(width: _width * 0.015),
-                          Image.asset(
-                            "assets/images/logo.png",
-                            width: _width * 0.05,
-                            height: _width * 0.05,
-                          ),
-                        ],
-                      ),
-                      Text(
-                        mealController.userMealTime.value,
-                        style: homeMealTime,
-                      ),
-                    ],
+                  return _widgetReference.getWindowTitleWidget(
+                    "${Get.find<UserController>().user?.classNum}반 " + mealController.dalgeurakService.getMealKind(false).convertKorStr,
+                    mealController.userMealTime.value,
                   );
                 } else {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "안녕하세요!",
-                            style: homeMealTitle,
-                          ),
-                        ],
-                      ),
-                      Text(
-                        "${userController.user?.name}님",
-                        style: homeMealTime,
-                      )
-                    ],
+                  return _widgetReference.getWindowTitleWidget(
+                    "안녕하세요!",
+                    "${userController.user?.name}님",
                   );
                 }
               }),
+            ),
+            Positioned(
+              top: _height * 0.065,
+              right: -(_width * 0.125),
+              child: Image.asset(
+                "assets/images/home_flowerpot.png",
+              ),
             ),
             Positioned(
               top: _height * 0.22,
@@ -155,136 +116,111 @@ class Home extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Obx(() {
-                    if (userController.user?.userType != DimigoinUserType.teacher) {
-                      return GetBuilder<QrCodeController> (
-                        init: QrCodeController(),
-                        builder: (qrCodeController) => Obx(() {
-                          String data = qrCodeController.qrImageData.value;
-                          if (data == "initData") {
-                            return CircularProgressIndicator();
-                          } else {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                QrImage(
-                                  data: qrCodeController.qrImageData.value,
-                                  version: QrVersions.auto,
-                                  size: _width * 0.5,
-                                ),
-                                Text(
-                                  "남은 시간 : ${qrCodeController.refreshTime.value}",
-                                  style: homeQrRefreshTime,
-                                )
-                              ],
-                            );
-                          }
-                        }),
-                      );
-                    } else {
-                      return GetBuilder<QrCodeController>(
-                        init: QrCodeController(),
-                        builder: (qrCodeController) => SizedBox(height: _height * 0.15),
-                      );
+                    bool? isDienen = userController.user?.permissions?.contains(DimigoinPermissionType.dalgeurak); isDienen ??= false;
+                    if (userController.user?.userType != DimigoinUserType.teacher && !isDienen) { //일반 학생일 경우
+                      return getQrCodeShowWidget();
+                    } else { //선생님 또는 디넌일경우
+                      return SizedBox(height: _height * 0.15);
                     }
                   }),
-                  SizedBox(
-                    height: _height * 0.19,
-                    width: _width * 0.9,
-                    child: Stack(
-                      alignment: Alignment.center,
+                  Container(
+                    height: _height * 0.18,
+                    width: _width * 0.897,
+                    margin: EdgeInsets.only(top: _height * 0.02),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(13),
+                      color: dalgeurakBlueOne,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          height: _height * 0.7,
-                          width: _width * 0.9,
-                          margin: EdgeInsets.only(top: _height * 0.04),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(27),
-                              color: blueOne,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: grayEight,
-                                  offset: Offset(0, 5),
-                                  blurRadius: 20,
-                                )
-                              ]
-                          ),
-                        ),
-                        Container(
-                          height: _height * 0.18,
-                          width: _width * 0.9,
-                          margin: EdgeInsets.only(top: _height * 0.02),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(13),
-                            color: blueOne,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                        SizedBox(height: _height * 0.02),
+                        SizedBox(
+                          width: _width * 0.725,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: _height * 0.02),
-                              SizedBox(
-                                width: _width * 0.775,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        "급식 순서",
-                                        style: homeMealSequenceTitle
-                                    ),
-                                  ],
-                                ),
+                              Text(
+                                  "급식 순서",
+                                  style: homeMealSequenceTitle
                               ),
-                              SizedBox(height: _height * 0.0225),
-                              SizedBox(
-                                width: _width * 0.65,
-                                child: Obx(() {
-                                  Map mealSequence = mealController.mealSequence;
-
-                                  if (mealSequence.isEmpty) { return Center(child: Text("로딩중입니다..", style: TextStyle(color: Colors.white))); }
-
-                                  List<Widget> widgetList = [];
-                                  for (int i=1; i<=6; i++) {
-                                    widgetList.add(
-                                        mealSequenceClassBox(
-                                            i,
-                                            ((mealSequence
-                                            [mealController.dalgeurakService.getMealKind(false).convertEngStr]
-                                            [(userController.user?.gradeNum)!-1]
-                                            [i-1] == i) ? true : false), false));
-                                  }
-
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: widgetList,
-                                  );
-                                }),
-                              ),
-                              SizedBox(height: _height * 0.0075),
-                              Stack(
-                                alignment: Alignment.centerLeft,
-                                children: [
-                                  Container(
-                                    width: _width * 0.67,
-                                    height: 5,
-                                    decoration: BoxDecoration(
-                                        color: blueFive,
-                                        borderRadius: BorderRadius.circular(14.5)
-                                    ),
-                                  ),
-                                  Obx(() => Container(
-                                    width: ((_width * 0.63) / 6) * mealController.studentClassMealSequence.value,
-                                    height: 5,
-                                    decoration: BoxDecoration(
-                                        color: yellowFive,
-                                        borderRadius: BorderRadius.circular(14.5)
-                                    ),
-                                  )),
-                                ],
-                              )
                             ],
                           ),
                         ),
+                        SizedBox(height: _height * 0.016),
+                        SizedBox(
+                          width: _width * 0.65,
+                          child: Obx(() {
+                            Map mealSequence = mealController.mealSequence;
+                            Map mealTime = mealController.mealTime;
+
+                            if (mealSequence.isEmpty) { return Center(child: Text("로딩중입니다..", style: TextStyle(color: Colors.white))); }
+
+                            String mealType = mealController.dalgeurakService.getMealKind(false).convertEngStr;
+                            List userGradeMealSequence = mealSequence[mealType][(userController.user?.gradeNum)!-1];
+                            List userGradeMealTime = mealTime[mealType][(userController.user?.gradeNum)!-1];
+
+                            List<Widget> widgetList = [];
+                            for (int i=1; i<=6; i++) {
+                              bool isOn = ((mealController.nowClassMealSequence.value == i) ? true : false);
+
+                              widgetList.add(Container(
+                                width: _width * 0.1,
+                                height: _width * 0.15,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    Positioned(
+                                      top: -9,
+                                      child: isOn ? Icon(Icons.arrow_drop_down, color: Colors.white) : SizedBox(),
+                                    ),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text("${userGradeMealSequence[i-1]}반", style: homeMealSequenceClass),
+                                        SizedBox(height: 3),
+                                        Text(isOn ? "배식중" : "${userGradeMealTime[i-1].toString().substring(0, 2)}:${userGradeMealTime[i-1].toString().substring(2)}", style: homeMealSequenceClassTime)
+                                      ],
+                                    ),
+                                  ]
+                                )
+                              ));
+                            }
+
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: widgetList,
+                            );
+                          }),
+                        ),
+                        SizedBox(height: _height * 0.0075),
+                        Stack(
+                          alignment: Alignment.centerLeft,
+                          children: [
+                            Container(
+                              width: _width * 0.725,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                  color: blueFive,
+                                  borderRadius: BorderRadius.circular(14.5)
+                              ),
+                            ),
+                            Obx(() => AnimatedContainer(
+                              duration: Duration(milliseconds: 200),
+                              width: ((_width * 0.8) / 6) * mealController.nowClassMealSequence.value,
+                              height: 10,
+                              decoration: BoxDecoration(
+                                  color: yellowFive,
+                                  borderRadius: BorderRadius.circular(14.5)
+                              ),
+                            )),
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -297,49 +233,85 @@ class Home extends StatelessWidget {
     );
   }
 
-  Container mealSequenceClassBox(int classNum, bool isOn, bool isDialog) {
-    Color color = emptyColor;
-    TextStyle textStyle = homeMealSequenceClass;
-    if (isDialog) { textStyle = textStyle.copyWith(color: Colors.black); }
-    if (isOn) { color = blueSix; if (isDialog) { textStyle = textStyle.copyWith(color: Colors.white); }}
+  getQrCodeShowWidget() => Obx(() {
+    String qrCodeData = qrCodeController.qrImageData.value;
+    dynamic userStatusInfo;
+    if (mealController.userMealException.value == MealExceptionType.normal) {
+      String leftTime = mealController.getUserLeftMealTime();
 
-    return Container(
-      width: _width * 0.084,
-      height: _width * 0.084,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Center(child: Text("$classNum반", style: textStyle)),
-    );
-  }
-
-  Container userMealSequenceWidget(bool isOn, String sequence) {
-    TextStyle textStyle = homeMealSequenceWidgetOff;
-    Color containerColor = emptyColor;
-    Color shadowColor = emptyColor;
-
-    if (isOn) {
-      textStyle = homeMealSequenceWidgetOn;
-      containerColor = blueOne;
-      shadowColor = blueFour;
+      userStatusInfo = Text(leftTime.isEmpty ? "내일 급식을 기대해주세요!" : "급식 입장까지 남은 시간은 $leftTime입니다.", style: homeQrCheckInStatusInfo);
+    } else {
+      userStatusInfo = Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
+              text: "오늘 ${mealController.dalgeurakService.getMealKind(false).convertKorStr} ",
+            ),
+            TextSpan(
+                text: mealController.userMealException.value == MealExceptionType.first ? "선밥" : "후밥",
+                style: homeQrCheckInStatusInfo.copyWith(color: greenOne)
+            ),
+            TextSpan(
+              text: " 입니다.",
+            ),
+          ],
+        ),
+        textAlign: TextAlign.center,
+        style: homeQrCheckInStatusInfo,
+      );
     }
 
     return Container(
-      height: _height * 0.032,
-      width: _width * 0.138,
+      width: _width * 0.897,
+      height: _height * 0.45,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14.5),
-        color: containerColor,
-        boxShadow: [
-          BoxShadow(
-            color: shadowColor,
-            offset: Offset(0, 0),
-            blurRadius: 2,
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15)
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            top: _width * 0.05,
+            right: _width * 0.05,
+            child: Container(
+              width: _width * 0.055,
+              height: _width * 0.055,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                      color: dalgeurakGrayTwo,
+                      width: 1
+                  )
+              ),
+              child: Center(
+                child: Text(
+                  "${qrCodeController.refreshTime.value}",
+                  style: homeQrRefreshTime,
+                ),
+              ),
+            ),
           ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("급식 QR 체크인", style: homeQrCheckInTitle),
+              (qrCodeData == "initData") ?
+              CircularProgressIndicator() :
+              QrImage(
+                data: qrCodeController.qrImageData.value,
+                version: QrVersions.auto,
+                size: _width * 0.512,
+              ),
+              Text("${userController.user?.studentId} ${userController.user?.name}", style: homeQrCheckInStudentInfo),
+              SizedBox(height: _height * 0.005),
+              Text(mealController.userMealStatus.value == MealStatusType.onTime ? "입장 가능" : "입장 불가능", style: homeQrCheckInStatus),
+              SizedBox(height: _height * 0.01),
+              userStatusInfo,
+            ],
+          )
         ],
       ),
-      child: Center(child: Text(sequence, style: textStyle)),
     );
-  }
+  });
 }

@@ -24,7 +24,7 @@ final redTwo = Color(0xFFFF3838);
 final redThree = Color(0xFFFF0000);
 final redShadowOne = Color(0x4AFF0000);
 
-final greenOne = Color(0xFF7AFF64);
+final greenOne = Color(0xFF00CE84);
 final greenTwo = Color(0xFF009329);
 final greenThree = Color(0xFFDCEDC4);
 final greenShadowOne = Color(0x8022F900);
