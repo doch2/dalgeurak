@@ -158,57 +158,57 @@ class Home extends StatelessWidget {
                                 )
                               ],
                             ),
-                          )
+                          ),
+                          GestureDetector(
+                            onTap: () => Get.dialog(
+                                Dialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(15))
+                                  ),
+                                  child: Container(
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        SizedBox(width: _width * 0.925, height: _height * 0.625),
+                                        getQrCodeShowWidget(true),
+                                        Positioned(
+                                          top: _width * 0.075,
+                                          right: _width * 0.075,
+                                          child: GestureDetector(onTap: () => Get.back(), child: Icon(Icons.close_rounded, color: dalgeurakGrayThree, size: _width * 0.08)),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                            ),
+                            child: Container(
+                              height: _height * 0.1,
+                              width: _width * 0.897,
+                              margin: EdgeInsets.only(top: _height * 0.02),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(15),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: dalgeurakBlueOne.withAlpha(20),
+                                        blurRadius: 10
+                                    )
+                                  ]
+                              ),
+                              child: Column(
+                                children: [
+                                  SizedBox(height: _height * 0.02),
+                                  SvgPicture.asset(
+                                    "assets/images/icons/entrance.svg",
+                                    width: _width * 0.1,
+                                  ),
+                                  Text("급식실 입장", style: homeEntranceCafeteriaWidgetTitle)
+                                ],
+                              ),
+                            ),
+                          ),
                         ],
                       )
-                    ),
-                    GestureDetector(
-                      onTap: () => Get.dialog(
-                        Dialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(15))
-                          ),
-                          child: Container(
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                SizedBox(width: _width * 0.925, height: _height * 0.625),
-                                getQrCodeShowWidget(true),
-                                Positioned(
-                                  top: _width * 0.075,
-                                  right: _width * 0.075,
-                                  child: GestureDetector(onTap: () => Get.back(), child: Icon(Icons.close_rounded, color: dalgeurakGrayThree, size: _width * 0.08)),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ),
-                      child: Container(
-                        height: _height * 0.1,
-                        width: _width * 0.897,
-                        margin: EdgeInsets.only(top: _height * 0.02),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: dalgeurakBlueOne.withAlpha(20),
-                              blurRadius: 10
-                            )
-                          ]
-                        ),
-                        child: Column(
-                          children: [
-                            SizedBox(height: _height * 0.02),
-                            SvgPicture.asset(
-                              "assets/images/icons/entrance.svg",
-                              width: _width * 0.1,
-                            ),
-                            Text("급식실 입장", style: homeEntranceCafeteriaWidgetTitle)
-                          ],
-                        ),
-                      ),
                     ),
                     Container(
                       height: _height * 0.18,
