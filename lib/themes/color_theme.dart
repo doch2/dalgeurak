@@ -37,6 +37,10 @@ final blueFive = Color(0xFF2152B0);
 final blueSix = Color(0xFF1952B6);
 final blueSeven = Color(0xFFD6DBFF);
 final blueEight = Color(0xFF1564FF);
+final blueNine = Color(0xFF313B53);
+
+final purpleOne = Color(0xFF5D5ADE);
+final purpleTwo = Color(0xFFA954FF);
 
 final grayOne = Color(0xFFC4C4C4);
 final grayTwo = Color(0xFFF5F5F5);
@@ -53,5 +57,7 @@ final grayShadowOne = Color(0xA3CAC9C9);
 final grayShadowTwo = Color(0xDA7A7A7);
 final grayShadowThree = Color(0x80000000);
 final grayShadowFour = Color(0xb3c5b8a5);
+
+final blueLinearGradientOne = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [ dalgeurakBlueOne, purpleOne ]);
 
 final emptyColor = Color(0xFFFFFF);

@@ -26,6 +26,10 @@ final loginSuccessSubtitle = TextStyle(
 
 final homeBottomNavigationBarLabel = TextStyle(
     fontSize: 12, color: blueEight, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final homeMenuWidgetTitle = TextStyle(
+    fontSize: 12, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final homeEntranceCafeteriaWidgetTitle = TextStyle(
+    fontSize: 14, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 final homeQrRefreshTime = TextStyle(
     fontSize: 10, color: dalgeurakGrayTwo, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
