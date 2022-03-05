@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 final btnTitle1 = TextStyle(
     fontSize: 14, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final btnTitle2 = TextStyle(
+    fontSize: 17, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 final widgetReference_windowTitle_subTitle = TextStyle(
     fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 final widgetReference_windowTitle_title = TextStyle(
@@ -49,8 +51,14 @@ final homeMealSequenceClass = TextStyle(
 final homeMealSequenceClassTime = TextStyle(
     fontSize: 10, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 
-final homeQrScanBtn = TextStyle(
-    fontSize: 14, color: blueOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final homeMealDelaySheetTitle = TextStyle(
+    fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final homeMealDelaySheetSubTitle = TextStyle(
+    fontSize: 14, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
+final homeMealDelaySheetFieldDescription = TextStyle(
+    fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final homeMealDelaySheetFieldText = TextStyle(
+    fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 
 
 final adminPageLeftPeopleTitle = TextStyle(

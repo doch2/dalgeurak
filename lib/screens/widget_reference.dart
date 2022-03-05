@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../themes/color_theme.dart';
 import '../themes/text_theme.dart';
 
 class WidgetReference {
@@ -98,6 +99,34 @@ class WidgetReference {
       ],
     );
   }
+
+  getDialogBtnWidget(String content, bool isBottomDialog, bool isFill) {
+    return Container(
+      width: width! * (isBottomDialog ? 0.361 : 0.307),
+      height: height! * (isBottomDialog? 0.06 : 0.1), //TODO 바텀 DIalog가 아닐 시 Height 수정 필요
+      decoration: BoxDecoration(
+        color: isFill ? dalgeurakBlueOne : Colors.white,
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(
+          width: isFill ? 2 : 0,
+          color: dalgeurakBlueOne,
+        ),
+      ),
+      child: Center(child: Text(content, style: (isFill ? btnTitle2.copyWith(color: Colors.white) : btnTitle2))),
+    );
+  }
+
+  showBottomSheet(BuildContext context, dynamic childWidget) => showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+    backgroundColor: Colors.white,
+    builder: (context) => Container(
+      height: height! * 0.5,
+      width: width!,
+      child: childWidget,
+    ),
+  );
 
   showToast(String content) => Fluttertoast.showToast(
       msg: content,

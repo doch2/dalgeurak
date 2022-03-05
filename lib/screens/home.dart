@@ -36,6 +36,7 @@ class Home extends StatelessWidget {
 
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Stack(
           alignment: Alignment.center,
@@ -93,6 +94,69 @@ class Home extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 GestureDetector(
+                                  onTap: () => _widgetReference.showBottomSheet(
+                                      context,
+                                    Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        SizedBox(width: _width, height: _height * 0.5),
+                                        Positioned(
+                                          top: _height * 0.04,
+                                          left: _width * 0.07,
+                                          child: Text("급식 지연", style: homeMealDelaySheetTitle)
+                                        ),
+                                        Positioned(
+                                          top: _height * 0.075,
+                                          left: _width * 0.07,
+                                          child: Text("지연 설정 할 시간을 입력해주세요.", style: homeMealDelaySheetSubTitle)
+                                        ),
+                                        Positioned(
+                                          top: _height * 0.2,
+                                          child: Row(
+                                            children: [
+                                                SizedBox(
+                                                  width: _width * 0.141,
+                                                  height: _height * 0.04,
+                                                  child: TextField(
+                                                    keyboardType: TextInputType.number,
+                                                    controller: mealController.mealDelayTextController,
+                                                    textAlign: TextAlign.center,
+                                                    style: homeMealDelaySheetFieldText,
+                                                    decoration: InputDecoration(
+                                                      contentPadding: EdgeInsets.zero,
+                                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(3), borderSide: BorderSide(width: 0, style: BorderStyle.none,)),
+                                                      fillColor: dalgeurakGrayOne,
+                                                      filled: true,
+                                                    ),
+                                                  ),
+                                              ),
+                                              SizedBox(width: _width * 0.015),
+                                              Text("분 지연 설정", style: homeMealDelaySheetFieldDescription),
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: _height * 0.08,
+                                          child: SizedBox(
+                                            width: _width * 0.825,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () => Get.back(),
+                                                  child: _widgetReference.getDialogBtnWidget("취소", true, false),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () => mealController.setDelayMealTime(),
+                                                  child: _widgetReference.getDialogBtnWidget("확인", true, true),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ),
                                   child: _widgetReference.getMenuBtnWidget(
                                     0.282,
                                     _widgetReference.getHomeMenuBtnExplainWidget("clock", "급식 지연"),
