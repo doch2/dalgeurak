@@ -111,6 +111,20 @@ class Home extends StatelessWidget {
                                           child: Text("지연 설정 할 시간을 입력해주세요.", style: homeMealDelaySheetSubTitle)
                                         ),
                                         Positioned(
+                                            top: _height * 0.1,
+                                            child:  Container(width: _width * 0.871, child: Divider(color: dalgeurakGrayTwo, thickness: 1.0))
+                                        ),
+                                        Positioned(
+                                            top: _height * 0.125,
+                                            left: _width * 0.07,
+                                            child: Text("현재 지연 된 시간", style: homeMealDelaySheetNowSettingDescription)
+                                        ),
+                                        Positioned(
+                                            top: _height * 0.125,
+                                            left: _width * 0.36,
+                                            child: Text("10분", style: homeMealDelaySheetNowSettingTime)
+                                        ),
+                                        Positioned(
                                           top: _height * 0.2,
                                           child: Row(
                                             children: [
@@ -363,7 +377,7 @@ class Home extends StatelessWidget {
                               ),
                               Obx(() => AnimatedContainer(
                                 duration: Duration(milliseconds: 200),
-                                width: ((_width * 0.8) / 6) * mealController.nowClassMealSequence.value,
+                                width: ((_width * 0.75) / 6) * mealController.nowClassMealSequence.value,
                                 height: 10,
                                 decoration: BoxDecoration(
                                     color: yellowFive,

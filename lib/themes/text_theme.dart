@@ -59,6 +59,10 @@ final homeMealDelaySheetFieldDescription = TextStyle(
     fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 final homeMealDelaySheetFieldText = TextStyle(
     fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final homeMealDelaySheetNowSettingDescription = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final homeMealDelaySheetNowSettingTime = TextStyle(
+    fontSize: 16, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 
 final adminPageLeftPeopleTitle = TextStyle(
