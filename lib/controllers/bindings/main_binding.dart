@@ -18,6 +18,6 @@ class MainBinding extends Bindings {
 
     Get.put<QrCodeController>(QrCodeController());
 
-    Get.lazyPut<MealController>(() => MealController());
+    Get.put<MealController>(MealController());
   }
 }

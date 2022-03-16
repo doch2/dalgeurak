@@ -30,7 +30,6 @@ class Home extends StatelessWidget {
     qrCodeController = Get.find<QrCodeController>();
     WidgetReference _widgetReference = WidgetReference(width: _width, height: _height);
 
-    if (!qrCodeController.isCreateRefreshTimer) { qrCodeController.refreshTimer(); qrCodeController.isCreateRefreshTimer = true; }
     if (!mealController.isCreateRefreshTimer) { mealController.refreshTimer(); mealController.isCreateRefreshTimer = true; }
 
 

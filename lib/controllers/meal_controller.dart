@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dalgeurak/controllers/qrcode_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/widget_reference.dart';
 import 'package:dalgeurak/services/firestore_database.dart';
@@ -32,6 +33,7 @@ class MealController extends GetxController {
 
   FirestoreDatabase firestoreDatabase = FirestoreDatabase();
   UserController _userController = Get.find<UserController>();
+  QrCodeController _qrCodeController = Get.find<QrCodeController>();
   DalgeurakService dalgeurakService = DalgeurakService();
   WidgetReference widgetReference = WidgetReference();
   MealInfo mealInfo = MealInfo();
@@ -75,6 +77,7 @@ class MealController extends GetxController {
     if (userInfo['success']) {
     userMealStatus.value = userInfo['content']['mealStatus'];
     userMealException.value = userInfo['content']['exception'];
+    _qrCodeController.setQrCodeData(userInfo['content']['QRkey']);
     } else {
     widgetReference.showToast("현재 정보를 불러오는데 실패했습니다. \n인터넷에 연결되어있는지 확인해주세요.");
     }
