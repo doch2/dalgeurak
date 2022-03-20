@@ -1,3 +1,4 @@
+import 'package:dalgeurak/controllers/notification_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/auth/login_success.dart';
 import 'package:dalgeurak/screens/widget_reference.dart';
@@ -8,8 +9,10 @@ import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   UserController userController = Get.find<UserController>();
+  NotificationController _notificationController = Get.find<NotificationController>();
   FirebaseAuth authInstance = FirebaseAuth.instance;
   DimigoinAccount _dimigoinAccount = DimigoinAccount();
+  DalgeurakService _dalgeurakService = DalgeurakService();
   WidgetReference _widgetReference = WidgetReference();
 
   Rxn<User> _firebaseUser = Rxn<User>();
@@ -34,7 +37,13 @@ class AuthController extends GetxController {
   void logInWithDimigoinAccount() async {
     bool isSuccess = await _dimigoinAccount.login(userIdTextController.text, passwordTextController.text);
 
-    if (isSuccess) { Get.to(LoginSuccess()); } else { _widgetReference.showToast("로그인에 실패하였습니다. 다시 시도해주세요."); }
+    if (isSuccess) {
+      await _dalgeurakService.registerFCMToken(await _notificationController.getFCMToken());
+
+      Get.to(LoginSuccess());
+    } else {
+      _widgetReference.showToast("로그인에 실패하였습니다. 다시 시도해주세요.");
+    }
   }
 
   void logOut() async {

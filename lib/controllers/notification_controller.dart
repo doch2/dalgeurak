@@ -89,6 +89,8 @@ class NotificationController extends GetxController {
     return true;
   }
 
+  getFCMToken() async => await _messaging.getToken();
+
   void _launchURL(String _url) async =>
       await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 }
