@@ -129,6 +129,28 @@ class MealController extends GetxController {
     }
   }
 
+  getStudentList() async {
+    String? stringData = SharedPreference().getStudentList();
+    int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
+
+    if (stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
+      Map data = await dalgeurakService.getAllStudentList();
+
+      if (data['success']) {
+        SharedPreference().saveStudentList({"studentList": data['content'], "weekFirstDay": mealInfo.getCorrectDate(weekFirstDay)['day']});
+        return data['content'];
+      } else {
+        widgetReference.showToast(data['content']);
+      }
+    } else {
+      List originalData = (json.decode(stringData))['studentList'];
+      List formattingData = [];
+      originalData.forEach((element) => formattingData.add(DimigoinUser.fromJson(element)));
+
+      return formattingData;
+    }
+  }
+
   getGradeLeftPeopleAmount() async {
     int result = 0;
 

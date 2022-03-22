@@ -52,12 +52,11 @@ dependencies:
   qr_code_scanner: ^0.6.1
 
   shared_preferences: ^2.0.8
-  cryptography: ^2.0.4
-  cryptography_flutter: ^2.0.2
   url_launcher: ^6.0.12
   permission_handler: ^8.2.5
   package_info_plus: ^1.2.0
   flutter_native_splash: ^2.0.4
+  korea_regexp: ^0.1.0+1
 
   jiffy: ^4.1.0
 

@@ -1,8 +1,3 @@
-import 'dart:convert';
-
-import 'package:cryptography/cryptography.dart';
-import 'package:dalgeurak/controllers/user_controller.dart';
-import 'package:dalgeurak/services/data_cryptography.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,7 +6,6 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 
 class QrCodeController extends GetxController {
-  DataCryptography _dataCryptography = DataCryptography();
   DalgeurakService _dalgeurakService = DalgeurakService();
 
   QRViewController? scanController;

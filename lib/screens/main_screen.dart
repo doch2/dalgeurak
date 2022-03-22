@@ -2,7 +2,7 @@ import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/meal_planner.dart';
 import 'package:dalgeurak/screens/profile/my_profile.dart';
 import 'package:dalgeurak/screens/home.dart';
-import 'package:dalgeurak/screens/admin_page.dart';
+import 'package:dalgeurak/screens/studentManage/admin_page.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';

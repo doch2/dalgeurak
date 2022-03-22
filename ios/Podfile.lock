@@ -357,8 +357,6 @@ PODS:
     - Firebase/Functions (= 8.9.0)
     - firebase_core
     - Flutter
-  - cryptography_flutter (0.1.0):
-    - Flutter
   - Firebase/Analytics (8.9.0):
     - Firebase/Core
   - Firebase/Auth (8.9.0):
@@ -606,7 +604,6 @@ PODS:
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
-  - cryptography_flutter (from `.symlinks/plugins/cryptography_flutter/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -664,8 +661,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   cloud_functions:
     :path: ".symlinks/plugins/cloud_functions/ios"
-  cryptography_flutter:
-    :path: ".symlinks/plugins/cryptography_flutter/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
@@ -711,7 +706,6 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: 0c744725c0d1544d77db2c8eb35ef919cb19a176
   cloud_functions: 3c531e4a8ca86bcaf4f65c2ce6fe6b2964305a4c
-  cryptography_flutter: a2c541ba25ff28549f989f856dde126c961defcd
   Firebase: 13d8d96499e2635428d5bf0ec675df21f95d9a95
   firebase_analytics: 7a7528bb2abf4ca22cff7a57bbf909dcab73e13d
   firebase_auth: 0d56cc4d105ff70d1547a7fcb10ee574ad05adf5

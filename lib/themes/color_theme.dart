@@ -53,6 +53,7 @@ final grayEight = Color(0xFFA5B0C5);
 final grayNine = Color(0xFFEBEBEB);
 final grayTen = Color(0xFFAFAFAF);
 final grayEleven = Color(0xFFD4D4D4);
+final grayTwelve = Color(0xFFB1B8C1);
 final grayShadowOne = Color(0xA3CAC9C9);
 final grayShadowTwo = Color(0xDA7A7A7);
 final grayShadowThree = Color(0x80000000);

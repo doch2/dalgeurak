@@ -1,7 +1,8 @@
 import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/controllers/qrcode_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
-import 'package:dalgeurak/screens/qrcode_scan.dart';
+import 'package:dalgeurak/screens/studentManage/qrcode_scan.dart';
+import 'package:dalgeurak/screens/studentManage/student_search.dart';
 import 'package:dalgeurak/screens/widget_reference.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
@@ -215,6 +216,7 @@ class Home extends StatelessWidget {
                                   ),
                                 ),
                                 GestureDetector(
+                                  onTap: () => showSearch(context: context, delegate: StudentSearch()),
                                   child: _widgetReference.getMenuBtnWidget(
                                     0.282,
                                     _widgetReference.getHomeMenuBtnExplainWidget("peopleSearch", "학생 검색"),

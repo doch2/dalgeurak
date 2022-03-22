@@ -137,6 +137,16 @@ class WidgetReference {
       textColor: Colors.black,
       fontSize: 13.0
   );
+
+  showStudentManageBottomSheet(BuildContext context) => showBottomSheet(
+      context,
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(width: width, height: height! * 0.579),
+        ],
+      )
+  );
 }
 
 

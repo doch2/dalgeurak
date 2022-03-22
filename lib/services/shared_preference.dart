@@ -21,6 +21,10 @@ class SharedPreference {
 
   saveMealPlanner(Map data) async => await _prefInstance.setString("mealPlanner", json.encode(data));
 
+  getStudentList() => _prefInstance.getString("studentList");
+
+  saveStudentList(Map data) async => await _prefInstance.setString("studentList", json.encode(data));
+
   getAllowAlert() => _prefInstance.getBool("allowAlert");
 
   saveAllowAlert(bool isAllow) async => await _prefInstance.setBool("allowAlert", isAllow);
