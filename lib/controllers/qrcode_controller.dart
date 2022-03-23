@@ -11,7 +11,6 @@ class QrCodeController extends GetxController {
   QRViewController? scanController;
 
   RxString qrImageData = "initData".obs;
-  RxInt refreshTime = 0.obs;
 
   setQrCodeData(String QRKey) async {
     String result = "dalgeurak_checkin_qr://";

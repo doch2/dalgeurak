@@ -453,7 +453,7 @@ class Home extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  "${qrCodeController.refreshTime.value}",
+                  "${mealController.refreshTime.value}",
                   style: homeQrRefreshTime,
                 ),
               ),
