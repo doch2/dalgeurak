@@ -122,7 +122,7 @@ class Home extends StatelessWidget {
                                         Positioned(
                                             top: _height * 0.125,
                                             left: _width * 0.36,
-                                            child: Text("10분", style: homeMealDelaySheetNowSettingTime)
+                                            child: Text("${mealController.mealTime['extraMinute']}분", style: homeMealDelaySheetNowSettingTime)
                                         ),
                                         Positioned(
                                           top: _height * 0.2,
@@ -322,10 +322,9 @@ class Home extends StatelessWidget {
                               Map mealTime = mealController.mealTime;
 
                               if (mealSequence.isEmpty) { return Center(child: Text("로딩중입니다..", style: TextStyle(color: Colors.white))); }
-
                               String mealType = mealController.dalgeurakService.getMealKind(false).convertEngStr;
                               List userGradeMealSequence = mealSequence[mealType][(userController.user?.gradeNum)!-1];
-                              List userGradeMealTime = mealTime[mealType][(userController.user?.gradeNum)!-1];
+                              List userGradeMealTime = mealTime["extra${mealType[0].toUpperCase()}${mealType.substring(1)}"][(userController.user?.gradeNum)!-1];
 
                               List<Widget> widgetList = [];
                               for (int i=1; i<=6; i++) {

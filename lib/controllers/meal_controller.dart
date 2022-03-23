@@ -75,11 +75,11 @@ class MealController extends GetxController {
 
     Map userInfo = await dalgeurakService.getUserMealInfo();
     if (userInfo['success']) {
-    userMealStatus.value = userInfo['content']['mealStatus'];
-    userMealException.value = userInfo['content']['exception'];
-    _qrCodeController.setQrCodeData(userInfo['content']['QRkey']);
+      userMealStatus.value = userInfo['content']['mealStatus'];
+      userMealException.value = userInfo['content']['exception'];
+      _qrCodeController.setQrCodeData(userInfo['content']['QRkey']);
     } else {
-    widgetReference.showToast("현재 정보를 불러오는데 실패했습니다. \n인터넷에 연결되어있는지 확인해주세요.");
+      widgetReference.showToast("현재 정보를 불러오는데 실패했습니다. \n인터넷에 연결되어있는지 확인해주세요.");
     }
   }
 
@@ -99,7 +99,7 @@ class MealController extends GetxController {
 
   getMealSequence() async => mealSequence.value = (await dalgeurakService.getMealSequence())['content']['mealSequences'];
 
-  getMealTime() async => mealTime.value = (await dalgeurakService.getMealTime())['content']['mealTimes'];
+  getMealTime() async => mealTime.value = (await dalgeurakService.getMealExtraTime())['content'];
 
   getNowMealSequence() async => (await dalgeurakService.getNowSequenceClass());
 
@@ -108,6 +108,7 @@ class MealController extends GetxController {
 
     if (time.toString().length == 1 || time.toString().length == 2) {
       await dalgeurakService.setMealExtraTime(time);
+      await getMealTime();
       widgetReference.showToast("지연 설정이 정상적으로 완료되었습니다.");
       Get.back();
     } else {
