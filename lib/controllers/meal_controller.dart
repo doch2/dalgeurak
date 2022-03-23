@@ -68,7 +68,7 @@ class MealController extends GetxController {
 
     String mealType = dalgeurakService.getMealKind(false).convertEngStr;
     List mealSequence = this.mealSequence[mealType][(_userController.user?.gradeNum)!-1];
-    List mealTime = this.mealTime[mealType][(_userController.user?.gradeNum)!-1];
+    List mealTime = this.mealTime["extra${mealType[0].toUpperCase()}${mealType.substring(1)}"][(_userController.user?.gradeNum)!-1];
     String userMealTempTime = mealTime[mealSequence.indexOf(_userController.user?.classNum)].toString();
     userMealTime.value = "${userMealTempTime.substring(0, 2)}시 ${userMealTempTime.substring(2)}분";
     nowClassMealSequence.value = mealSequence.indexOf((await getNowMealSequence())['content']) + 1;
