@@ -29,7 +29,7 @@ class Home extends StatelessWidget {
     mealController = Get.find<MealController>();
     userController = Get.find<UserController>();
     qrCodeController = Get.find<QrCodeController>();
-    WidgetReference _widgetReference = WidgetReference(width: _width, height: _height);
+    WidgetReference _widgetReference = WidgetReference(width: _width, height: _height, context: context);
 
     if (!mealController.isCreateRefreshTimer) { mealController.refreshTimer(); mealController.isCreateRefreshTimer = true; }
 

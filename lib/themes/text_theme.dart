@@ -9,6 +9,8 @@ final widgetReference_windowTitle_subTitle = TextStyle(
     fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 final widgetReference_windowTitle_title = TextStyle(
     fontSize: 26, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final overlayAlert = TextStyle(
+    fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 
 final loginTitle = TextStyle(

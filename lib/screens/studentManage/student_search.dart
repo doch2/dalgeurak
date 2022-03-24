@@ -61,7 +61,7 @@ class StudentSearch extends SearchDelegate {
     _width = MediaQuery.of(context).size.width;
 
     MealController _mealController = Get.find<MealController>();
-    _widgetReference = WidgetReference(width: _width, height: _height);
+    _widgetReference = WidgetReference(width: _width, height: _height, context: context);
 
 
     return FutureBuilder(
