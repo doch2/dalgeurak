@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:ui';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import '../themes/color_theme.dart';
@@ -137,9 +137,11 @@ class WidgetReference {
       fontSize: 13.0);
 
   showAlert(List content) async {
+    Vibrate.vibrate();
+
     OverlayEntry _overlay = OverlayEntry(builder: (_) => OverlayAlert(content: content));
     Navigator.of(context!).overlay!.insert(_overlay);
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 5));
     _overlay.remove();
   }
 
@@ -171,12 +173,19 @@ class _OverlayAlertState extends State<OverlayAlert> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _controller = AnimationController(
+        vsync: this,
+        duration: Duration(milliseconds: 550),
+        reverseDuration: Duration(milliseconds: 750)
+    );
     _animation = Tween<Offset>(begin: Offset(0.0, -8.0), end: Offset.zero)
-        .animate(
-            CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn));
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn));
     _controller.forward();
+    _animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Future.delayed(Duration(milliseconds : 3000), () => _controller.reverse());
+      }
+    });
   }
 
   @override
