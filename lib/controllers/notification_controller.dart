@@ -18,7 +18,8 @@ class NotificationController extends GetxController {
   FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   Future<bool> initialize() async {
-    // Android 에서는 별도의 확인 없이 리턴되지만, requestPermission()을 호출하지 않으면 수신되지 않는다.
+    await _messaging.setAutoInitEnabled(true);
+
     await _messaging.requestPermission(
       alert: true,
       announcement: true,
@@ -62,8 +63,10 @@ class NotificationController extends GetxController {
 
       RemoteNotification? notification = rm.notification;
       AndroidNotification? android = rm.notification?.android;
+      AppleNotification? apple = rm.notification?.apple;
+      print(rm);
 
-      if (notification != null && android != null) {
+      if (notification != null && (android != null || apple != null)) {
         List content = json.decode(notification.body!);
 
         if (serviceWorkType.value == FGBGType.background) {
