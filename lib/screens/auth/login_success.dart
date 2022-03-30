@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
+import '../widget_reference.dart';
+
 class LoginSuccess extends GetWidget<AuthController> {
   LoginSuccess({Key? key}) : super(key: key);
 
@@ -14,6 +16,8 @@ class LoginSuccess extends GetWidget<AuthController> {
   Widget build(BuildContext context) {
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
+
+    WidgetReference _widgetReference = WidgetReference(width: _width, height: _height, context: context);
 
     controller.loginSuccessScreenAnimate(_height, _width);
 
@@ -60,19 +64,7 @@ class LoginSuccess extends GetWidget<AuthController> {
               curve: Curves.fastOutSlowIn,
               child: GestureDetector(
                 onTap: () => Get.back(),
-                child: Container(
-                  width: _width * 0.858,
-                  height: _height * 0.06,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(
-                      width: 1,
-                      color: dalgeurakBlueOne,
-                    ),
-                    color: dalgeurakBlueOne,
-                  ),
-                  child: Center(child: Text("서비스로 돌아가기", style: btnTitle1.copyWith(color: Colors.white))),
-                ),
+                child: _widgetReference.getDialogBtnWidget("서비스로 돌아가기", true, true),
               )
             )
           ],

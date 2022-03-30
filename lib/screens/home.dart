@@ -95,7 +95,8 @@ class Home extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () => _widgetReference.showBottomSheet(
-                                      context,
+                                    context,
+                                    0.5,
                                     Stack(
                                       alignment: Alignment.center,
                                       children: [
@@ -112,7 +113,7 @@ class Home extends StatelessWidget {
                                         ),
                                         Positioned(
                                             top: _height * 0.1,
-                                            child:  Container(width: _width * 0.871, child: Divider(color: dalgeurakGrayTwo, thickness: 1.0))
+                                            child: Container(width: _width * 0.871, child: Divider(color: dalgeurakGrayTwo, thickness: 1.0))
                                         ),
                                         Positioned(
                                             top: _height * 0.125,
@@ -158,11 +159,11 @@ class Home extends StatelessWidget {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () => Get.back(),
-                                                  child: _widgetReference.getDialogBtnWidget("취소", true, false),
+                                                  child: _widgetReference.getDialogBtnWidget("취소", false, false),
                                                 ),
                                                 GestureDetector(
                                                   onTap: () => mealController.setDelayMealTime(),
-                                                  child: _widgetReference.getDialogBtnWidget("확인", true, true),
+                                                  child: _widgetReference.getDialogBtnWidget("확인", false, true),
                                                 ),
                                               ],
                                             ),
@@ -173,7 +174,7 @@ class Home extends StatelessWidget {
                                   ),
                                   child: _widgetReference.getMenuBtnWidget(
                                     0.282,
-                                    _widgetReference.getHomeMenuBtnExplainWidget("clock", "급식 지연"),
+                                    _widgetReference.getMenuBtnExplainWidget(true, "clock", "급식 지연"),
                                     false,
                                     "image",
                                     ExtendedImage.asset("assets/images/homeMenu_clock.png"),
@@ -182,7 +183,7 @@ class Home extends StatelessWidget {
                                 GestureDetector(
                                   child: _widgetReference.getMenuBtnWidget(
                                     0.282,
-                                    _widgetReference.getHomeMenuBtnExplainWidget("twoPeople", "남은 인원"),
+                                    _widgetReference.getMenuBtnExplainWidget(true, "twoPeople", "남은 인원"),
                                     true,
                                     "gradient",
                                     blueLinearGradientOne,
@@ -191,7 +192,7 @@ class Home extends StatelessWidget {
                                 GestureDetector(
                                   child: _widgetReference.getMenuBtnWidget(
                                     0.282,
-                                    _widgetReference.getHomeMenuBtnExplainWidget("peopleClip", "학생 관리"),
+                                    _widgetReference.getMenuBtnExplainWidget(true, "peopleClip", "학생 관리"),
                                     false,
                                     "color",
                                     dalgeurakYellowOne,
@@ -209,7 +210,7 @@ class Home extends StatelessWidget {
                                 GestureDetector(
                                   child: _widgetReference.getMenuBtnWidget(
                                     0.282,
-                                    _widgetReference.getHomeMenuBtnExplainWidget("table", "급식 순서"),
+                                    _widgetReference.getMenuBtnExplainWidget(true, "table", "급식 순서"),
                                     true,
                                     "color",
                                     purpleTwo,
@@ -219,7 +220,7 @@ class Home extends StatelessWidget {
                                   onTap: () => showSearch(context: context, delegate: StudentSearch()),
                                   child: _widgetReference.getMenuBtnWidget(
                                     0.282,
-                                    _widgetReference.getHomeMenuBtnExplainWidget("peopleSearch", "학생 검색"),
+                                    _widgetReference.getMenuBtnExplainWidget(true, "peopleSearch", "학생 검색"),
                                     false,
                                     "color",
                                     blueNine,
@@ -229,7 +230,7 @@ class Home extends StatelessWidget {
                                   onTap: () => Get.to(QrCodeScan()),
                                   child: _widgetReference.getMenuBtnWidget(
                                     0.282,
-                                    _widgetReference.getHomeMenuBtnExplainWidget("qrCode", "QR 입장 스캐너"),
+                                    _widgetReference.getMenuBtnExplainWidget(true, "qrCode", "QR 입장 스캐너"),
                                     false,
                                     "image",
                                     ExtendedImage.asset("assets/images/homeMenu_qrCode.png"),

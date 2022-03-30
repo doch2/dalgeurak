@@ -78,9 +78,11 @@ class StudentSearch extends SearchDelegate {
               resultWidget = ListView.builder(
                 itemCount: suggestionList.length,
                 itemBuilder: (context, index) {
+                  DimigoinUser selectStudent = suggestionList[index];
+
                   return ListTile(
-                    title: Text(suggestionList[index].studentId.toString(), style: studentSearchListTileStudentId),
-                    subtitle: Text(suggestionList[index].name!, style: studentSearchListTileStudentName),
+                    title: Text(selectStudent.studentId.toString(), style: studentSearchListTileStudentId),
+                    subtitle: Text(selectStudent.name!, style: studentSearchListTileStudentName),
                     leading: SizedBox(
                       width: _width * 0.1,
                       height: _width * 0.1,
@@ -101,7 +103,7 @@ class StudentSearch extends SearchDelegate {
                         ),
                         child: Center(child: Text("관리", style: studentSearchListTileBtn)),
                       ),
-                      onTap: () => _widgetReference.showStudentManageBottomSheet(context)
+                      onTap: () => _widgetReference.showStudentManageBottomSheet(selectStudent, context)
                     ),
                   );
                 },

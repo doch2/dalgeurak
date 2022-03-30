@@ -32,6 +32,8 @@ final homeBottomNavigationBarLabel = TextStyle(
     fontSize: 12, color: blueEight, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final homeMenuWidgetTitle = TextStyle(
     fontSize: 12, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final homeMenuWidgetTwoTitle = TextStyle(
+    fontSize: 14, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 final homeEntranceCafeteriaWidgetTitle = TextStyle(
     fontSize: 14, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
@@ -80,6 +82,12 @@ final studentSearchListTileStudentName = TextStyle(
 final studentSearchListTileBtn = TextStyle(
     fontSize: 14, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w600);
 
+final studentManageDialogId = TextStyle(
+    fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final studentManageDialogName = TextStyle(
+    fontSize: 26, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final studentManageDialogSetDienen = TextStyle(
+    fontSize: 15, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w500, decoration: TextDecoration.underline);
 
 
 final adminPageLeftPeopleTitle = TextStyle(

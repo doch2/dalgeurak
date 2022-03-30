@@ -1,3 +1,4 @@
+import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_vibrate/flutter_vibrate.dart';
@@ -67,53 +68,67 @@ class WidgetReference {
     );
   }
 
-  getHomeMenuBtnExplainWidget(String iconName, String title) {
+  getMenuBtnWidgetTwo(bool isBig, String iconName, String title) {
+    return Column(
+      children: [
+        SvgPicture.asset(
+          "assets/images/icons/$iconName.svg",
+          width: width! * (isBig ? 0.1 : 0.0769),
+        ),
+        SizedBox(height: height! * 0.007),
+        Text(
+          title,
+          style: isBig ? homeMenuWidgetTwoTitle : homeMenuWidgetTwoTitle,
+        )
+      ],
+    );
+  }
+
+  getMenuBtnExplainWidget(bool isHome, String iconName, String title) {
     return Stack(
       alignment: Alignment.center,
       children: [
         Positioned(
-          child: SizedBox(width: width! * 0.282, height: height! * 0.282),
+          child: SizedBox(width: width! * (isHome ? 0.282 : 0.579), height: height! * (isHome ? 0.282 : 0.579)),
         ),
         Positioned(
-          top: width! * 0.08,
+          top: width! * (isHome ? 0.08 : 0.11),
           child: SvgPicture.asset(
             "assets/images/icons/$iconName.svg",
-            width: width! * 0.1,
+            width: width! * (isHome ? 0.1 : 0.11),
           ),
         ),
         Positioned(
-          top: width! * 0.2,
+          top: width! * (isHome ? 0.2 : 0.27),
           child: Text(
             title,
-            style: homeMenuWidgetTitle,
+            style: isHome ? homeMenuWidgetTitle : homeMenuWidgetTitle.copyWith(fontSize: 18),
           ),
         )
       ],
     );
   }
 
-  getDialogBtnWidget(String content, bool isBottomDialog, bool isFill) {
+  getDialogBtnWidget(String content, bool isLong, bool isFill) {
+    TextStyle textStyle = isLong ? btnTitle1 : btnTitle2;
+
     return Container(
-      width: width! * (isBottomDialog ? 0.361 : 0.307),
-      height: height! *
-          (isBottomDialog ? 0.06 : 0.1), //TODO 바텀 DIalog가 아닐 시 Height 수정 필요
+      width: width! * (isLong ? 0.846 : 0.361),
+      height: height! * 0.06,
       decoration: BoxDecoration(
         color: isFill ? dalgeurakBlueOne : Colors.white,
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(isLong ? 15 : 5),
         border: Border.all(
           width: isFill ? 2 : 0,
           color: dalgeurakBlueOne,
         ),
       ),
       child: Center(
-          child: Text(content,
-              style: (isFill
-                  ? btnTitle2.copyWith(color: Colors.white)
-                  : btnTitle2))),
+          child: Text(content, style: (isFill ? textStyle.copyWith(color: Colors.white) : textStyle))),
     );
   }
 
-  showBottomSheet(BuildContext context, dynamic childWidget) =>
+  showBottomSheet(BuildContext context, double heightSize, dynamic childWidget) =>
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -121,7 +136,7 @@ class WidgetReference {
             borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
         backgroundColor: Colors.white,
         builder: (context) => Container(
-          height: height! * 0.5,
+          height: height! * heightSize,
           width: width!,
           child: childWidget,
         ),
@@ -145,12 +160,91 @@ class WidgetReference {
     _overlay.remove();
   }
 
-  showStudentManageBottomSheet(BuildContext context) => showBottomSheet(
+  showStudentManageBottomSheet(DimigoinUser student, BuildContext context) => showBottomSheet(
       context,
+      0.579,
       Stack(
         alignment: Alignment.center,
         children: [
           SizedBox(width: width, height: height! * 0.579),
+          Positioned(
+            top: height! * 0.075,
+            left: width! * 0.0925,
+            child: Text(student.studentId.toString(), style: studentManageDialogId),
+          ),
+          Positioned(
+            top: height! * 0.105,
+            left: width! * 0.0925,
+            child: Text(student.name!, style: studentManageDialogName),
+          ),
+          Positioned(
+            top: height! * 0.155,
+            left: width! * 0.0925,
+            child: Text("디넌으로 임명하기", style: studentManageDialogSetDienen),
+          ),
+          Positioned(
+              top: height! * 0.1175,
+              right: width! * 0.075,
+              child: SizedBox(
+                width: width! * 0.356,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      child: getMenuBtnWidgetTwo(
+                        false,
+                        "onePage",
+                        "경고 횟수"
+                      ),
+                    ),
+                    GestureDetector(
+                      child: getMenuBtnWidgetTwo(
+                        false,
+                        "logPage",
+                        "입장 기록"
+                      ),
+                    ),
+                  ],
+                ),
+              )
+          ),
+          Positioned(
+            top: height! * 0.185,
+            child: Container(width: width! * 0.82, child: Divider(color: dalgeurakGrayOne, thickness: 1.0))
+          ),
+          Positioned(
+            top: height! * 0.215,
+            child: SizedBox(
+              width: width! * 0.846,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    child: getMenuBtnWidget(
+                      0.41,
+                      getMenuBtnExplainWidget(false, "noticeCircle", "경고 부여"),
+                      true,
+                      "gradient",
+                      blueLinearGradientOne,
+                    ),
+                  ),
+                  GestureDetector(
+                    child: getMenuBtnWidget(
+                      0.41,
+                      getMenuBtnExplainWidget(false, "checkCircle", "입장 처리"),
+                      true,
+                      "color",
+                      purpleTwo,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ),
+          Positioned(
+            bottom: height! * 0.08,
+            child: getDialogBtnWidget("확인", true, true)
+          ),
         ],
       ));
 }
