@@ -1,3 +1,4 @@
+import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:ui';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 
 import '../themes/color_theme.dart';
 import '../themes/text_theme.dart';
@@ -119,7 +121,7 @@ class WidgetReference {
         color: isFill ? dalgeurakBlueOne : Colors.white,
         borderRadius: BorderRadius.circular(isLong ? 15 : 5),
         border: Border.all(
-          width: isFill ? 2 : 0,
+          width: isFill ? 2 : 1,
           color: dalgeurakBlueOne,
         ),
       ),
@@ -128,19 +130,36 @@ class WidgetReference {
     );
   }
 
-  showBottomSheet(BuildContext context, double heightSize, dynamic childWidget) =>
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
-        backgroundColor: Colors.white,
-        builder: (context) => Container(
-          height: height! * heightSize,
-          width: width!,
-          child: childWidget,
+  getCheckBoxWidget(String content, bool isOn) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SvgPicture.asset(
+          "assets/images/icons/checkBox.svg",
+          color: isOn ? dalgeurakBlueOne : dalgeurakGrayTwo,
+          width: width! * 0.064,
         ),
-      );
+        SizedBox(width: width! * 0.03),
+        Text(
+          content,
+          style: widgetReference_checkBox,
+        )
+      ],
+    );
+  }
+
+  showBottomSheet(BuildContext context, double heightSize, dynamic childWidget) => showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0))),
+      backgroundColor: Colors.white,
+      builder: (context) => Container(
+        height: height! * heightSize,
+        width: width!,
+        child: childWidget,
+      ),
+    );
 
   showToast(String content) => Fluttertoast.showToast(
       msg: content,
@@ -159,49 +178,65 @@ class WidgetReference {
     await Future.delayed(const Duration(seconds: 5));
     _overlay.remove();
   }
+}
 
-  showStudentManageBottomSheet(DimigoinUser student, BuildContext context) => showBottomSheet(
-      context,
+class StudentManageWidgetReference {
+  late WidgetReference widgetReference;
+  late DimigoinUser student;
+  StudentManageWidgetReference({required this.widgetReference, required this.student});
+
+  RxMap warningList = {
+    "지각": false,
+    "욕설": false,
+    "통로 사용": false,
+    "순서 무시": false,
+    "기타": false,
+  }.obs;
+  TextEditingController warningReasonTextController = TextEditingController();
+  MealController mealController = Get.find<MealController>();
+
+  showStudentManageBottomSheet() => widgetReference.showBottomSheet(
+      widgetReference.context!,
       0.579,
       Stack(
         alignment: Alignment.center,
         children: [
-          SizedBox(width: width, height: height! * 0.579),
+          SizedBox(width: widgetReference.width, height: widgetReference.height! * 0.579),
           Positioned(
-            top: height! * 0.075,
-            left: width! * 0.0925,
+            top: widgetReference.height! * 0.075,
+            left: widgetReference.width! * 0.0925,
             child: Text(student.studentId.toString(), style: studentManageDialogId),
           ),
           Positioned(
-            top: height! * 0.105,
-            left: width! * 0.0925,
+            top: widgetReference.height! * 0.105,
+            left: widgetReference.width! * 0.0925,
             child: Text(student.name!, style: studentManageDialogName),
           ),
           Positioned(
-            top: height! * 0.155,
-            left: width! * 0.0925,
+            top: widgetReference.height! * 0.155,
+            left: widgetReference.width! * 0.0925,
             child: Text("디넌으로 임명하기", style: studentManageDialogSetDienen),
           ),
           Positioned(
-              top: height! * 0.1175,
-              right: width! * 0.075,
+              top: widgetReference.height! * 0.1175,
+              right: widgetReference.width! * 0.075,
               child: SizedBox(
-                width: width! * 0.356,
+                width: widgetReference.width! * 0.356,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      child: getMenuBtnWidgetTwo(
-                        false,
-                        "onePage",
-                        "경고 횟수"
+                      child: widgetReference.getMenuBtnWidgetTwo(
+                          false,
+                          "onePage",
+                          "경고 횟수"
                       ),
                     ),
                     GestureDetector(
-                      child: getMenuBtnWidgetTwo(
-                        false,
-                        "logPage",
-                        "입장 기록"
+                      child: widgetReference.getMenuBtnWidgetTwo(
+                          false,
+                          "logPage",
+                          "입장 기록"
                       ),
                     ),
                   ],
@@ -209,44 +244,212 @@ class WidgetReference {
               )
           ),
           Positioned(
-            top: height! * 0.185,
-            child: Container(width: width! * 0.82, child: Divider(color: dalgeurakGrayOne, thickness: 1.0))
+              top: widgetReference.height! * 0.185,
+              child: Container(width: widgetReference.width! * 0.82, child: Divider(color: dalgeurakGrayOne, thickness: 1.0))
           ),
           Positioned(
-            top: height! * 0.215,
-            child: SizedBox(
-              width: width! * 0.846,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    child: getMenuBtnWidget(
-                      0.41,
-                      getMenuBtnExplainWidget(false, "noticeCircle", "경고 부여"),
-                      true,
-                      "gradient",
-                      blueLinearGradientOne,
+              top: widgetReference.height! * 0.215,
+              child: SizedBox(
+                width: widgetReference.width! * 0.846,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () => showStudentWarningTypeBottomSheet(),
+                      child: widgetReference.getMenuBtnWidget(
+                        0.41,
+                        widgetReference.getMenuBtnExplainWidget(false, "noticeCircle", "경고 부여"),
+                        true,
+                        "gradient",
+                        blueLinearGradientOne,
+                      ),
                     ),
-                  ),
-                  GestureDetector(
-                    child: getMenuBtnWidget(
-                      0.41,
-                      getMenuBtnExplainWidget(false, "checkCircle", "입장 처리"),
-                      true,
-                      "color",
-                      purpleTwo,
+                    GestureDetector(
+                      child: widgetReference.getMenuBtnWidget(
+                        0.41,
+                        widgetReference.getMenuBtnExplainWidget(false, "checkCircle", "입장 처리"),
+                        true,
+                        "color",
+                        purpleTwo,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
+                  ],
+                ),
+              )
           ),
           Positioned(
-            bottom: height! * 0.08,
-            child: getDialogBtnWidget("확인", true, true)
+              bottom: widgetReference.height! * 0.08,
+              child: GestureDetector(
+                onTap: () => Get.back(),
+                child: widgetReference.getDialogBtnWidget("확인", true, true),
+              )
           ),
         ],
-      ));
+      )
+  );
+
+  showStudentWarningTypeBottomSheet() => widgetReference.showBottomSheet(
+      widgetReference.context!,
+      0.579,
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(width: widgetReference.width, height: widgetReference.height! * 0.579),
+          Positioned(
+            top: widgetReference.height! * 0.075,
+            left: widgetReference.width! * 0.0925,
+            child: Text(student.studentId.toString(), style: studentManageDialogId),
+          ),
+          Positioned(
+            top: widgetReference.height! * 0.105,
+            left: widgetReference.width! * 0.0925,
+            child: Text(student.name!, style: studentManageDialogName),
+          ),
+          Positioned(
+              top: widgetReference.height! * 0.1475,
+              child: Container(width: widgetReference.width! * 0.82, child: Divider(color: dalgeurakGrayOne, thickness: 1.0))
+          ),
+          Positioned(
+              top: widgetReference.height! * 0.18,
+              left: widgetReference.width! * 0.0925,
+              child: Text("경고 항목", style: widgetReference_detailTitle)
+          ),
+          Positioned(
+              top: widgetReference.height! * 0.22,
+              left: widgetReference.width! * 0.0925,
+              child: SizedBox(
+                height: widgetReference.height! * 0.20,
+                child: Obx(() {
+                  List<Widget> widgetList = [];
+                  warningList.keys.forEach(
+                          (element) => widgetList.add(
+                            GestureDetector(
+                              onTap: () =>  warningList[element] = !warningList[element],
+                              child: widgetReference.getCheckBoxWidget(element, warningList[element]),
+                            )
+                          )
+                  );
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: widgetList
+                  );
+                }),
+              )
+          ),
+          Positioned(
+              bottom: widgetReference.height! * 0.06,
+              child: SizedBox(
+                width: widgetReference.width! * 0.82,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.back(),
+                      child: widgetReference.getDialogBtnWidget("취소", false, false),
+                    ),
+                    GestureDetector(
+                      onTap: () async { 
+                        if (warningList.containsValue(true)) {
+                          Get.back(); 
+                          await Future.delayed(Duration(milliseconds: 50)); 
+                          showStudentWarningReasonBottomSheet();
+                        } else {
+                          widgetReference.showToast("경고 항목을 체크하고 진행해주세요.");
+                        }
+                      },
+                      child: widgetReference.getDialogBtnWidget("다음", false, true),
+                    )
+                  ],
+                ),
+              )
+          ),
+        ],
+      )
+  );
+
+  showStudentWarningReasonBottomSheet() => widgetReference.showBottomSheet(
+      widgetReference.context!,
+      0.579,
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(width: widgetReference.width, height: widgetReference.height! * 0.579),
+          Positioned(
+            top: widgetReference.height! * 0.075,
+            left: widgetReference.width! * 0.0925,
+            child: Text(student.studentId.toString(), style: studentManageDialogId),
+          ),
+          Positioned(
+            top: widgetReference.height! * 0.105,
+            left: widgetReference.width! * 0.0925,
+            child: Text(student.name!, style: studentManageDialogName),
+          ),
+          Positioned(
+              top: widgetReference.height! * 0.1475,
+              child: Container(width: widgetReference.width! * 0.82, child: Divider(color: dalgeurakGrayOne, thickness: 1.0))
+          ),
+          Positioned(
+              top: widgetReference.height! * 0.18,
+              left: widgetReference.width! * 0.0925,
+              child: Text("상세 사유", style: widgetReference_detailTitle)
+          ),
+          Positioned(
+              top: widgetReference.height! * 0.23,
+              left: widgetReference.width! * 0.0925,
+              child: Container(
+                width: widgetReference.width! * 0.846,
+                height: widgetReference.height! * 0.185,
+                decoration: BoxDecoration(
+                  border: Border.all(color: dalgeurakGrayTwo, width: 1),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  controller: warningReasonTextController,
+                  textAlign: TextAlign.center,
+                  style: studentManageWarningReasonDialogTextField,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(width: 0, style: BorderStyle.none,)),
+                    hintText: "상세 사유를 입력해 주세요.",
+                    hintStyle: studentManageWarningReasonDialogTextField.copyWith(color: dalgeurakGrayTwo),
+                  ),
+                ),
+              )
+          ),
+          Positioned(
+              bottom: widgetReference.height! * 0.06,
+              child: SizedBox(
+                width: widgetReference.width! * 0.82,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () => Get.back(),
+                      child: widgetReference.getDialogBtnWidget("취소", false, false),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        List warningList = [];
+                        this.warningList.forEach((key, value) {
+                          if (value) {
+                            warningList.add((key as String).convertStudentWarningType);
+                          }
+                        });
+
+                        mealController.giveStudentWarning(student.id!, warningList, warningReasonTextController.text);
+                      },
+                      child: widgetReference.getDialogBtnWidget("확인", false, true),
+                    )
+                  ],
+                ),
+              )
+          ),
+        ],
+      )
+  );
 }
 
 class OverlayAlert extends StatefulWidget {

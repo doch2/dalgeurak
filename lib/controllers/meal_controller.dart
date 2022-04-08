@@ -172,4 +172,15 @@ class MealController extends GetxController {
 
     return result;
   }
+
+  giveStudentWarning(String studentObjId, List warningType, String reason) async {
+    Map result = await dalgeurakService.giveWarningToStudent(studentObjId, warningType, reason);
+
+    if (result['success']) {
+      widgetReference.showToast("경고 등록에 성공하였습니다!");
+      Get.back();
+    } else {
+      widgetReference.showToast("경고 등록에 실패하였습니다. ${result['message']}");
+    }
+  }
 }

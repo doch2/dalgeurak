@@ -9,6 +9,10 @@ final widgetReference_windowTitle_subTitle = TextStyle(
     fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 final widgetReference_windowTitle_title = TextStyle(
     fontSize: 26, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final widgetReference_detailTitle = TextStyle(
+    fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final widgetReference_checkBox = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
 final overlayAlert = TextStyle(
     fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
@@ -88,6 +92,8 @@ final studentManageDialogName = TextStyle(
     fontSize: 26, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 final studentManageDialogSetDienen = TextStyle(
     fontSize: 15, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w500, decoration: TextDecoration.underline);
+final studentManageWarningReasonDialogTextField = TextStyle(
+    fontSize: 15, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
 
 
 final adminPageLeftPeopleTitle = TextStyle(

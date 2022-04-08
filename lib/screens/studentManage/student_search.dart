@@ -103,7 +103,7 @@ class StudentSearch extends SearchDelegate {
                         ),
                         child: Center(child: Text("관리", style: studentSearchListTileBtn)),
                       ),
-                      onTap: () => _widgetReference.showStudentManageBottomSheet(selectStudent, context)
+                      onTap: () => StudentManageWidgetReference(widgetReference: _widgetReference, student: selectStudent).showStudentManageBottomSheet()
                     ),
                   );
                 },
