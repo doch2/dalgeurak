@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dalgeurak/controllers/qrcode_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/widget_reference.dart';
@@ -35,6 +36,7 @@ class MealController extends GetxController {
   UserController _userController = Get.find<UserController>();
   QrCodeController _qrCodeController = Get.find<QrCodeController>();
   DalgeurakService dalgeurakService = DalgeurakService();
+  DimigoinMeal _dimigoinMeal = DimigoinMeal();
   WidgetReference widgetReference = WidgetReference();
   MealInfo mealInfo = MealInfo();
   DateTime nowTime = DateTime.now();
@@ -94,6 +96,48 @@ class MealController extends GetxController {
       return data;
     } else {
       return json.decode(stringData);
+    }
+  }
+
+  getMealPlannerToDimigoin() async {
+    String? stringData = SharedPreference().getMealPlanner();
+    ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
+
+    if (connectivityResult == ConnectivityResult.none) {
+      int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
+      Map correctFirstDay = mealInfo.getCorrectDate(weekFirstDay);
+      correctFirstDay['month'] = correctFirstDay['month'].toString().length == 2 ? correctFirstDay['month'] : "0${correctFirstDay['month']}";
+      correctFirstDay['day'] = correctFirstDay['day'].toString().length == 2 ? correctFirstDay['day'] : "0${correctFirstDay['day']}";
+
+      if (stringData == null ||
+        (json.decode(stringData))["1"]["date"] == null ||
+        !((json.decode(stringData))["1"]["date"] as String).contains("${correctFirstDay['month']}-${correctFirstDay['day']}")) {
+          Map data = await mealInfo.getMealPlanner(); //급식 정보 없다고 표시하기 위한 코드. 인터넷 연결 안되어 있으면 함수 Return 값이 급식 정보 없다고 뜸.
+          return data;
+      } else {
+          return json.decode(stringData);
+      }
+    } else {
+      mealListToStr(list) {
+        String result = "";
+        (list as List).forEach((element) => result = result + element + ", ");
+        result = result.substring(0, (result.length - 2));
+        return result;
+      }
+
+      List dataResponse = await _dimigoinMeal.getWeeklyMeal();
+
+      Map result = {};
+      dataResponse.forEach((element) => result[(dataResponse.indexOf(element)+1).toString()] = element);
+      result.forEach((key, value) {
+        result[key]['breakfast'] = mealListToStr(result[key]['breakfast']);
+        result[key]['lunch'] = mealListToStr(result[key]['lunch']);
+        result[key]['dinner'] = mealListToStr(result[key]['dinner']);
+      });
+
+      SharedPreference().saveMealPlanner(result);
+
+      return result;
     }
   }
 
