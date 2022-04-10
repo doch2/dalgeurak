@@ -16,7 +16,7 @@
 
 ※ 20기 웹프로그래밍과 유도희와 이비즈니스과 라윤지가 제작하였으며, 현재 디미고 인트라넷 개발팀에서 개발을 진행하고 있습니다.<br>  
 
-<div align="center"><img width="640" alt="ScreenShot" src="https://user-images.githubusercontent.com/30923566/150146120-fe6e52eb-ca62-4a98-b11e-534f8c9b385c.png"></div><br>   
+<div align="center"><img width="640" alt="ScreenShot" src="https://user-images.githubusercontent.com/30923566/162618402-2d804fd3-187c-4c66-a395-ea7f386ed84d.png"></div><br>   
 
 
 ## 어플리케이션 이용
