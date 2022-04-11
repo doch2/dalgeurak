@@ -162,7 +162,46 @@ class Home extends StatelessWidget {
                                                   child: _widgetReference.getDialogBtnWidget("취소", false, false, false),
                                                 ),
                                                 GestureDetector(
-                                                  onTap: () => mealController.setDelayMealTime(),
+                                                  onTap: () => _widgetReference.showWarningDialog(
+                                                      [
+                                                        {
+                                                          "content": "급식 시간을 ",
+                                                          "emphasis": false,
+                                                        },
+                                                        {
+                                                          "content": "${mealController.mealDelayTextController.text}분 지연",
+                                                          "emphasis": true,
+                                                        },
+                                                        {
+                                                          "content": " 하시겠어요?",
+                                                          "emphasis": false,
+                                                        }
+                                                      ],
+                                                      "장난으로 기재할 시 처벌 받을 수 있습니다.",
+                                                      () async {
+                                                        if (await mealController.setDelayMealTime()) {
+                                                          _widgetReference.showAlert(
+                                                            [
+                                                              {
+                                                                "content": "급식 시간이 ",
+                                                                "emphasis": false,
+                                                              },
+                                                              {
+                                                                "content": "${mealController.mealDelayTextController.text}분 지연",
+                                                                "emphasis": true,
+                                                              },
+                                                              {
+                                                                "content": " 되었습니다.",
+                                                                "emphasis": false,
+                                                              }
+                                                            ],
+                                                          );
+                                                          Get.back();
+                                                        } else {
+                                                          _widgetReference.showToast("시간 포멧이 정상적이지 않습니다. 다시 시도해주세요.");
+                                                        }
+                                                      }
+                                                  ),
                                                   child: _widgetReference.getDialogBtnWidget("확인", false, true, false),
                                                 ),
                                               ],

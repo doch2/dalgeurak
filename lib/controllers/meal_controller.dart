@@ -150,13 +150,13 @@ class MealController extends GetxController {
   setDelayMealTime() async {
     int time = int.parse(mealDelayTextController.text);
 
-    if (time.toString().length == 1 || time.toString().length == 2) {
+    if (time <= 30) {
       await dalgeurakService.setMealExtraTime(time);
       await getMealTime();
-      widgetReference.showToast("지연 설정이 정상적으로 완료되었습니다.");
-      Get.back();
+
+      return true;
     } else {
-      widgetReference.showToast("시간 포멧이 정상적이지 않습니다. 다시 시도해주세요.");
+      return false;
     }
   }
 
