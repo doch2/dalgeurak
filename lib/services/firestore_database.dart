@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class FirestoreDatabase {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final UserController userController = Get.find<UserController>();
-  final DalgeurakService _dalgeurakService = DalgeurakService();
+  final DalgeurakService _dalgeurakService = Get.find<DalgeurakService>();
 
   Future<Map> getLeftStudentAmount(int grade, int classNum) async {
     try {

@@ -25,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     DimigoinUserType? userGroup = Get.find<UserController>().user?.userType;
+    List<DimigoinPermissionType>? userPermission = Get.find<UserController>().user?.permissions;
 
     Map pageIcon = {
       '홈': 'home',
@@ -54,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
     ];
 
-    if (userGroup != null && userGroup != "student") {
+    if ((userGroup != null && userGroup != DimigoinUserType.student) || userPermission!.contains(DimigoinPermissionType.dalgeurak)) {
       pages.insert(2, AdminPage());
 
       bottomNavigatorItem.insert(2, BottomNavigationBarItem(

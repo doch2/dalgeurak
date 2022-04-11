@@ -35,7 +35,7 @@ class MealController extends GetxController {
   FirestoreDatabase firestoreDatabase = FirestoreDatabase();
   UserController _userController = Get.find<UserController>();
   QrCodeController _qrCodeController = Get.find<QrCodeController>();
-  DalgeurakService dalgeurakService = DalgeurakService();
+  DalgeurakService dalgeurakService = Get.find<DalgeurakService>();
   DimigoinMeal _dimigoinMeal = DimigoinMeal();
   WidgetReference widgetReference = WidgetReference();
   MealInfo mealInfo = MealInfo();
@@ -99,7 +99,7 @@ class MealController extends GetxController {
     }
   }
 
-  getMealPlannerToDimigoin() async {
+  getMealPlannerFromDimigoin() async {
     String? stringData = SharedPreference().getMealPlanner();
     ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
 
@@ -174,11 +174,11 @@ class MealController extends GetxController {
     }
   }
 
-  getStudentList() async {
+  getStudentList(bool isMust) async {
     String? stringData = SharedPreference().getStudentList();
     int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
 
-    if (stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
+    if (isMust || stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
       Map data = await dalgeurakService.getAllStudentList();
 
       if (data['success']) {

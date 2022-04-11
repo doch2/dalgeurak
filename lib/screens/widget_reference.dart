@@ -1,4 +1,5 @@
 import 'package:dalgeurak/controllers/meal_controller.dart';
+import 'package:dalgeurak/screens/studentManage/student_search.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,6 +9,7 @@ import 'dart:ui';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
+import '../controllers/user_controller.dart';
 import '../themes/color_theme.dart';
 import '../themes/text_theme.dart';
 
@@ -111,12 +113,12 @@ class WidgetReference {
     );
   }
 
-  getDialogBtnWidget(String content, bool isLong, bool isFill) {
+  getDialogBtnWidget(String content, bool isLong, bool isFill, bool isDialog) {
     TextStyle textStyle = isLong ? btnTitle1 : btnTitle2;
 
     return Container(
-      width: width! * (isLong ? 0.846 : 0.361),
-      height: height! * 0.06,
+      width: width! * (isLong ? 0.846 : (isDialog ? 0.307 : 0.361)),
+      height: height! * (isDialog ? 0.058 : 0.06),
       decoration: BoxDecoration(
         color: isFill ? dalgeurakBlueOne : Colors.white,
         borderRadius: BorderRadius.circular(isLong ? 15 : 5),
@@ -145,6 +147,78 @@ class WidgetReference {
           style: widgetReference_checkBox,
         )
       ],
+    );
+  }
+
+  showWarningDialog(List message, String subMessage, dynamic executeFunc) {
+    List<InlineSpan> textWidgetList = [];
+    message.forEach((element) => textWidgetList.add(
+      TextSpan(
+        style: element['emphasis'] ? widgetReference_warningDialog_message.copyWith(fontWeight: FontWeight.w700) : widgetReference_warningDialog_message,
+        text: element['content'],
+      )
+    ));
+
+    Get.dialog(
+        Dialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15))
+          ),
+          child: Container(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(width: width! * 0.851, height: height! * 0.258),
+                Positioned(
+                    top: height! * 0.025,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                            "assets/images/icons/warning.svg"
+                        ),
+                        Text("Warning", style: widgetReference_warningDialog_title)
+                      ],
+                    )
+                ),
+                Positioned(
+                  top: height! * 0.085,
+                  child:
+                  Text.rich(
+                    TextSpan(
+                      children: textWidgetList,
+                    ),
+                    textAlign: TextAlign.center,
+                    style: widgetReference_warningDialog_message,
+                  ),
+                ),
+                Positioned(
+                  top: height! * 0.12,
+                  child: Text(subMessage, style: widgetReference_warningDialog_subMessage),
+                ),
+                Positioned(
+                    bottom: height! * 0.025,
+                    child: SizedBox(
+                      width: width! * 0.665,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () => Get.back(),
+                            child: getDialogBtnWidget("취소", false, false, true),
+                          ),
+                          GestureDetector(
+                            onTap: executeFunc,
+                            child: getDialogBtnWidget("확인", false, true, true),
+                          )
+                        ],
+                      ),
+                    )
+                ),
+              ],
+            ),
+          ),
+        )
     );
   }
 
@@ -181,9 +255,12 @@ class WidgetReference {
 }
 
 class StudentManageWidgetReference {
+  late StudentSearch studentSearch;
   late WidgetReference widgetReference;
   late DimigoinUser student;
-  StudentManageWidgetReference({required this.widgetReference, required this.student});
+  StudentManageWidgetReference({required this.widgetReference, required this.student, required this.studentSearch});
+
+  DalgeurakService _dalgeurakService = Get.find<DalgeurakService>();
 
   RxMap warningList = {
     "지각": false,
@@ -215,7 +292,58 @@ class StudentManageWidgetReference {
           Positioned(
             top: widgetReference.height! * 0.155,
             left: widgetReference.width! * 0.0925,
-            child: Text("디넌으로 임명하기", style: studentManageDialogSetDienen),
+            child: GestureDetector(
+              onTap: () => widgetReference.showWarningDialog(
+                [
+                  {
+                    "content": "${student.studentId} ${student.name}를 ",
+                    "emphasis": false,
+                  },
+                  {
+                    "content": (student.permissions!.contains(DimigoinPermissionType.dalgeurak) ? "디넌 해제" : "디넌으로 임명"),
+                    "emphasis": true,
+                  },
+                  {
+                    "content": "하시겠어요?",
+                    "emphasis": false,
+                  }
+                ],
+                "장난으로 기재할 시 처벌받을 수 있습니다.",
+                () async {
+                  Map result = (student.permissions!.contains(DimigoinPermissionType.dalgeurak) ? await _dalgeurakService.removeDienenPermission(student.id!) : await _dalgeurakService.authorizeDienenPermission(student.id!));
+
+                  if (result['success']) {
+                    widgetReference.showAlert(
+                      [
+                        {
+                          "content": "${student.name}(을)를 ",
+                          "emphasis": false,
+                        },
+                        {
+                          "content": (student.permissions!.contains(DimigoinPermissionType.dalgeurak) ? "디넌 임명 해제" : "디넌으로 임명"),
+                          "emphasis": true,
+                        },
+                        {
+                          "content": " 하였습니다.",
+                          "emphasis": false,
+                        }
+                      ]
+                    );
+                    studentSearch.studentList = List<DimigoinUser>.from(await mealController.getStudentList(true));
+                    studentSearch.query = studentSearch.query + " ";
+                    studentSearch.query = studentSearch.query.substring(0, studentSearch.query.length - 1); //권한 새로고침을 위한 코드
+                    Get.back();
+                    Get.back();
+                  } else {
+                    widgetReference.showToast(result['content']);
+                    Get.back();
+                  }
+
+                },
+              ),
+              child: Text((Get.find<UserController>().user!.permissions!.contains(DimigoinPermissionType.dalgeurakManagement) ?
+              (student.permissions!.contains(DimigoinPermissionType.dalgeurak) ? "디넌 임명 해제" : "디넌으로 임명하기") : ""), style: studentManageDialogSetDienen)
+            ),
           ),
           Positioned(
               top: widgetReference.height! * 0.1175,
@@ -265,6 +393,50 @@ class StudentManageWidgetReference {
                       ),
                     ),
                     GestureDetector(
+                      onTap: () => widgetReference.showWarningDialog(
+                        [
+                          {
+                            "content": "${student.studentId} ${student.name}를 ",
+                            "emphasis": false,
+                          },
+                          {
+                            "content": "입장으로 처리",
+                            "emphasis": true,
+                          },
+                          {
+                            "content": "하시겠어요?",
+                            "emphasis": false,
+                          }
+                        ],
+                        "장난으로 기재할 시 처벌받을 수 있습니다.",
+                        () async {
+                          Map result = await _dalgeurakService.mealCheckInByManager(student.id!);
+
+                          if (result['success']) {
+                            widgetReference.showAlert(
+                                [
+                                  {
+                                    "content": "${student.name}(이)가 ",
+                                    "emphasis": false,
+                                  },
+                                  {
+                                    "content": "입장 처리",
+                                    "emphasis": true,
+                                  },
+                                  {
+                                    "content": "되었습니다.",
+                                    "emphasis": false,
+                                  }
+                                ]
+                            );
+                            Get.back();
+                          } else {
+                            widgetReference.showToast(result['content']);
+                            Get.back();
+                          }
+
+                        },
+                      ),
                       child: widgetReference.getMenuBtnWidget(
                         0.41,
                         widgetReference.getMenuBtnExplainWidget(false, "checkCircle", "입장 처리"),
@@ -281,7 +453,7 @@ class StudentManageWidgetReference {
               bottom: widgetReference.height! * 0.08,
               child: GestureDetector(
                 onTap: () => Get.back(),
-                child: widgetReference.getDialogBtnWidget("확인", true, true),
+                child: widgetReference.getDialogBtnWidget("확인", true, true, false),
               )
           ),
         ],
@@ -347,7 +519,7 @@ class StudentManageWidgetReference {
                   children: [
                     GestureDetector(
                       onTap: () => Get.back(),
-                      child: widgetReference.getDialogBtnWidget("취소", false, false),
+                      child: widgetReference.getDialogBtnWidget("취소", false, false, false),
                     ),
                     GestureDetector(
                       onTap: () async { 
@@ -359,7 +531,7 @@ class StudentManageWidgetReference {
                           widgetReference.showToast("경고 항목을 체크하고 진행해주세요.");
                         }
                       },
-                      child: widgetReference.getDialogBtnWidget("다음", false, true),
+                      child: widgetReference.getDialogBtnWidget("다음", false, true, false),
                     )
                   ],
                 ),
@@ -428,7 +600,7 @@ class StudentManageWidgetReference {
                   children: [
                     GestureDetector(
                       onTap: () => Get.back(),
-                      child: widgetReference.getDialogBtnWidget("취소", false, false),
+                      child: widgetReference.getDialogBtnWidget("취소", false, false, false),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -441,7 +613,7 @@ class StudentManageWidgetReference {
 
                         mealController.giveStudentWarning(student.id!, warningList, warningReasonTextController.text);
                       },
-                      child: widgetReference.getDialogBtnWidget("확인", false, true),
+                      child: widgetReference.getDialogBtnWidget("확인", false, true, false),
                     )
                   ],
                 ),

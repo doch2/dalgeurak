@@ -11,8 +11,8 @@ class AuthController extends GetxController {
   UserController userController = Get.find<UserController>();
   NotificationController _notificationController = Get.find<NotificationController>();
   FirebaseAuth authInstance = FirebaseAuth.instance;
-  DimigoinAccount _dimigoinAccount = DimigoinAccount();
-  DalgeurakService _dalgeurakService = DalgeurakService();
+  DimigoinAccount _dimigoinAccount = Get.find<DimigoinAccount>();
+  DalgeurakService _dalgeurakService = Get.find<DalgeurakService>();
   WidgetReference _widgetReference = WidgetReference();
 
   Rxn<User> _firebaseUser = Rxn<User>();

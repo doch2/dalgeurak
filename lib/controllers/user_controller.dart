@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController {
-  DalgeurakService dalgeurakService = DalgeurakService();
+  DalgeurakService dalgeurakService = Get.find<DalgeurakService>();
 
-  DimigoinAccount _dimigoinAccount = DimigoinAccount();
+  DimigoinAccount _dimigoinAccount = Get.find<DimigoinAccount>();
   Rxn<DimigoinUser?> _dimigoinUser = Rxn<DimigoinUser?>();
 
   DimigoinUser? get user => _dimigoinUser.value;

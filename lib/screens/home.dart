@@ -159,11 +159,11 @@ class Home extends StatelessWidget {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () => Get.back(),
-                                                  child: _widgetReference.getDialogBtnWidget("취소", false, false),
+                                                  child: _widgetReference.getDialogBtnWidget("취소", false, false, false),
                                                 ),
                                                 GestureDetector(
                                                   onTap: () => mealController.setDelayMealTime(),
-                                                  child: _widgetReference.getDialogBtnWidget("확인", false, true),
+                                                  child: _widgetReference.getDialogBtnWidget("확인", false, true, false),
                                                 ),
                                               ],
                                             ),

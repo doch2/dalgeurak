@@ -14,6 +14,8 @@ class StudentSearch extends SearchDelegate {
   late WidgetReference _widgetReference;
   late double _width, _height;
 
+  set studentList(List<DimigoinUser> list) => _studentList = list;
+
   @override
   String get searchFieldLabel => '학번, 이름으로 검색';
 
@@ -46,7 +48,6 @@ class StudentSearch extends SearchDelegate {
 
   @override
   ThemeData appBarTheme(BuildContext context) {
-    // TODO: implement appBarTheme
     return super.appBarTheme(context).copyWith(
       appBarTheme: super.appBarTheme(context).appBarTheme.copyWith(
         elevation: 0.4,
@@ -65,7 +66,7 @@ class StudentSearch extends SearchDelegate {
 
 
     return FutureBuilder(
-        future: _mealController.getStudentList(),
+        future: _mealController.getStudentList(false),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             _studentList = List<DimigoinUser>.from(snapshot.data);
@@ -103,7 +104,7 @@ class StudentSearch extends SearchDelegate {
                         ),
                         child: Center(child: Text("관리", style: studentSearchListTileBtn)),
                       ),
-                      onTap: () => StudentManageWidgetReference(widgetReference: _widgetReference, student: selectStudent).showStudentManageBottomSheet()
+                      onTap: () => StudentManageWidgetReference(widgetReference: _widgetReference, student: selectStudent, studentSearch: this).showStudentManageBottomSheet()
                     ),
                   );
                 },

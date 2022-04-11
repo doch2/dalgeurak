@@ -6,7 +6,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 
 class QrCodeController extends GetxController {
-  DalgeurakService _dalgeurakService = DalgeurakService();
+  DalgeurakService _dalgeurakService = Get.find<DalgeurakService>();
 
   QRViewController? scanController;
 

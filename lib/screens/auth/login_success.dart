@@ -64,7 +64,7 @@ class LoginSuccess extends GetWidget<AuthController> {
               curve: Curves.fastOutSlowIn,
               child: GestureDetector(
                 onTap: () => Get.back(),
-                child: _widgetReference.getDialogBtnWidget("서비스로 돌아가기", true, true),
+                child: _widgetReference.getDialogBtnWidget("서비스로 돌아가기", true, true, false),
               )
             )
           ],
