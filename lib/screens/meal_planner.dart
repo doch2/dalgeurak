@@ -30,7 +30,7 @@ class MealPlanner extends GetWidget<MealController> {
                 color: blueThree
               ),
               FutureBuilder(
-                  future: controller.getMealPlannerFromDimigoin(),
+                  future: controller.getMealPlanner(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                       return SizedBox(
