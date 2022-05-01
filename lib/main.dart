@@ -1,4 +1,5 @@
 import 'package:dalgeurak/controllers/bindings/main_binding.dart';
+import 'package:dalgeurak/controllers/deeplink_controller.dart';
 import 'package:dalgeurak/controllers/notification_controller.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
@@ -15,6 +16,9 @@ void main() async {
   await Firebase.initializeApp();
   await DimigoinFlutterPlugin().initializeApp();
   SharedPreference();
+
+  DeepLinkController _deeplinkController = Get.put<DeepLinkController>(DeepLinkController(), permanent: true);
+  await _deeplinkController.initialize();
 
   NotificationController _notiController = Get.put<NotificationController>(NotificationController(), permanent: true);
   await _notiController.initialize();

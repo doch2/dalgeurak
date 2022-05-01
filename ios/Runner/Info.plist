@@ -38,6 +38,16 @@
 				<string>KAKAO-NATIVE-KEY</string>
 			</array>
 		</dict>
+        <dict>
+          <key>CFBundleTypeRole</key>
+          <string>Editor</string>
+          <key>CFBundleURLName</key>
+          <string>com.iceluna.dalgeurak</string>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>dalgeurak</string>
+          </array>
+        </dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
