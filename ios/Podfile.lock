@@ -739,7 +739,7 @@ SPEC CHECKSUMS:
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   flutter_vibrate: 9f4c2ab57008965f78969472367c329dd77eb801
-  fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
+  fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
   google_sign_in: c5cecea71f3be43282263550556e311c4cc03582
   GoogleAppMeasurement: 837649ad3987936c232f6717c5680216f6243d24
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
@@ -764,4 +764,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 62afb4dfd571b40a5bc3c5b50b2ec1393b1f6fee
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3
