@@ -149,3 +149,8 @@ final myProfileTardyAmountNum = TextStyle(
 
 final appInfo = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+
+final migrationTitle = TextStyle(
+    fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final migrationDescription = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
