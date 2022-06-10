@@ -2,7 +2,6 @@ import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
-import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -47,7 +46,7 @@ class QrCheckInLog extends GetWidget<UserController> {
               ),
               Positioned(
                 top: _height * 0.24,
-                child: Text("${controller.user?.studentId} ${controller.user?.name}", style: myProfileSubTitle)
+                child: Text("${controller.getModifyStudentId()} ${controller.user.name}", style: myProfileSubTitle)
               ),
               Positioned(
                   bottom: 0,
@@ -80,7 +79,7 @@ class QrCheckInLog extends GetWidget<UserController> {
                         ),
                         SizedBox(height: _height * 0.05),
                         FutureBuilder(
-                            future: controller.dalgeurakService.getUserMealInfo(), //TODO 추후 적절한 API로 변경필요
+                            future: controller.getStudentQrCodeLog(),
                             builder: (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
                                 List<Widget> logWidgetList = [];

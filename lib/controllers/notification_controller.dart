@@ -1,25 +1,18 @@
-import 'package:dalgeurak/screens/widget_reference.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_fgbg/flutter_fgbg.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:convert';
 
 class NotificationController extends GetxController {
   static NotificationController get to => Get.find();
 
-  late BuildContext context;
-  Rx<FGBGType> serviceWorkType = FGBGType.foreground.obs;
-
   final Rxn<RemoteMessage> message = Rxn<RemoteMessage>();
+
   FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   Future<bool> initialize() async {
-    await _messaging.setAutoInitEnabled(true);
-
+    // Android 에서는 별도의 확인 없이 리턴되지만, requestPermission()을 호출하지 않으면 수신되지 않는다.
     await _messaging.requestPermission(
       alert: true,
       announcement: true,
@@ -31,8 +24,8 @@ class NotificationController extends GetxController {
     );
 
     await _messaging.setForegroundNotificationPresentationOptions(
-      alert: false,
-      badge: false,
+      alert: true,
+      badge: true,
       sound: true,
     );
 
@@ -63,30 +56,19 @@ class NotificationController extends GetxController {
 
       RemoteNotification? notification = rm.notification;
       AndroidNotification? android = rm.notification?.android;
-      AppleNotification? apple = rm.notification?.apple;
-      print(rm);
 
-      if (notification != null && (android != null || apple != null)) {
-        List content = json.decode(notification.body!);
-
-        if (serviceWorkType.value == FGBGType.background) {
-          String onlyMessage = "";
-          content.forEach((element) => onlyMessage = onlyMessage + element['content']);
-
-          flutterLocalNotificationsPlugin.show(
-            0,
-            notification.title,
-            onlyMessage,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                'dalgeurak_noti_channel',
-                '어플리케이션 공지',
-              ),
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+          0,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              'dalgeurak_noti_channel',
+              '어플리케이션 공지',
             ),
-          );
-        } else {
-          showOverlayAlertWidget(content);
-        }
+          ),
+        );
       }
     });
 
@@ -106,10 +88,6 @@ class NotificationController extends GetxController {
 
     return true;
   }
-
-  getFCMToken() async => await _messaging.getToken();
-
-  showOverlayAlertWidget(List content) => WidgetReference(context: context).showAlert(content);
 
   void _launchURL(String _url) async =>
       await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';

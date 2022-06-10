@@ -8,15 +8,15 @@
 또한, QR코드 체크인을 진행하여 디넌과 급식실의 급식 지도를 편리하게 만들어줍니다.
 
 현재 앱에서 지원하는 기능입니다.
-* 급식실 입장시 체크인(QR/NFC) 기능 (실제 적용은 학교와의 협의필요)
+* 급식실 입장시 QR코드 인증 기능 (실제 적용은 학교와의 협의필요)
 * 이번주의 급식 정보 제공
 * 급식 시간 제공
 * 개개인 지각횟수, 인증 로그 확인 기능
 * 급식 줄 원활 혼잡 밀림 알람 기능<br>  
 
-※ 20기 웹프로그래밍과 유도희와 이비즈니스과 라윤지가 제작하였으며, 현재 디미고 인트라넷 개발팀에서 개발을 진행하고 있습니다.<br>  
+※ 2021 교내IT공모전 공모작이며, 20기 웹프로그래밍과 유도희와 이비즈니스과 라윤지가 제작하였습니다.<br>  
 
-<div align="center"><img width="640" alt="ScreenShot" src="https://user-images.githubusercontent.com/30923566/162618402-2d804fd3-187c-4c66-a395-ea7f386ed84d.png"></div><br>   
+<div align="center"><img width="640" alt="ScreenShot" src="https://user-images.githubusercontent.com/30923566/150146120-fe6e52eb-ca62-4a98-b11e-534f8c9b385c.png"></div><br>   
 
 
 ## 어플리케이션 이용
@@ -28,7 +28,5 @@
 
 본 어플리케이션은 플러터로 만들어졌으며, 본 레포지토리를 Clone 받아 개발을 진행하고자 하는 경우 기본 Flutter 개발 환경 구성을 진행하셔야 합니다.
 
-또한 현재 본 레포지토리에는 google-services.json(GoogleService-Info.plist)가 보안상 문제로 업로드가 되어있지 않은 상태입니다.
+또한 현재 본 레포지토리에는 google-services.json(GoogleService-Info.plist), token_reference.dart, token_reference.xml, InfoPlist.strings가 보안상 문제로 업로드가 되어있지 않은 상태입니다.
 만약 개발을 진행하고자 하신다면, 위 파일들을 개발자에게 받으신 후 개발을 진행해주시기 바랍니다.
-
-만약 iOS 개발을 진행하실 경우, FCM의 정상적인 작동을 위해 dalgeurakAPNs.cer 파일을 개발자에게 따로 전달받으신 후, 컴퓨터에 등록해주셔야 정상적으로 개발이 가능하니 참고바랍니다.

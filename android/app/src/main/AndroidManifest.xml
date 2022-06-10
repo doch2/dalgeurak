@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
 
    <application
         android:label="달그락"
@@ -14,6 +13,17 @@
        <meta-data
            android:name="com.google.firebase.messaging.default_notification_channel_id"
            android:value="dalgeurak_noti_channel" />
+
+       <activity
+           android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
+           android:exported="true">
+           <intent-filter android:label="flutter_web_auth">
+               <action android:name="android.intent.action.VIEW" />
+               <category android:name="android.intent.category.DEFAULT" />
+               <category android:name="android.intent.category.BROWSABLE" />
+               <data android:scheme="@string/kakaoNativeKey" android:host="oauth"/>
+           </intent-filter>
+       </activity>
 
         <activity
             android:name=".MainActivity"

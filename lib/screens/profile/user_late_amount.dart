@@ -79,7 +79,7 @@ class UserLateAmount extends GetWidget<UserController> {
                         ),
                         SizedBox(height: _height * 0.04),
                         FutureBuilder(
-                            future: controller.dalgeurakService.getUserMealInfo(), //TODO 추후 적절한 API로 변경필요
+                            future: controller.getStudentQrCodeLog(),
                             builder: (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
                                 List<Widget> logWidgetList = [];

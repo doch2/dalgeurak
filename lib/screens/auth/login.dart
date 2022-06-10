@@ -1,87 +1,177 @@
+import 'dart:io';
+
 import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class Login extends GetWidget<AuthController> {
-  Login({Key? key}) : super(key: key);
-
-  late double _height, _width;
+  const Login({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    _height = MediaQuery.of(context).size.height;
-    _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
+    final _width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            Image.asset(
-              "assets/images/logo.png",
-              width: _width * 0.25,
-              height: _width * 0.25,
+            Container(
+              width: _width,
+              height: _height,
+              decoration: BoxDecoration(
+                color: blueOne,
+              ),
             ),
-            SizedBox(height: _height * 0.01),
-            Text("달그락", style: loginTitle),
-            SizedBox(height: _height * 0.015),
-            Text("여유로운 급식 시간의 시작", style: loginSubTitle),
-            SizedBox(height: _height * 0.08),
-            getInputTextField("디미고인 아이디", controller.userIdTextController),
-            SizedBox(height: _height * 0.0075),
-            getInputTextField("디미고인 비밀번호", controller.passwordTextController),
-            SizedBox(height: _height * 0.175),
-            Obx(() {
-              bool isEmpty = controller.isTextFieldsEmpty['username'] || controller.isTextFieldsEmpty['password'];
-
-              return GestureDetector(
-                onTap: () => {controller.logInWithDimigoinAccount()},
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 200),
-                  width: _width * 0.858,
-                  height: _height * 0.06,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(
-                      width: 1,
-                      color: dalgeurakBlueOne,
-                    ),
-                    color: isEmpty ? Colors.white : dalgeurakBlueOne,
-                  ),
-                  child: Center(child: Text("로그인", style: isEmpty ? btnTitle1 : btnTitle1.copyWith(color: Colors.white))),
+            Positioned(
+              top: 0,
+              child: Container(
+                width: _width,
+                height: _height * 0.93,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+                  color: Colors.white,
                 ),
-              );
-            }),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/logo.png",
+                      width: _width * 0.25,
+                      height: _width * 0.25,
+                    ),
+                    SizedBox(height: _height * 0.01),
+                    Text("달그락", style: loginTitle),
+                    Text("편리한 급식 시간의 시작", style: loginSubTitle),
+                    SizedBox(height: _height * 0.125),
+                    GestureDetector(
+                      onTap: () => {controller.signInWithGoogle()},
+                      child: Container(
+                        width: _width * 0.842,
+                        height: _height * 0.08,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, -1)
+                              ),
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5)
+                              )
+                            ]
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(width: _width * 0.1),
+                            SvgPicture.asset(
+                              'assets/images/googleIcon.svg',
+                              width: _width * 0.07,
+                            ),
+                            SizedBox(width: _width * 0.15),
+                            Text("구글로 로그인", style: loginBoxTitle)
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: _height * 0.025),
+                    GestureDetector(
+                      onTap: () {
+                        if (Platform.isAndroid) {
+                          Get.snackbar('애플 로그인 오류', '현재 안드로이드 기기에서 \n애플 로그인은 지원되지 않습니다.', snackPosition: SnackPosition.BOTTOM);
+                        } else if (Platform.isIOS) {
+                          controller.signInWithApple();
+                        }
+                      },
+                      child: Container(
+                        width: _width * 0.842,
+                        height: _height * 0.08,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.black,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, -1)
+                              ),
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5)
+                              )
+                            ]
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(width: _width * 0.1),
+                            SvgPicture.asset(
+                              'assets/images/appleIcon.svg',
+                              width: _width * 0.07,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: _width * 0.15),
+                            Text("Apple로 로그인", style: loginBoxTitle.copyWith(color: Colors.white))
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: _height * 0.025),
+                    GestureDetector(
+                      onTap: () => controller.signInWithKakao(),
+                      child: Container(
+                        width: _width * 0.842,
+                        height: _height * 0.08,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: yellowFour,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, -1)
+                              ),
+                              BoxShadow(
+                                  color: grayShadowTwo,
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5)
+                              )
+                            ]
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(width: _width * 0.1),
+                            SvgPicture.asset(
+                              'assets/images/kakaoIcon.svg',
+                              width: _width * 0.07,
+                            ),
+                            SizedBox(width: _width * 0.15),
+                            Text("카카오톡으로 로그인", style: loginBoxTitle)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
-        ),
-      ),
-    );
-  }
-
-  SizedBox getInputTextField(String hintText, TextEditingController textController) {
-    String engTextFieldType = hintText.contains("아이디") ? "username" : "password";
-
-    return SizedBox(
-      width: _width * 0.846,
-      child: TextField(
-        keyboardType: TextInputType.text,
-        controller: textController,
-        textAlign: TextAlign.center,
-        style: loginTextFieldText,
-        obscureText: hintText.contains("비밀번호"),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(vertical: _height * 0.02),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(width: 0, style: BorderStyle.none,)),
-          fillColor: dalgeurakGrayOne,
-          filled: true,
-          hintText: hintText,
-          hintStyle: loginTextFieldHintText,
-        ),
-        onChanged: (value) => controller.isTextFieldsEmpty[engTextFieldType] = value.isEmpty,
+        )
       ),
     );
   }

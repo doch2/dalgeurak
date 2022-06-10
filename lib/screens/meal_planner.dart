@@ -2,7 +2,6 @@ import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/services/meal_info.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
-import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -120,11 +119,11 @@ class MealPlanner extends GetWidget<MealController> {
                 style: mealPlannerDate
             ),
             SizedBox(height: _height * 0.0165),
-            mealPlannerPanel(data, i, MealType.breakfast),
+            mealPlannerPanel(data, i, "breakfast", "아침"),
             SizedBox(height: _height * 0.0165),
-            mealPlannerPanel(data, i, MealType.lunch),
+            mealPlannerPanel(data, i, "lunch", "점심"),
             SizedBox(height: _height * 0.0165),
-            mealPlannerPanel(data, i, MealType.dinner),
+            mealPlannerPanel(data, i, "dinner", "저녁"),
           ],
         )
       );
@@ -133,21 +132,21 @@ class MealPlanner extends GetWidget<MealController> {
     return result;
   }
 
-  Stack mealPlannerPanel(Map data, int index, MealType mealType) {
+  Stack mealPlannerPanel(Map data, int index, String engMealType, String korMealType) {
     Color smallBoxColor = emptyColor;
     Color bigBoxColor = Colors.white;
     TextStyle mealTextStyle = mealPlannerContent;
     List<BoxShadow> boxShadow = [];
 
-    if (mealType == MealType.breakfast) {
+    if (korMealType == '아침') {
       smallBoxColor = greenThree;
-    } else if (mealType == MealType.lunch) {
+    } else if (korMealType == '점심') {
       smallBoxColor = yellowSeven;
-    } else if (mealType == MealType.dinner) {
+    } else if (korMealType == '저녁') {
       smallBoxColor = blueSeven;
     }
 
-    if (controller.dalgeurakService.getMealKind(true) == mealType) {
+    if (controller.getMealKind("eng", true) == engMealType) {
       bigBoxColor = blueOne;
       mealTextStyle = mealTextStyle.copyWith(color: Colors.white);
       boxShadow = [
@@ -188,7 +187,7 @@ class MealPlanner extends GetWidget<MealController> {
           child: Center(
               child: SizedBox(
                 width: _width * 0.77,
-                child: Text(data["$index"][mealType.convertEngStr], style: mealTextStyle, textAlign: TextAlign.center),
+                child: Text(data["$index"][engMealType], style: mealTextStyle, textAlign: TextAlign.center),
               )
           ),
         ),
@@ -206,11 +205,11 @@ class MealPlanner extends GetWidget<MealController> {
               children: [
                 SizedBox(width: _width * 0.02),
                 SvgPicture.asset(
-                  'assets/images/mealPlanner_${mealType.convertEngStr}.svg',
+                  'assets/images/mealPlanner_$engMealType.svg',
                   width: _width * 0.06,
                 ),
                 SizedBox(width: _width * 0.02),
-                Text(mealType.convertKorStr, style: mealPlannerMealType)
+                Text(korMealType, style: mealPlannerMealType)
               ],
             ),
           ),

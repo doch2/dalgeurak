@@ -1,18 +1,14 @@
-import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:jiffy/jiffy.dart';
 
 class MealInfo {
   final Dio _dio = Get.find<Dio>();
-  DimigoinMeal _dimigoinMeal = DimigoinMeal();
 
   final String apiUrl = "https://www.dimigo.hs.kr/index.php?mid=school_cafeteria";
   DateTime nowTime = DateTime.now();
 
-  getMealPlannerFromDimigoin() async => await _dimigoinMeal.getWeeklyMeal();
-
-  Future<Map> getMealPlannerFromDimigoHomepage() async {
+  Future<Map> getMealPlanner() async {
     Map result = {};
 
     int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
@@ -27,9 +23,9 @@ class MealInfo {
         String data = response.data.toString();
 
         result["$tempWeekDay"] = {};
-        result["$tempWeekDay"]["breakfast"] = data.substring(data.indexOf('<meta name="description" content="*조식 : ') + 40, data.indexOf(" *중식")).replaceAll("/", ", ").replaceAll("&amp;amp;", ", ");
-        result["$tempWeekDay"]["lunch"] = data.substring(data.indexOf("중식 : ") + 5, data.indexOf(" *석식")).replaceAll("/", ", ").replaceAll("&amp;amp;", ", ");
-        result["$tempWeekDay"]["dinner"] = data.substring(data.indexOf("석식 : ") + 5, data.indexOf('" />', data.indexOf("석식 : "))).replaceAll("/", ", ").replaceAll("&amp;amp;", ", ");
+        result["$tempWeekDay"]["breakfast"] = data.substring(data.indexOf('<meta name="description" content="*조식 : ') + 40, data.indexOf(" *중식")).replaceAll("/", ", ");
+        result["$tempWeekDay"]["lunch"] = data.substring(data.indexOf("중식 : ") + 5, data.indexOf(" *석식")).replaceAll("/", ", ");
+        result["$tempWeekDay"]["dinner"] = data.substring(data.indexOf("석식 : ") + 5, data.indexOf('" />', data.indexOf("석식 : "))).replaceAll("/", ", ");
       } catch (e) {
         if (result["$tempWeekDay"] == null) { result["$tempWeekDay"] = {}; }
         if (result["$tempWeekDay"]["breakfast"] == null) { result["$tempWeekDay"]["breakfast"] = "급식 정보가 없습니다."; }
