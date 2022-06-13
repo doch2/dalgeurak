@@ -29,30 +29,16 @@ class MealController extends GetxController {
 
   FirestoreDatabase firestoreDatabase = FirestoreDatabase();
   DalgeurakService dalgeurakService = DalgeurakService();
-  DimigoinMeal _dimigoinMeal = DimigoinMeal();
   MealInfo mealInfo = MealInfo();
   DateTime nowTime = DateTime.now();
 
   getMealPlanner() async {
     String? stringData = SharedPreference().getMealPlanner();
-    int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
-
-    if (stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
-      Map data = await mealInfo.getMealPlanner();
-
-      SharedPreference().saveMealPlanner(data);
-      return data;
-    } else {
-      return json.decode(stringData);
-    }
-  }
-
-  getMealPlannerToDimigoin() async {
-    String? stringData = SharedPreference().getMealPlanner();
     ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
 
+    int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
+
     if (connectivityResult == ConnectivityResult.none) {
-      int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
       Map correctFirstDay = mealInfo.getCorrectDate(weekFirstDay);
       correctFirstDay['month'] = correctFirstDay['month'].toString().length == 2 ? correctFirstDay['month'] : "0${correctFirstDay['month']}";
       correctFirstDay['day'] = correctFirstDay['day'].toString().length == 2 ? correctFirstDay['day'] : "0${correctFirstDay['day']}";
@@ -60,7 +46,7 @@ class MealController extends GetxController {
       if (stringData == null ||
         (json.decode(stringData))["1"]["date"] == null ||
         !((json.decode(stringData))["1"]["date"] as String).contains("${correctFirstDay['month']}-${correctFirstDay['day']}")) {
-          Map data = await mealInfo.getMealPlanner(); //급식 정보 없다고 표시하기 위한 코드. 인터넷 연결 안되어 있으면 함수 Return 값이 급식 정보 없다고 뜸.
+          Map data = await mealInfo.getMealPlannerFromDimigoHomepage(); //급식 정보 없다고 표시하기 위한 코드. 인터넷 연결 안되어 있으면 함수 Return 값이 급식 정보 없다고 뜸.
           return data;
       } else {
           return json.decode(stringData);
@@ -73,15 +59,23 @@ class MealController extends GetxController {
         return result;
       }
 
-      List dataResponse = await _dimigoinMeal.getWeeklyMeal();
-
+      List dataResponse = await mealInfo.getMealPlannerFromDimigoin();
       Map result = {};
-      dataResponse.forEach((element) => result[(dataResponse.indexOf(element)+1).toString()] = element);
-      result.forEach((key, value) {
-        result[key]['breakfast'] = mealListToStr(result[key]['breakfast']);
-        result[key]['lunch'] = mealListToStr(result[key]['lunch']);
-        result[key]['dinner'] = mealListToStr(result[key]['dinner']);
-      });
+      if (dataResponse.isEmpty) { //디미고인 서버에 급식 정보가 없을 경우
+        if (stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
+          result = await mealInfo.getMealPlannerFromDimigoHomepage(); //디미고 홈페이지에서 급식 정보 로딩
+        } else {
+          result = json.decode(stringData);
+        }
+      } else { //디미고인 서버에 급식 정보가 있을 경우
+        dataResponse.forEach((element) => result[(dataResponse.indexOf(element)+1).toString()] = element);
+        result.forEach((key, value) {
+          result[key]['breakfast'] = mealListToStr(result[key]['breakfast']);
+          result[key]['lunch'] = mealListToStr(result[key]['lunch']);
+          result[key]['dinner'] = mealListToStr(result[key]['dinner']);
+        });
+      }
+
 
       SharedPreference().saveMealPlanner(result);
 
