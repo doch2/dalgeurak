@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dalgeurak/services/firestore_database.dart';
 import 'package:dalgeurak/services/meal_info.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
+import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:get/get.dart';
 import 'package:jiffy/jiffy.dart';
 
@@ -26,6 +28,8 @@ class MealController extends GetxController {
   Map classLeftPeople = {};
 
   FirestoreDatabase firestoreDatabase = FirestoreDatabase();
+  DalgeurakService dalgeurakService = DalgeurakService();
+  DimigoinMeal _dimigoinMeal = DimigoinMeal();
   MealInfo mealInfo = MealInfo();
   DateTime nowTime = DateTime.now();
 
@@ -43,32 +47,51 @@ class MealController extends GetxController {
     }
   }
 
-  getMealKind(String resultKind, bool includeBreakfast) { //kor, eng
-    String nowMinute = DateTime.now().minute.toString(); if (int.parse(nowMinute) < 10) { nowMinute = "0$nowMinute"; }
-    int nowTime = int.parse("${DateTime.now().hour}$nowMinute");
+  getMealPlannerToDimigoin() async {
+    String? stringData = SharedPreference().getMealPlanner();
+    ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
 
-    String mealKind = "";
-    if ((nowTime < 0830 || nowTime >= 2000) && includeBreakfast) {
-      if (resultKind == "kor") {
-        mealKind = "아침";
+    if (connectivityResult == ConnectivityResult.none) {
+      int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
+      Map correctFirstDay = mealInfo.getCorrectDate(weekFirstDay);
+      correctFirstDay['month'] = correctFirstDay['month'].toString().length == 2 ? correctFirstDay['month'] : "0${correctFirstDay['month']}";
+      correctFirstDay['day'] = correctFirstDay['day'].toString().length == 2 ? correctFirstDay['day'] : "0${correctFirstDay['day']}";
+
+      if (stringData == null ||
+        (json.decode(stringData))["1"]["date"] == null ||
+        !((json.decode(stringData))["1"]["date"] as String).contains("${correctFirstDay['month']}-${correctFirstDay['day']}")) {
+          Map data = await mealInfo.getMealPlanner(); //급식 정보 없다고 표시하기 위한 코드. 인터넷 연결 안되어 있으면 함수 Return 값이 급식 정보 없다고 뜸.
+          return data;
       } else {
-        mealKind = "breakfast";
+          return json.decode(stringData);
       }
-    } else if (nowTime < 1400 || nowTime >= 2000) {
-      if (resultKind == "kor") {
-        mealKind = "점심";
-      } else {
-        mealKind = "lunch";
+    } else {
+      mealListToStr(list) {
+        String result = "";
+        (list as List).forEach((element) => result = result + element + ", ");
+        result = result.substring(0, (result.length - 2));
+        return result;
       }
-    } else if (nowTime < 2000) {
-      if (resultKind == "kor") {
-        mealKind = "저녁";
-      } else {
-        mealKind = "dinner";
-      }
+
+      List dataResponse = await _dimigoinMeal.getWeeklyMeal();
+
+      Map result = {};
+      dataResponse.forEach((element) => result[(dataResponse.indexOf(element)+1).toString()] = element);
+      result.forEach((key, value) {
+        result[key]['breakfast'] = mealListToStr(result[key]['breakfast']);
+        result[key]['lunch'] = mealListToStr(result[key]['lunch']);
+        result[key]['dinner'] = mealListToStr(result[key]['dinner']);
+      });
+
+      SharedPreference().saveMealPlanner(result);
+
+      return result;
     }
+  }
 
-    return mealKind;
+  getMealKind(String lang, bool includeBreakfast) {
+    MealType typeResult = dalgeurakService.getMealKind(includeBreakfast);
+    return lang == "kor" ? typeResult.convertKorStr : typeResult.convertEngStr;
   }
 
   getMealTime() async {

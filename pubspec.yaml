@@ -33,6 +33,8 @@ dependencies:
   get: ^4.3.8
   dio: ^4.0.1
 
+  dimigoin_flutter_plugin: ^0.3.6
+
   firebase_core: ^1.8.0
   firebase_auth: ^3.1.4
   google_sign_in: ^5.2.1
@@ -55,7 +57,12 @@ dependencies:
   url_launcher: ^6.0.12
   permission_handler: ^8.2.5
   package_info_plus: ^1.2.0
+
   flutter_native_splash: ^1.3.2
+  korea_regexp: ^0.1.0+1
+  flutter_fgbg: ^0.1.0
+  flutter_vibrate: ^1.3.0
+  connectivity_plus: ^2.2.1
 
   jiffy: ^4.1.0
 
