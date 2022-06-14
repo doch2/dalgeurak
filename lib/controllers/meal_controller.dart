@@ -26,13 +26,17 @@ class MealController extends GetxController {
   RxInt mealSequence = 0.obs;
   RxInt mealClassSequenceInSetDialog = 0.obs;
   Map classLeftPeople = {};
+  RxMap mealPlannerData = {}.obs;
 
   FirestoreDatabase firestoreDatabase = FirestoreDatabase();
   DalgeurakService dalgeurakService = DalgeurakService();
   MealInfo mealInfo = MealInfo();
   DateTime nowTime = DateTime.now();
 
-  getMealPlanner() async {
+  getMealPlanner(bool mustNewData) async {
+    Map result = {};
+    mealPlannerData.value = {}; //데이터 초기화
+
     String? stringData = SharedPreference().getMealPlanner();
     ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
 
@@ -47,9 +51,9 @@ class MealController extends GetxController {
         (json.decode(stringData))["1"]["date"] == null ||
         !((json.decode(stringData))["1"]["date"] as String).contains("${correctFirstDay['month']}-${correctFirstDay['day']}")) {
           Map data = await mealInfo.getMealPlannerFromDimigoHomepage(); //급식 정보 없다고 표시하기 위한 코드. 인터넷 연결 안되어 있으면 함수 Return 값이 급식 정보 없다고 뜸.
-          return data;
+          result =  data;
       } else {
-          return json.decode(stringData);
+          result = json.decode(stringData);
       }
     } else {
       mealListToStr(list) {
@@ -60,9 +64,9 @@ class MealController extends GetxController {
       }
 
       List dataResponse = await mealInfo.getMealPlannerFromDimigoin();
-      Map result = {};
+
       if (dataResponse.isEmpty) { //디미고인 서버에 급식 정보가 없을 경우
-        if (stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
+        if (mustNewData || stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
           result = await mealInfo.getMealPlannerFromDimigoHomepage(); //디미고 홈페이지에서 급식 정보 로딩
         } else {
           result = json.decode(stringData);
@@ -76,11 +80,11 @@ class MealController extends GetxController {
         });
       }
 
-
       SharedPreference().saveMealPlanner(result);
-
-      return result;
     }
+
+
+    mealPlannerData.value = result;
   }
 
   getMealKind(String lang, bool includeBreakfast) {

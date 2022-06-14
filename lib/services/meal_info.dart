@@ -13,6 +13,14 @@ class MealInfo {
   getMealPlannerFromDimigoin() async => await _dimigoinMeal.getWeeklyMeal();
 
   Future<Map> getMealPlannerFromDimigoHomepage() async {
+    preprocessingText(MealType mealType, String mealInfo) {
+      if (mealType != MealType.dinner) { mealInfo = mealInfo.substring(0, mealInfo.indexOf("<")); }
+      if (mealType == MealType.lunch && mealInfo.contains("석식")) { mealInfo = "급식 정보가 없습니다."; }
+
+      return mealInfo.replaceAll("/", ", ").replaceAll("&amp;amp;", ", ").replaceAll("&amp;", ", ");
+    }
+
+
     Map result = {};
 
     int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
@@ -27,10 +35,13 @@ class MealInfo {
         String data = response.data.toString();
 
         result["$tempWeekDay"] = {};
-        result["$tempWeekDay"]["breakfast"] = data.substring(data.indexOf('<meta name="description" content="*조식 : ') + 40, data.indexOf(" *중식")).replaceAll("/", ", ").replaceAll("&amp;amp;", ", ");
-        result["$tempWeekDay"]["lunch"] = data.substring(data.indexOf("중식 : ") + 5, data.indexOf(" *석식")).replaceAll("/", ", ").replaceAll("&amp;amp;", ", ");
-        result["$tempWeekDay"]["dinner"] = data.substring(data.indexOf("석식 : ") + 5, data.indexOf('" />', data.indexOf("석식 : "))).replaceAll("/", ", ").replaceAll("&amp;amp;", ", ");
+        print(data.lastIndexOf('석식 : '));
+        print(data.lastIndexOf('</p></div> </div>'));
+        result["$tempWeekDay"]["breakfast"] = preprocessingText(MealType.breakfast, data.substring(data.lastIndexOf('xe_content"><p>') + 20, data.lastIndexOf("*중식")));
+        result["$tempWeekDay"]["lunch"] = preprocessingText(MealType.lunch, data.substring(data.lastIndexOf("중식 : ") + 5, data.lastIndexOf("*석식")));
+        result["$tempWeekDay"]["dinner"] = preprocessingText(MealType.dinner, data.substring(data.lastIndexOf("석식 : ") + 5, data.lastIndexOf('</p></div> </div>')));
       } catch (e) {
+        print(e);
         if (result["$tempWeekDay"] == null) { result["$tempWeekDay"] = {}; }
         if (result["$tempWeekDay"]["breakfast"] == null) { result["$tempWeekDay"]["breakfast"] = "급식 정보가 없습니다."; }
         if (result["$tempWeekDay"]["lunch"] == null) { result["$tempWeekDay"]["lunch"] = "급식 정보가 없습니다."; }
