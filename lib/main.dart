@@ -2,8 +2,10 @@ import 'package:dalgeurak/controllers/bindings/main_binding.dart';
 import 'package:dalgeurak/controllers/notification_controller.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
+import 'package:dalgeurak/token_reference.dart';
 import 'package:dalgeurak/utils/root.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -11,6 +13,7 @@ import 'package:get/get.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  KakaoSdk.init(nativeAppKey: TokenReference().kakaoNativeKey);
   SharedPreference();
 
   NotificationController _notiController = Get.put<NotificationController>(NotificationController(), permanent: true);

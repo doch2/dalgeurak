@@ -3,14 +3,13 @@ import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/models/user.dart';
 import 'package:dalgeurak/screens/auth/signup_selectgroup.dart';
 import 'package:dalgeurak/services/firestore_database.dart';
-import 'package:dalgeurak/token_reference.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:kakao_flutter_sdk/all.dart'as kakaoFlutterLib;
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart' as kakaoFlutterLib;
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthController extends GetxController {
@@ -31,8 +30,6 @@ class AuthController extends GetxController {
     _firebaseUser.bindStream(authInstance.authStateChanges());
     _firebaseUser.value = authInstance.currentUser;
     if (user != null) { Get.find<UserController>().user = await FirestoreDatabase().getUser(user!.uid); }
-
-    kakaoFlutterLib.KakaoContext.clientId = TokenReference().kakaoNativeKey;
   }
 
   void signInWithGoogle() async {
@@ -88,12 +85,9 @@ class AuthController extends GetxController {
   void signInWithKakao() async {
     try {
       final installed = await kakaoFlutterLib.isKakaoTalkInstalled();
-      String authCode = installed ? await kakaoFlutterLib.AuthCodeClient.instance.requestWithTalk() : await kakaoFlutterLib.AuthCodeClient.instance.request();
-
-      kakaoFlutterLib.OAuthToken token = await kakaoFlutterLib.AuthApi.instance.issueAccessToken(authCode);
-      kakaoFlutterLib.TokenManagerProvider.instance.manager.setToken(token);
-
-      String accessToken = token.accessToken;
+      kakaoFlutterLib.OAuthToken loginToken = installed
+          ? await kakaoFlutterLib.UserApi.instance.loginWithKakaoTalk()
+          : await kakaoFlutterLib.UserApi.instance.loginWithKakaoAccount();
 
       kakaoFlutterLib.User user = await kakaoFlutterLib.UserApi.instance.me();
 
@@ -106,7 +100,7 @@ class AuthController extends GetxController {
           'https://asia-northeast3-dalgeurak-58ca5.cloudfunctions.net/kakaoToken',
           data: {
             "data": {
-              "access_token": accessToken
+              "access_token": loginToken.accessToken
             }
           });
 
