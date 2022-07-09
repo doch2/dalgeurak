@@ -34,31 +34,28 @@ class MealPlanner extends GetWidget<MealController> {
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                       return SizedBox(
-                        width: _width * 0.95,
-                        height: _height * 0.855,
-                        child: DefaultTabController(
-                          length: 7,
-                          initialIndex: (DateTime.now().weekday-1),
-                          child: Scaffold(
-                            backgroundColor: Colors.transparent,
-                            appBar: PreferredSize(
-                              preferredSize: Size.fromHeight(kToolbarHeight),
-                              child: Container(
-                                height: 50.0,
-                                child: TabBar(
-                                  labelStyle: mealPlannerTabDate,
-                                  labelColor: Colors.black,
-                                  unselectedLabelColor: grayOne,
-                                  indicatorWeight: _width * 0.0075,
-                                  tabs: mealPlannerTab(),
+                          width: _width * 0.95,
+                          height: _height * 0.855,
+                          child: DefaultTabController(
+                              length: 7,
+                              initialIndex: (DateTime.now().weekday-1),
+                              child: Scaffold(
+                                backgroundColor: Colors.transparent,
+                                appBar: PreferredSize(
+                                  preferredSize: Size.fromHeight(kToolbarHeight),
+                                  child: Container(
+                                    height: 50.0,
+                                    child: TabBar(
+                                      labelStyle: mealPlannerTabDate,
+                                      labelColor: Colors.black,
+                                      unselectedLabelColor: grayOne,
+                                      indicatorWeight: _width * 0.0075,
+                                      tabs: mealPlannerTab(),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            body: TabBarView(
-                              children: mealPlannerView(snapshot.data),
-                            ),
-                          ),
-                        ),
+                              )
+                          )
                       );
                     } else if (snapshot.hasError) { //데이터를 정상적으로 불러오지 못했을 때
                       return Stack(
