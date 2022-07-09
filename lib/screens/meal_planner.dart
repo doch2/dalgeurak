@@ -31,7 +31,6 @@ class MealPlanner extends GetWidget<MealController> {
                 color: blueThree
               ),
               Obx(() {
-                print(controller.mealPlannerData);
                 if (controller.mealPlannerData.isEmpty) {
                   return Stack(
                     alignment: Alignment.center,

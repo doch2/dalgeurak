@@ -14,10 +14,15 @@ class MealInfo {
 
   Future<Map> getMealPlannerFromDimigoHomepage() async {
     preprocessingText(MealType mealType, String mealInfo) {
-      if (mealType != MealType.dinner) { mealInfo = mealInfo.substring(0, mealInfo.indexOf("<")); }
+      if (mealInfo.contains("<")) { mealInfo = mealInfo.substring(0, mealInfo.indexOf("<")); }
       if (mealType == MealType.lunch && mealInfo.contains("석식")) { mealInfo = "급식 정보가 없습니다."; }
 
-      return mealInfo.replaceAll("/", ", ").replaceAll("&amp;amp;", ", ").replaceAll("&amp;", ", ");
+      return mealInfo
+          .replaceAll("/", ", ")
+          .replaceAll("&amp;amp;", ", ")
+          .replaceAll("&amp;", ", ")
+          .replaceAll("&lt;", "<")
+          .replaceAll("&gt;", ">");
     }
 
 
@@ -35,8 +40,6 @@ class MealInfo {
         String data = response.data.toString();
 
         result["$tempWeekDay"] = {};
-        print(data.lastIndexOf('석식 : '));
-        print(data.lastIndexOf('</p></div> </div>'));
         result["$tempWeekDay"]["breakfast"] = preprocessingText(MealType.breakfast, data.substring(data.lastIndexOf('xe_content"><p>') + 20, data.lastIndexOf("*중식")));
         result["$tempWeekDay"]["lunch"] = preprocessingText(MealType.lunch, data.substring(data.lastIndexOf("중식 : ") + 5, data.lastIndexOf("*석식")));
         result["$tempWeekDay"]["dinner"] = preprocessingText(MealType.dinner, data.substring(data.lastIndexOf("석식 : ") + 5, data.lastIndexOf('</p></div> </div>')));
