@@ -67,6 +67,13 @@ class MyProfile extends GetWidget<UserController> {
       Material(
         color: Colors.white,
         child: InkWell(
+          onTap: () => authController.deleteAccount(),
+          child: menuWidget([Text("회원 탈퇴", style: myProfileMenuTitle), SizedBox()]),
+        ),
+      ),
+      Material(
+        color: Colors.white,
+        child: InkWell(
           onTap: () => authController.logOut(),
           child: menuWidget([Text("로그아웃", style: myProfileMenuTitle.copyWith(color: redThree)), SizedBox()]),
         ),

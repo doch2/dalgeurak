@@ -25,6 +25,16 @@ class FirestoreDatabase {
     }
   }
 
+  Future<bool> deleteUser(String userId) async {
+    try {
+      await _firestore.collection("users").doc(userId).delete();
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<UserModel> getUser(String? uid) async {
     try {
       DocumentSnapshot _doc =

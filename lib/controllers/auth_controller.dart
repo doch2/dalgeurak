@@ -32,7 +32,7 @@ class AuthController extends GetxController {
     if (user != null) { Get.find<UserController>().user = await FirestoreDatabase().getUser(user!.uid); }
   }
 
-  void signInWithGoogle() async {
+  signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -53,9 +53,12 @@ class AuthController extends GetxController {
     loginUserInfo["profileImgUrl"] = googleUser?.photoUrl;
 
     if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpSelectGroup()); } else { isLogin.value = true; Get.find<UserController>().user = await FirestoreDatabase().getUser(user!.uid); }
+
+
+    return _authResult;
   }
 
-  void signInWithApple() async {
+  signInWithApple() async {
     try {
       final appleCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -77,12 +80,15 @@ class AuthController extends GetxController {
       loginUserInfo["profileImgUrl"] = "";
 
       if (_authResult.additionalUserInfo!.isNewUser) { Get.to(SignUpSelectGroup()); } else { isLogin.value = true; Get.find<UserController>().user = await FirestoreDatabase().getUser(user!.uid); }
+
+
+      return _authResult;
     } catch(error) {
       print(error);
     }
   }
 
-  void signInWithKakao() async {
+  signInWithKakao() async {
     try {
       final installed = await kakaoFlutterLib.isKakaoTalkInstalled();
       kakaoFlutterLib.OAuthToken loginToken = installed
@@ -104,27 +110,22 @@ class AuthController extends GetxController {
             }
           });
 
-      await FirebaseAuth.instance.signInWithCustomToken(response.data["result"]);
+      UserCredential _authResult = await FirebaseAuth.instance.signInWithCustomToken(response.data["result"]);
 
       if (await FirestoreDatabase().isAlreadyRegisterUser(loginUserInfo["userid"])) { isLogin.value = true; Get.find<UserController>().user = await FirestoreDatabase().getUser(this.user!.uid); } else { Get.to(SignUpSelectGroup()); }
+
+
+      return _authResult;
     } catch (e) {
       if (e.toString().contains("User canceled login.")) {
-        Fluttertoast.showToast(
-            msg: "카카오 로그인을 취소하셨습니다.",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Color(0xE6FFFFFF),
-            textColor: Colors.black,
-            fontSize: 13.0
-        );
+        _showToast("카카오 로그인을 취소하셨습니다.");
       } else {
         print(e);
       }
     }
   }
 
-  void logOut() async {
+  logOut() async {
     try {
       await authInstance.signOut();
 
@@ -132,15 +133,7 @@ class AuthController extends GetxController {
 
       isLogin.value = false;
 
-      Fluttertoast.showToast(
-          msg: "로그아웃 되었습니다.",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Color(0xE6FFFFFF),
-          textColor: Colors.black,
-          fontSize: 13.0
-      );
+      _showToast("로그아웃 되었습니다.");
     } on FirebaseAuthException catch (e) {
       Get.snackbar(
         "로그아웃 오류",
@@ -180,5 +173,56 @@ class AuthController extends GetxController {
     bool result = await FirestoreDatabase().addStudentInfo(loginUserInfo["grade"], loginUserInfo["class"], loginUserInfo["number"], loginUserInfo["name"], loginUserInfo["group"], loginUserInfo["userid"]);
 
     if (result) { isLogin.value = true; Get.back(); }
+  }
+
+  deleteAccount() async {
+    Get.dialog(
+      AlertDialog(
+        title: Text("달그락 회원 탈퇴"),
+        content: Text("본인 확인을 위해, 재로그인을 진행한 후 회원 탈퇴 처리를 진행합니다.\n본 절차는 실행 후 취소할 수 없으며, 삭제된 계정 복구는 불가능합니다."),
+        actions: [
+          TextButton(onPressed: () async {
+            String? providerId = user?.providerData[0].providerId;
+
+            UserCredential? userCredential;
+            if (providerId!.contains("google")) {
+              userCredential = await signInWithGoogle();
+            } else if (providerId.contains("apple")) {
+              userCredential = await signInWithApple();
+            } else {
+              userCredential = await signInWithKakao();
+            }
+
+            if (userCredential == null) {
+              _showToast("재로그인에 실패하였습니다. \n탈퇴를 중단합니다.");
+            } else {
+              if (await FirestoreDatabase().deleteUser(user!.uid)) {
+                user?.delete();
+                await logOut();
+                _showToast("탈퇴에 성공하였습니다.");
+              } else {
+                _showToast("DB 관련 오류가 발생하여 실패하였습니다. \n탈퇴를 중단합니다.");
+              }
+            }
+
+
+            Get.back();
+          }, child: Text("확인")),
+          TextButton(onPressed: () => Get.back(), child: Text("취소")),
+        ],
+      )
+    );
+  }
+
+  _showToast(String content) {
+    Fluttertoast.showToast(
+        msg: content,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Color(0xE6FFFFFF),
+        textColor: Colors.black,
+        fontSize: 13.0
+    );
   }
 }
