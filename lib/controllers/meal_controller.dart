@@ -4,7 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dalgeurak/controllers/qrcode_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/widget_reference.dart';
-import 'package:dalgeurak/services/firestore_database.dart';
 import 'package:dalgeurak/services/meal_info.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
@@ -32,7 +31,6 @@ class MealController extends GetxController {
   bool isCreateRefreshTimer = false;
   final mealDelayTextController = TextEditingController();
 
-  FirestoreDatabase firestoreDatabase = FirestoreDatabase();
   UserController _userController = Get.find<UserController>();
   QrCodeController _qrCodeController = Get.find<QrCodeController>();
   DalgeurakService dalgeurakService = Get.find<DalgeurakService>();
@@ -189,27 +187,6 @@ class MealController extends GetxController {
 
       return formattingData;
     }
-  }
-
-  getGradeLeftPeopleAmount() async {
-    int result = 0;
-
-    for (int grade=1; grade<=3; grade++) {
-      int gradeLeftPeople = 0;
-      classLeftPeople[grade] = {};
-      for (int classNum=1; classNum<=6; classNum++) {
-        classLeftPeople[grade][classNum] = (await firestoreDatabase.getLeftStudentAmount(grade, classNum));
-
-        if (classLeftPeople[grade][classNum]["leftPeople"] != null) {
-          result = result + (classLeftPeople[grade][classNum]["leftPeople"] as int);
-          gradeLeftPeople = gradeLeftPeople + (classLeftPeople[grade][classNum]["leftPeople"] as int);
-        }
-      }
-
-      classLeftPeople[grade]["totalPeople"] = gradeLeftPeople;
-    }
-
-    return result;
   }
 
   giveStudentWarning(String studentObjId, List warningType, String reason) async {

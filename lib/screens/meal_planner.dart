@@ -54,6 +54,9 @@ class MealPlanner extends GetWidget<MealController> {
                                     ),
                                   ),
                                 ),
+                                body: TabBarView(
+                                  children: mealPlannerView(snapshot.data),
+                                ),
                               )
                           )
                       );
