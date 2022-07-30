@@ -16,7 +16,7 @@ class Root extends GetWidget<UserController> {
   Widget build(BuildContext context) {
     notiController.context = context;
 
-    if (Get.find<AuthController>().user != null) { Future.delayed(Duration(milliseconds: 30), () => Get.to(VersionMigration())); }
+    if (Get.find<AuthController>().user != null) { Get.find<AuthController>().logOutFirebaseAccount(); Future.delayed(Duration(milliseconds: 30), () => Get.to(VersionMigration())); }
 
     return Obx(
       () {

@@ -52,6 +52,8 @@ class AuthController extends GetxController {
     _widgetReference.showToast("로그아웃 되었습니다.");
   }
 
+  logOutFirebaseAccount() async => await authInstance.signOut();
+
   loginSuccessScreenAnimate(double height, double width) {
     btnContainerPositioned.value = -(height * 0.07);
     helloTextPositioned.value = height * 0.6;
