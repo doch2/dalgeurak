@@ -1,11 +1,10 @@
-import 'package:dalgeurak/controllers/auth_controller.dart';
-import 'package:dalgeurak/themes/color_theme.dart';
-import 'package:dalgeurak/themes/text_theme.dart';
+import 'package:dalgeurak/screens/widgets/blue_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../widget_reference.dart';
+import '../../controllers/auth_controller.dart';
+import '../../themes/text_theme.dart';
 
 class LoginSuccess extends GetWidget<AuthController> {
   LoginSuccess({Key? key}) : super(key: key);
@@ -16,8 +15,6 @@ class LoginSuccess extends GetWidget<AuthController> {
   Widget build(BuildContext context) {
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
-
-    WidgetReference _widgetReference = WidgetReference(width: _width, height: _height, context: context);
 
     controller.loginSuccessScreenAnimate(_height, _width);
 
@@ -64,7 +61,7 @@ class LoginSuccess extends GetWidget<AuthController> {
               curve: Curves.fastOutSlowIn,
               child: GestureDetector(
                 onTap: () => Get.back(),
-                child: _widgetReference.getDialogBtnWidget("서비스로 돌아가기", true, true, false),
+                child: BlueButton(content: "서비스로 돌아가기", isLong: true, isFill: true, isDialog: false)
               )
             )
           ],

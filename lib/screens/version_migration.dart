@@ -1,13 +1,12 @@
-import 'package:dalgeurak/controllers/meal_controller.dart';
-import 'package:dalgeurak/controllers/qrcode_controller.dart';
-import 'package:dalgeurak/controllers/user_controller.dart';
-import 'package:dalgeurak/screens/widget_reference.dart';
-import 'package:dalgeurak/themes/text_theme.dart';
+import 'package:dalgeurak/screens/widgets/blue_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import 'auth/login.dart';
+import '../controllers/meal_controller.dart';
+import '../controllers/qrcode_controller.dart';
+import '../controllers/user_controller.dart';
+import '../themes/text_theme.dart';
 
 class VersionMigration extends StatelessWidget {
   VersionMigration({Key? key}) : super(key: key);
@@ -21,7 +20,6 @@ class VersionMigration extends StatelessWidget {
   Widget build(BuildContext context) {
     _height = MediaQuery.of(context).size.height;
     _width = MediaQuery.of(context).size.width;
-    WidgetReference _widgetReference = WidgetReference(width: _width, height: _height, context: context);
 
 
     return Scaffold(
@@ -81,7 +79,7 @@ class VersionMigration extends StatelessWidget {
                     SizedBox(height: _height * 0.25),
                     GestureDetector(
                       onTap: () => Get.back(),
-                      child: _widgetReference.getDialogBtnWidget("확인", true, true, false),
+                      child: BlueButton(content: "확인", isLong: true, isFill: true, isDialog: false),
                     )
                   ],
                 ),

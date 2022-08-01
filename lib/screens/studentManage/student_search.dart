@@ -1,17 +1,16 @@
-import 'package:dalgeurak/controllers/meal_controller.dart';
-import 'package:dalgeurak/screens/widget_reference.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:korea_regexp/korea_regexp.dart';
 
+import '../../controllers/meal_controller.dart';
 import '../../themes/color_theme.dart';
 import '../../themes/text_theme.dart';
+import '../widgets/student_manage_widget.dart';
 
 class StudentSearch extends SearchDelegate {
   late List<DimigoinUser> _studentList;
-  late WidgetReference _widgetReference;
   late double _width, _height;
 
   set studentList(List<DimigoinUser> list) => _studentList = list;
@@ -62,7 +61,6 @@ class StudentSearch extends SearchDelegate {
     _width = MediaQuery.of(context).size.width;
 
     MealController _mealController = Get.find<MealController>();
-    _widgetReference = WidgetReference(width: _width, height: _height, context: context);
 
 
     return FutureBuilder(
@@ -104,7 +102,7 @@ class StudentSearch extends SearchDelegate {
                         ),
                         child: Center(child: Text("관리", style: studentSearchListTileBtn)),
                       ),
-                      onTap: () => StudentManageWidgetReference(widgetReference: _widgetReference, student: selectStudent, studentSearch: this).showStudentManageBottomSheet()
+                      onTap: () => StudentManageWidgetReference(student: selectStudent, studentSearch: this).showStudentManageBottomSheet()
                     ),
                   );
                 },

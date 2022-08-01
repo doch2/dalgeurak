@@ -1,4 +1,4 @@
-import 'package:dalgeurak/screens/widget_reference.dart';
+import 'package:dalgeurak/screens/widgets/overlay_alert.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_fgbg/flutter_fgbg.dart';
@@ -109,7 +109,7 @@ class NotificationController extends GetxController {
 
   getFCMToken() async => await _messaging.getToken();
 
-  showOverlayAlertWidget(List content) => WidgetReference(context: context).showAlert(content);
+  showOverlayAlertWidget(List content) => DalgeurakOverlayAlert(context: context).show(content);
 
   void _launchURL(String _url) async =>
       await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';

@@ -1,7 +1,7 @@
 import 'package:dalgeurak/controllers/notification_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/auth/login_success.dart';
-import 'package:dalgeurak/screens/widget_reference.dart';
+import 'package:dalgeurak/screens/widgets/toast.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class AuthController extends GetxController {
   FirebaseAuth authInstance = FirebaseAuth.instance;
   DimigoinAccount _dimigoinAccount = Get.find<DimigoinAccount>();
   DalgeurakService _dalgeurakService = Get.find<DalgeurakService>();
-  WidgetReference _widgetReference = WidgetReference();
+  DalgeurakToast _dalgeurakToast = DalgeurakToast();
 
   Rxn<User> _firebaseUser = Rxn<User>();
   User? get user => _firebaseUser.value;
@@ -42,14 +42,14 @@ class AuthController extends GetxController {
 
       Get.to(LoginSuccess());
     } else {
-      _widgetReference.showToast("로그인에 실패하였습니다. 다시 시도해주세요.");
+      _dalgeurakToast.show("로그인에 실패하였습니다. 다시 시도해주세요.");
     }
   }
 
   void logOut() async {
     await _dimigoinAccount.logout();
 
-    _widgetReference.showToast("로그아웃 되었습니다.");
+    _dalgeurakToast.show("로그아웃 되었습니다.");
   }
 
   logOutFirebaseAccount() async => await authInstance.signOut();

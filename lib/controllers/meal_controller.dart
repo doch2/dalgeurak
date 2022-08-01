@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dalgeurak/controllers/qrcode_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
-import 'package:dalgeurak/screens/widget_reference.dart';
+import 'package:dalgeurak/screens/widgets/toast.dart';
 import 'package:dalgeurak/services/meal_info.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
@@ -34,7 +34,7 @@ class MealController extends GetxController {
   UserController _userController = Get.find<UserController>();
   QrCodeController _qrCodeController = Get.find<QrCodeController>();
   DalgeurakService dalgeurakService = Get.find<DalgeurakService>();
-  WidgetReference widgetReference = WidgetReference();
+  DalgeurakToast _dalgeurakToast = DalgeurakToast();
   MealInfo mealInfo = MealInfo();
   DateTime nowTime = DateTime.now();
 
@@ -78,7 +78,7 @@ class MealController extends GetxController {
       userMealException.value = userInfo['content']['exception'];
       _qrCodeController.setQrCodeData(userInfo['content']['QRkey']);
     } else {
-      widgetReference.showToast("현재 정보를 불러오는데 실패했습니다. \n인터넷에 연결되어있는지 확인해주세요.");
+      _dalgeurakToast.show("현재 정보를 불러오는데 실패했습니다. \n인터넷에 연결되어있는지 확인해주세요.");
     }
   }
 
@@ -178,7 +178,7 @@ class MealController extends GetxController {
         SharedPreference().saveStudentList({"studentList": data['content'], "weekFirstDay": mealInfo.getCorrectDate(weekFirstDay)['day']});
         return data['content'];
       } else {
-        widgetReference.showToast(data['content']);
+        _dalgeurakToast.show(data['content']);
       }
     } else {
       List originalData = (json.decode(stringData))['studentList'];
@@ -193,10 +193,10 @@ class MealController extends GetxController {
     Map result = await dalgeurakService.giveWarningToStudent(studentObjId, warningType, reason);
 
     if (result['success']) {
-      widgetReference.showToast("경고 등록에 성공하였습니다!");
+      _dalgeurakToast.show("경고 등록에 성공하였습니다!");
       Get.back();
     } else {
-      widgetReference.showToast("경고 등록에 실패하였습니다. ${result['message']}");
+      _dalgeurakToast.show("경고 등록에 실패하였습니다. ${result['message']}");
     }
   }
 }
