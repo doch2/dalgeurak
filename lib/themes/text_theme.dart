@@ -25,6 +25,14 @@ final widgetReference_warningDialog_message = TextStyle(
     fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 final widgetReference_warningDialog_subMessage = TextStyle(
     fontSize: 13, color: grayTen, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final inquiryDialog_emailTitle = TextStyle(
+    fontSize: 16, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final inquiryDialog_emailAddress = TextStyle(
+    fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final dialogTitle = TextStyle(
+    fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final dialogBtn = TextStyle(
+    fontSize: 14, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 final overlayAlert = TextStyle(
     fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
