@@ -151,7 +151,7 @@ class StudentManageWidgetReference {
                       onTap: () => showStudentWarningTypeBottomSheet(),
                       child: BigMenuButton(
                         title: "경고 부여",
-                        iconName: "noticeCircle",
+                        iconName: "noticeCircle_fill",
                         isHome: false,
                         sizeRatio: 0.41,
                         includeInnerShadow: true,

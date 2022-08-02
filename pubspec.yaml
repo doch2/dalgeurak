@@ -145,9 +145,9 @@ flutter:
           weight: 700
         - asset: assets/fonts/Pretendard-SemiBold.otf
           weight: 600
-        - asset: assets/fonts/Pretendard-Regular.otf
-          weight: 500
         - asset: assets/fonts/Pretendard-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Pretendard-Regular.otf
           weight: 400
         - asset: assets/fonts/Pretendard-Light.otf
           weight: 300
