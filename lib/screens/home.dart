@@ -168,20 +168,7 @@ class Home extends StatelessWidget {
                                                 ),
                                                 GestureDetector(
                                                   onTap: () => DalgeurakDialog().showWarning(
-                                                      [
-                                                        {
-                                                          "content": "급식 시간을 ",
-                                                          "emphasis": false,
-                                                        },
-                                                        {
-                                                          "content": "${mealController.mealDelayTextController.text}분 지연",
-                                                          "emphasis": true,
-                                                        },
-                                                        {
-                                                          "content": " 하시겠어요?",
-                                                          "emphasis": false,
-                                                        }
-                                                      ],
+                                                      "급식 시간을 ${mealController.mealDelayTextController.text}분 지연하시겠어요?",
                                                       "장난으로 기재할 시 처벌 받을 수 있습니다.",
                                                       () async {
                                                         if (await mealController.setDelayMealTime()) {

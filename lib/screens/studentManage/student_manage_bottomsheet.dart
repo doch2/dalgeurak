@@ -59,20 +59,7 @@ class StudentManageBottomSheet {
             left: Get.width * 0.0925,
             child: GestureDetector(
                 onTap: () => _dalgeurakDialog.showWarning(
-                  [
-                    {
-                      "content": "${student.studentId} ${student.name}를 ",
-                      "emphasis": false,
-                    },
-                    {
-                      "content": (student.permissions!.contains(DimigoinPermissionType.dalgeurak) ? "디넌 해제" : "디넌으로 임명"),
-                      "emphasis": true,
-                    },
-                    {
-                      "content": "하시겠어요?",
-                      "emphasis": false,
-                    }
-                  ],
+                  "${student.studentId} ${student.name}를 ${(student.permissions!.contains(DimigoinPermissionType.dalgeurak) ? "디넌 해제" : "디넌으로 임명")} 하시겠어요?",
                   "장난으로 기재할 시 처벌받을 수 있습니다.",
                       () async {
                     Map result = (student.permissions!.contains(DimigoinPermissionType.dalgeurak) ? await _dalgeurakService.removeDienenPermission(student.id!) : await _dalgeurakService.authorizeDienenPermission(student.id!));
@@ -161,20 +148,7 @@ class StudentManageBottomSheet {
                     ),
                     GestureDetector(
                       onTap: () => _dalgeurakDialog.showWarning(
-                        [
-                          {
-                            "content": "${student.studentId} ${student.name}를 ",
-                            "emphasis": false,
-                          },
-                          {
-                            "content": "입장으로 처리",
-                            "emphasis": true,
-                          },
-                          {
-                            "content": "하시겠어요?",
-                            "emphasis": false,
-                          }
-                        ],
+                        "${student.studentId} ${student.name}를 입장으로 처리하시겠어요?",
                         "장난으로 기재할 시 처벌받을 수 있습니다.",
                             () async {
                           Map result = await _dalgeurakService.mealCheckInByManager(student.id!);
@@ -265,7 +239,7 @@ class StudentManageBottomSheet {
                           (element) => widgetList.add(
                           GestureDetector(
                             onTap: () =>  warningList[element] = !warningList[element],
-                            child: CheckBox(content: element, isOn: warningList[element]),
+                            child: DalgeurakCheckBox(content: element, isOn: warningList[element], checkBoxType: DalgeurakCheckBoxType.window),
                           )
                       )
                   );

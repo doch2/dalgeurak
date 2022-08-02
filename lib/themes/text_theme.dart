@@ -19,12 +19,14 @@ final widgetReference_detailTitle = TextStyle(
     fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 final widgetReference_checkBox = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
-final widgetReference_warningDialog_title = TextStyle(
-    fontSize: 18, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
-final widgetReference_warningDialog_message = TextStyle(
-    fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
-final widgetReference_warningDialog_subMessage = TextStyle(
-    fontSize: 13, color: grayTen, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final warningDialog_message = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final warningDialog_subMessage = TextStyle(
+    fontSize: 14, color: dalgeurakGrayThree, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final noticeDialog_message = TextStyle(
+    fontSize: 13, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final noticeDialog_menu = TextStyle(
+    fontSize: 14, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 final inquiryDialog_emailTitle = TextStyle(
     fontSize: 16, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 final inquiryDialog_emailAddress = TextStyle(
