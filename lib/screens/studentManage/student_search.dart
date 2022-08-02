@@ -7,7 +7,7 @@ import 'package:korea_regexp/korea_regexp.dart';
 import '../../controllers/meal_controller.dart';
 import '../../themes/color_theme.dart';
 import '../../themes/text_theme.dart';
-import '../widgets/student_manage_widget.dart';
+import 'student_manage_bottomsheet.dart';
 
 class StudentSearch extends SearchDelegate {
   late List<DimigoinUser> _studentList;
@@ -102,7 +102,7 @@ class StudentSearch extends SearchDelegate {
                         ),
                         child: Center(child: Text("관리", style: studentSearchListTileBtn)),
                       ),
-                      onTap: () => StudentManageWidgetReference(student: selectStudent, studentSearch: this).showStudentManageBottomSheet()
+                      onTap: () => StudentManageBottomSheet(student: selectStudent, studentSearch: this).showStudentManageBottomSheet()
                     ),
                   );
                 },

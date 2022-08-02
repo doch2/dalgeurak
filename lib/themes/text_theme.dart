@@ -146,8 +146,14 @@ final myProfileTardyAmountNum = TextStyle(
 final myProfileAlert = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
-final appInfo = TextStyle(
-    fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+final myProfile_appInfo_title = TextStyle(
+    fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final myProfile_appInfo_appVersion = TextStyle(
+    fontSize: 13, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
+final myProfile_appInfo_content = TextStyle(
+    fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w400, height: 1.5);
+final myProfile_appInfo_license = TextStyle(
+    fontSize: 14, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 final migrationTitle = TextStyle(
     fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);

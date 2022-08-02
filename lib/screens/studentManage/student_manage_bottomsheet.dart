@@ -13,13 +13,13 @@ import '../../controllers/meal_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../themes/color_theme.dart';
 import '../../themes/text_theme.dart';
-import '../studentManage/student_search.dart';
-import 'big_menu_button.dart';
+import 'student_search.dart';
+import '../widgets/big_menu_button.dart';
 
-class StudentManageWidgetReference {
+class StudentManageBottomSheet {
   StudentSearch studentSearch;
   DimigoinUser student;
-  StudentManageWidgetReference({required this.student, required this.studentSearch});
+  StudentManageBottomSheet({required this.student, required this.studentSearch});
 
   DalgeurakService _dalgeurakService = Get.find<DalgeurakService>();
 

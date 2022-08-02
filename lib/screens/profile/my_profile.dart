@@ -1,5 +1,6 @@
 import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
+import 'package:dalgeurak/screens/profile/myprofile_bottomsheet.dart';
 import 'package:dalgeurak/screens/widgets/medium_menu_button.dart';
 import 'package:dalgeurak/screens/widgets/simple_list_button.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
@@ -23,6 +24,9 @@ class MyProfile extends GetWidget<UserController> {
     _width = MediaQuery.of(context).size.width;
 
     AuthController authController = Get.find<AuthController>();
+
+    MyProfileBottomSheet myProfileBottomSheet = MyProfileBottomSheet();
+
 
     return Scaffold(
       backgroundColor: dalgeurakGrayOne,
@@ -200,7 +204,7 @@ class MyProfile extends GetWidget<UserController> {
                       children: [
                         SimpleListButton(title: "디넌 규정집", iconName: "page", clickAction: () => print("onClick")),
                         SimpleListButton(title: "문의하기", iconName: "headset", clickAction: () => print("onClick")),
-                        SimpleListButton(title: "앱 정보", iconName: "info", clickAction: () => print("onClick")),
+                        SimpleListButton(title: "앱 정보", iconName: "info", clickAction: () => myProfileBottomSheet.showApplicationInfo()),
                       ],
                     )
                   ),
