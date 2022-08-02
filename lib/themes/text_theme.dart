@@ -11,13 +11,13 @@ final mediumMenuButtonSubTitle = TextStyle(
     fontSize: 16, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w600);
 final simpleListButtonTitle = TextStyle(
     fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
-final widgetReference_windowTitle_subTitle = TextStyle(
+final windowTitle_subTitle = TextStyle(
     fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
-final widgetReference_windowTitle_title = TextStyle(
+final windowTitle_title = TextStyle(
     fontSize: 26, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
-final widgetReference_detailTitle = TextStyle(
+final detailTitle = TextStyle(
     fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
-final widgetReference_checkBox = TextStyle(
+final checkBox = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 final warningDialog_message = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);

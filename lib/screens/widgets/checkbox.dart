@@ -13,7 +13,7 @@ extension DalgeurakCheckBoxTypeExtension on DalgeurakCheckBoxType {
   TextStyle get textStyle {
     switch (this) {
       case DalgeurakCheckBoxType.dialog: return noticeDialog_menu;
-      case DalgeurakCheckBoxType.window: return widgetReference_checkBox;
+      case DalgeurakCheckBoxType.window: return checkBox;
       default: return TextStyle();
     }
   }

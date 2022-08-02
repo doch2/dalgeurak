@@ -13,8 +13,8 @@ class WindowTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(subTitle, style: widgetReference_windowTitle_subTitle),
-        Text(title, style: widgetReference_windowTitle_title)
+        Text(subTitle, style: windowTitle_subTitle),
+        Text(title, style: windowTitle_title)
       ],
     );
   }

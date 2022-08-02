@@ -226,7 +226,7 @@ class StudentManageBottomSheet {
           Positioned(
               top: Get.height * 0.18,
               left: Get.width * 0.0925,
-              child: Text("경고 항목", style: widgetReference_detailTitle)
+              child: Text("경고 항목", style: detailTitle)
           ),
           Positioned(
               top: Get.height * 0.22,
@@ -306,7 +306,7 @@ class StudentManageBottomSheet {
           Positioned(
               top: Get.height * 0.18,
               left: Get.width * 0.0925,
-              child: Text("상세 사유", style: widgetReference_detailTitle)
+              child: Text("상세 사유", style: detailTitle)
           ),
           Positioned(
               top: Get.height * 0.23,
