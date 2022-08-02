@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/window_title.dart';
 
@@ -204,7 +205,7 @@ class MyProfile extends GetWidget<UserController> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SimpleListButton(title: "디넌 규정집", iconName: "page", clickAction: () => print("onClick")),
+                        SimpleListButton(title: "디넌 규정집", iconName: "page", clickAction: () => _launchURL(controller.getDienenManualFileUrl())),
                         SimpleListButton(title: "문의하기", iconName: "headset", clickAction: () => dalgeurakDialog.showInquiry()),
                         SimpleListButton(title: "앱 정보", iconName: "info", clickAction: () => myProfileBottomSheet.showApplicationInfo()),
                       ],
@@ -219,17 +220,6 @@ class MyProfile extends GetWidget<UserController> {
     );
   }
 
-  SizedBox menuWidget(List<Widget> childWidget) {
-    return
-      SizedBox(
-        height: _height * 0.1,
-        width: _width * 0.8,
-        child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: childWidget,
-            )
-        ),
-      );
-  }
+  void _launchURL(String _url) async =>
+      await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 }

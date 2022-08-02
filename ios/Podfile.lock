@@ -18,6 +18,9 @@ PODS:
   - Firebase/Performance (9.3.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 9.3.0)
+  - Firebase/RemoteConfig (9.3.0):
+    - Firebase/CoreOnly
+    - FirebaseRemoteConfig (~> 9.3.0)
   - firebase_analytics (8.3.4):
     - Firebase/Analytics (= 9.3.0)
     - firebase_core
@@ -35,6 +38,10 @@ PODS:
     - Flutter
   - firebase_performance (0.8.2-1):
     - Firebase/Performance (= 9.3.0)
+    - firebase_core
+    - Flutter
+  - firebase_remote_config (2.0.13):
+    - Firebase/RemoteConfig (= 9.3.0)
     - firebase_core
     - Flutter
   - FirebaseABTesting (9.3.0):
@@ -192,6 +199,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - firebase_performance (from `.symlinks/plugins/firebase_performance/ios`)
+  - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - Flutter (from `Flutter`)
   - flutter_fgbg (from `.symlinks/plugins/flutter_fgbg/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
@@ -242,6 +250,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   firebase_performance:
     :path: ".symlinks/plugins/firebase_performance/ios"
+  firebase_remote_config:
+    :path: ".symlinks/plugins/firebase_remote_config/ios"
   Flutter:
     :path: Flutter
   flutter_fgbg:
@@ -277,6 +287,7 @@ SPEC CHECKSUMS:
   firebase_core: 96214f90497b808a2cf2a24517084c5f6de37b53
   firebase_messaging: 24112f219663060db68ef803f20166d374138b6e
   firebase_performance: 82d5f536250a88ad3351583df5b1878f82cfd293
+  firebase_remote_config: f3cc693a849be94ee43335f99310df75dc9edc05
   FirebaseABTesting: d7383da017eff5dc4fccb40987fa76271fd1cdbf
   FirebaseAnalytics: bf46f5163f44097ce2c789de0b3e6f87f1da834a
   FirebaseAuth: 9ebc3577fe0acf9092df21ac314024b70aebf21e
