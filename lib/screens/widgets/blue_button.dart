@@ -8,8 +8,7 @@ class BlueButton extends StatelessWidget {
   final String content;
   final bool isLong;
   final bool isFill;
-  final bool isDialog;
-  BlueButton({required this.content, required this.isLong, required this.isFill, required this.isDialog});
+  BlueButton({required this.content, required this.isLong, required this.isFill});
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +19,8 @@ class BlueButton extends StatelessWidget {
     TextStyle textStyle = isLong ? btnTitle1 : btnTitle2;
 
     return Container(
-      width: _displayWidth * (isLong ? 0.846 : (isDialog ? 0.307 : 0.361)),
-      height: _displayHeight * (isDialog ? 0.058 : 0.06),
+      width: _displayWidth * (isLong ? 0.846 : 0.361),
+      height: _displayHeight * 0.06,
       decoration: BoxDecoration(
         color: isFill ? dalgeurakBlueOne : Colors.white,
         borderRadius: BorderRadius.circular(isLong ? 15 : 5),

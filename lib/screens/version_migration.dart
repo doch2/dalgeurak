@@ -79,7 +79,7 @@ class VersionMigration extends StatelessWidget {
                     SizedBox(height: _height * 0.25),
                     GestureDetector(
                       onTap: () => Get.back(),
-                      child: BlueButton(content: "확인", isLong: true, isFill: true, isDialog: false),
+                      child: BlueButton(content: "확인", isLong: true, isFill: true),
                     )
                   ],
                 ),

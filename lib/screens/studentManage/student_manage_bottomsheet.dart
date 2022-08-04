@@ -196,7 +196,7 @@ class StudentManageBottomSheet {
               bottom: Get.height * 0.08,
               child: GestureDetector(
                 onTap: () => Get.back(),
-                child: BlueButton(content: "확인", isLong: true, isFill: true, isDialog: false),
+                child: BlueButton(content: "확인", isLong: true, isFill: true),
               )
           ),
         ],
@@ -261,7 +261,7 @@ class StudentManageBottomSheet {
                   children: [
                     GestureDetector(
                       onTap: () => Get.back(),
-                      child: BlueButton(content: "취소", isLong: false, isFill: false, isDialog: false),
+                      child: BlueButton(content: "취소", isLong: false, isFill: false),
                     ),
                     GestureDetector(
                       onTap: () async {
@@ -273,7 +273,7 @@ class StudentManageBottomSheet {
                           _dalgeurakToast.show("경고 항목을 체크하고 진행해주세요.");
                         }
                       },
-                      child: BlueButton(content: "다음", isLong: false, isFill: true, isDialog: false),
+                      child: BlueButton(content: "다음", isLong: false, isFill: true),
                     )
                   ],
                 ),
@@ -341,7 +341,7 @@ class StudentManageBottomSheet {
                   children: [
                     GestureDetector(
                       onTap: () => Get.back(),
-                      child: BlueButton(content: "취소", isLong: false, isFill: false, isDialog: false),
+                      child: BlueButton(content: "취소", isLong: false, isFill: false),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -354,7 +354,7 @@ class StudentManageBottomSheet {
 
                         mealController.giveStudentWarning(student.id!, warningList, warningReasonTextController.text);
                       },
-                      child: BlueButton(content: "확인", isLong: false, isFill: true, isDialog: false),
+                      child: BlueButton(content: "확인", isLong: false, isFill: true),
                     )
                   ],
                 ),

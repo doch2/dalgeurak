@@ -61,7 +61,7 @@ class LoginSuccess extends GetWidget<AuthController> {
               curve: Curves.fastOutSlowIn,
               child: GestureDetector(
                 onTap: () => Get.back(),
-                child: BlueButton(content: "서비스로 돌아가기", isLong: true, isFill: true, isDialog: false)
+                child: BlueButton(content: "서비스로 돌아가기", isLong: true, isFill: true)
               )
             )
           ],

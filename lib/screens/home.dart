@@ -164,7 +164,7 @@ class Home extends StatelessWidget {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () => Get.back(),
-                                                  child: BlueButton(content: "취소", isLong: false, isFill: false, isDialog: false),
+                                                  child: BlueButton(content: "취소", isLong: false, isFill: false),
                                                 ),
                                                 GestureDetector(
                                                   onTap: () => DalgeurakDialog().showWarning(
@@ -194,7 +194,7 @@ class Home extends StatelessWidget {
                                                         }
                                                       }
                                                   ),
-                                                  child: BlueButton(content: "확인", isLong: false, isFill: true, isDialog: false),
+                                                  child: BlueButton(content: "확인", isLong: false, isFill: true),
                                                 ),
                                               ],
                                             ),
