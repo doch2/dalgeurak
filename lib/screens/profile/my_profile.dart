@@ -1,7 +1,8 @@
 import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/profile/myprofile_bottomsheet.dart';
-import 'package:dalgeurak/screens/widgets/dialog.dart';
+import 'package:dalgeurak_widget_package/widgets/dialog.dart';
+import 'package:dalgeurak_widget_package/widgets/window_title.dart';
 import 'package:dalgeurak/screens/widgets/medium_menu_button.dart';
 import 'package:dalgeurak/screens/widgets/simple_list_button.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
@@ -12,8 +13,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../widgets/window_title.dart';
 
 class MyProfile extends GetWidget<UserController> {
   MyProfile({Key? key}) : super(key: key);

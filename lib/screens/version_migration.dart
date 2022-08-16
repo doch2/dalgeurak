@@ -1,4 +1,4 @@
-import 'package:dalgeurak/screens/widgets/blue_button.dart';
+import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -79,7 +79,7 @@ class VersionMigration extends StatelessWidget {
                     SizedBox(height: _height * 0.25),
                     GestureDetector(
                       onTap: () => Get.back(),
-                      child: BlueButton(content: "확인", isLong: true, isFill: true),
+                      child: BlueButton(content: "확인", isLong: true, isFill: true, isSmall: false, isDisable: false),
                     )
                   ],
                 ),

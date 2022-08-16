@@ -34,6 +34,14 @@ dependencies:
   dio: ^4.0.1
 
   dimigoin_flutter_plugin: ^0.3.6
+  dalgeurak_meal_application:
+    git:
+      url: https://github.com/dimigoin/dalgeurak-meal-application.git
+      ref: main
+  dalgeurak_widget_package:
+    git:
+      url: https://github.com/dimigoin/dalgeurak-widget-package.git
+      ref: main
 
   firebase_core: ^1.19.1
   firebase_auth: ^3.1.4
@@ -58,7 +66,6 @@ dependencies:
 
   jiffy: ^4.1.0
 
-  fluttertoast: ^8.0.9
   flutter_switch: ^0.3.2
   flutter_svg: ^0.23.0+1
   extended_image: ^6.2.1
@@ -138,23 +145,23 @@ flutter:
           weight: 500
     - family: Pretendard
       fonts:
-        - asset: assets/fonts/Pretendard-Black.otf
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Black.otf
           weight: 900
-        - asset: assets/fonts/Pretendard-ExtraBold.otf
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-ExtraBold.otf
           weight: 800
-        - asset: assets/fonts/Pretendard-Bold.otf
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Bold.otf
           weight: 700
-        - asset: assets/fonts/Pretendard-SemiBold.otf
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-SemiBold.otf
           weight: 600
-        - asset: assets/fonts/Pretendard-Medium.otf
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Medium.otf
           weight: 500
-        - asset: assets/fonts/Pretendard-Regular.otf
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Regular.otf
           weight: 400
-        - asset: assets/fonts/Pretendard-Light.otf
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Light.otf
           weight: 300
-        - asset: assets/fonts/Pretendard-ExtraLight.otf
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-ExtraLight.otf
           weight: 200
-        - asset: assets/fonts/Pretendard-Thin.otf
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Thin.otf
           weight: 100
 
 flutter_native_splash:

@@ -1,3 +1,4 @@
+import 'package:dalgeurak_widget_package/widgets/toast.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -5,17 +6,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
+import 'package:dalgeurak_widget_package/widgets/window_title.dart';
+import 'package:dalgeurak_widget_package/widgets//overlay_alert.dart';
+import 'package:dalgeurak_widget_package/widgets/dialog.dart';
+import 'package:dalgeurak_widget_package/widgets/bottom_sheet.dart';
 import '../controllers/meal_controller.dart';
 import '../controllers/qrcode_controller.dart';
 import '../controllers/user_controller.dart';
 import '../themes/color_theme.dart';
 import '../themes/text_theme.dart';
-import './widgets/blue_button.dart';
-import './widgets/window_title.dart';
-import './widgets/bottom_sheet.dart';
-import './widgets/dialog.dart';
-import './widgets/toast.dart';
-import './widgets/overlay_alert.dart';
 import './widgets/big_menu_button.dart';
 import './studentManage/student_search.dart';
 import './studentManage/qrcode_scan.dart';
@@ -164,7 +164,7 @@ class Home extends StatelessWidget {
                                               children: [
                                                 GestureDetector(
                                                   onTap: () => Get.back(),
-                                                  child: BlueButton(content: "취소", isLong: false, isFill: false),
+                                                  child: BlueButton(content: "취소", isLong: false, isFill: false, isSmall: false, isDisable: false),
                                                 ),
                                                 GestureDetector(
                                                   onTap: () => DalgeurakDialog().showWarning(
@@ -194,7 +194,7 @@ class Home extends StatelessWidget {
                                                         }
                                                       }
                                                   ),
-                                                  child: BlueButton(content: "확인", isLong: false, isFill: true),
+                                                  child: BlueButton(content: "확인", isLong: false, isFill: true, isSmall: false, isDisable: false),
                                                 ),
                                               ],
                                             ),

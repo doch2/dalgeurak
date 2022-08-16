@@ -1,4 +1,4 @@
-import 'package:dalgeurak/screens/widgets/overlay_alert.dart';
+import 'package:dalgeurak_widget_package/widgets/overlay_alert.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_fgbg/flutter_fgbg.dart';

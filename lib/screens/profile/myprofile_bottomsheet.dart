@@ -1,7 +1,7 @@
-import 'package:dalgeurak/screens/widgets/bottom_sheet.dart';
-import 'package:dalgeurak/screens/widgets/dialog.dart';
-import 'package:dalgeurak/screens/widgets/overlay_alert.dart';
-import 'package:dalgeurak/screens/widgets/toast.dart';
+import 'package:dalgeurak_widget_package/widgets/bottom_sheet.dart';
+import 'package:dalgeurak_widget_package/widgets/dialog.dart';
+import 'package:dalgeurak_widget_package/widgets/overlay_alert.dart';
+import 'package:dalgeurak_widget_package/widgets/toast.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

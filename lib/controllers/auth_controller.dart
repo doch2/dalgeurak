@@ -1,7 +1,7 @@
 import 'package:dalgeurak/controllers/notification_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/auth/login_success.dart';
-import 'package:dalgeurak/screens/widgets/toast.dart';
+import 'package:dalgeurak_widget_package/widgets/toast.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
