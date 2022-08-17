@@ -1,6 +1,7 @@
 import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/profile/myprofile_bottomsheet.dart';
+import 'package:dalgeurak_meal_application/routes/routes.dart';
 import 'package:dalgeurak_widget_package/widgets/dialog.dart';
 import 'package:dalgeurak_widget_package/widgets/window_title.dart';
 import 'package:dalgeurak/screens/widgets/medium_menu_button.dart';
@@ -151,7 +152,7 @@ class MyProfile extends GetWidget<UserController> {
                                   ),
                                   MediumMenuButton(
                                     iconName: "foodBucket", title: "간편식", subTitle: "신청",
-                                    clickAction: () => print("onCLick"),
+                                    clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.CONVENIENCEFOOD),
                                   ),
                                 ],
                               ),
@@ -183,7 +184,7 @@ class MyProfile extends GetWidget<UserController> {
                                   ),
                                   MediumMenuButton(
                                     iconName: "cancel", title: "급식 취소", subTitle: "신청",
-                                    clickAction: () => print("onCLick"),
+                                    clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.MEALCANCEL),
                                   ),
                                 ],
                               ),
