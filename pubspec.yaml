@@ -35,7 +35,9 @@ dependencies:
 
   dimigoin_flutter_plugin: ^0.4.2
   dalgeurak_meal_application:
-    path: ../dalgeurak-meal-application
+    git:
+      url: https://github.com/dimigoin/dalgeurak-meal-application.git
+      ref: main
   dalgeurak_widget_package:
     git:
       url: https://github.com/dimigoin/dalgeurak-widget-package.git

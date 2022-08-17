@@ -116,9 +116,11 @@ packages:
   dalgeurak_meal_application:
     dependency: "direct main"
     description:
-      path: "../dalgeurak-meal-application"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: "7b6b9500bbb79c3f025c8b7aa898b1eebf765dc6"
+      url: "https://github.com/dimigoin/dalgeurak-meal-application.git"
+    source: git
     version: "1.0.0+1"
   dalgeurak_widget_package:
     dependency: "direct main"
