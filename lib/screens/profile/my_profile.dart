@@ -168,7 +168,7 @@ class MyProfile extends GetWidget<UserController> {
                                   ),
                                   MediumMenuButton(
                                     iconName: "signDocu", title: "선/후밥", subTitle: "신청",
-                                    clickAction: () => print("onCLick"),
+                                    clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.MEALEXCEPTION),
                                   ),
                                 ],
                               ),

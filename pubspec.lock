@@ -116,11 +116,9 @@ packages:
   dalgeurak_meal_application:
     dependency: "direct main"
     description:
-      path: "."
-      ref: main
-      resolved-ref: "4bcc1dba60746ef699d163f45bd81c4efe4f86e2"
-      url: "https://github.com/dimigoin/dalgeurak-meal-application.git"
-    source: git
+      path: "../dalgeurak-meal-application"
+      relative: true
+    source: path
     version: "1.0.0+1"
   dalgeurak_widget_package:
     dependency: "direct main"
@@ -144,7 +142,7 @@ packages:
       name: dimigoin_flutter_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0"
+    version: "0.4.2"
   dio:
     dependency: "direct main"
     description:
