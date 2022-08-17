@@ -3,12 +3,12 @@ import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/profile/myprofile_bottomsheet.dart';
 import 'package:dalgeurak_meal_application/routes/routes.dart';
 import 'package:dalgeurak_widget_package/widgets/dialog.dart';
+import 'package:dalgeurak_widget_package/widgets/toast.dart';
 import 'package:dalgeurak_widget_package/widgets/window_title.dart';
 import 'package:dalgeurak/screens/widgets/medium_menu_button.dart';
 import 'package:dalgeurak/screens/widgets/simple_list_button.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
-import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -180,7 +180,7 @@ class MyProfile extends GetWidget<UserController> {
                                 children: [
                                   MediumMenuButton(
                                     iconName: "twoTicket", title: "선밥권", subTitle: "사용",
-                                    clickAction: () => print("onCLick"),
+                                    clickAction: () => DalgeurakToast().show("선밥권 기능은 현재 지원하지 않습니다."),
                                   ),
                                   MediumMenuButton(
                                     iconName: "cancel", title: "급식 취소", subTitle: "신청",
