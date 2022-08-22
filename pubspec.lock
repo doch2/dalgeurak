@@ -63,7 +63,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.6"
+    version: "2.3.6+1"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -113,6 +113,24 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  dalgeurak_meal_application:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: "2faee25fb8ae3b580998a526ce81e0a9daf0311d"
+      url: "https://github.com/dimigoin/dalgeurak-meal-application.git"
+    source: git
+    version: "1.0.0+1"
+  dalgeurak_widget_package:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: "1920ae0cb087770ef6b52c2f78dc7898979f956f"
+      url: "https://github.com/dimigoin/dalgeurak-widget-package.git"
+    source: git
+    version: "0.0.2"
   dbus:
     dependency: transitive
     description:
@@ -126,7 +144,7 @@ packages:
       name: dimigoin_flutter_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.6"
+    version: "0.4.4"
   dio:
     dependency: "direct main"
     description:
@@ -168,7 +186,7 @@ packages:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.3"
   firebase:
     dependency: transitive
     description:
@@ -203,28 +221,28 @@ packages:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.5.1"
+    version: "3.6.3"
   firebase_auth_platform_interface:
     dependency: transitive
     description:
       name: firebase_auth_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.4.0"
+    version: "6.5.3"
   firebase_auth_web:
     dependency: transitive
     description:
       name: firebase_auth_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.1"
+    version: "4.2.3"
   firebase_core:
     dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.20.0"
+    version: "1.20.1"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -266,21 +284,42 @@ packages:
       name: firebase_performance
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.2+1"
+    version: "0.8.2+2"
   firebase_performance_platform_interface:
     dependency: transitive
     description:
       name: firebase_performance_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.1+12"
+    version: "0.1.1+13"
   firebase_performance_web:
     dependency: transitive
     description:
       name: firebase_performance_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.1+1"
+    version: "0.1.1+2"
+  firebase_remote_config:
+    dependency: "direct main"
+    description:
+      name: firebase_remote_config
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.14"
+  firebase_remote_config_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_remote_config_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.13"
+  firebase_remote_config_web:
+    dependency: transitive
+    description:
+      name: firebase_remote_config_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -306,14 +345,14 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.7.0"
+    version: "9.8.0+1"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
       name: flutter_local_notifications_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0+1"
+    version: "0.5.1"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
@@ -334,21 +373,21 @@ packages:
       name: flutter_secure_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.2"
+    version: "5.1.2"
   flutter_secure_storage_linux:
     dependency: transitive
     description:
       name: flutter_secure_storage_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   flutter_secure_storage_macos:
     dependency: transitive
     description:
       name: flutter_secure_storage_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   flutter_secure_storage_platform_interface:
     dependency: transitive
     description:
@@ -402,7 +441,7 @@ packages:
     source: sdk
     version: "0.0.0"
   fluttertoast:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: fluttertoast
       url: "https://pub.dartlang.org"
@@ -421,7 +460,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.4"
+    version: "0.13.5"
   http_client_helper:
     dependency: transitive
     description:
@@ -477,7 +516,7 @@ packages:
       name: lint
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.2"
+    version: "1.10.0"
   lints:
     dependency: transitive
     description:
@@ -498,7 +537,7 @@ packages:
       name: lottie
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0"
+    version: "1.4.1"
   matcher:
     dependency: transitive
     description:
@@ -603,14 +642,14 @@ packages:
       name: path_provider_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.16"
+    version: "2.0.19"
   path_provider_ios:
     dependency: transitive
     description:
       name: path_provider_ios
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.10"
+    version: "2.0.11"
   path_provider_linux:
     dependency: transitive
     description:
@@ -694,7 +733,7 @@ packages:
       name: qr_code_scanner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   qr_flutter:
     dependency: "direct main"
     description:
@@ -805,6 +844,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "20.2.44"
+  syncfusion_flutter_datepicker:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_datepicker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "20.2.44"
   term_glyph:
     dependency: transitive
     description:
@@ -888,7 +941,7 @@ packages:
       name: url_launcher_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.12"
+    version: "2.0.13"
   url_launcher_windows:
     dependency: transitive
     description:
@@ -932,5 +985,5 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.17.0 <3.0.0"
+  dart: ">=2.17.5 <3.0.0"
   flutter: ">=3.0.0"

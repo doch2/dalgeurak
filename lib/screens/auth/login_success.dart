@@ -1,4 +1,4 @@
-import 'package:dalgeurak/screens/widgets/blue_button.dart';
+import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -61,7 +61,7 @@ class LoginSuccess extends GetWidget<AuthController> {
               curve: Curves.fastOutSlowIn,
               child: GestureDetector(
                 onTap: () => Get.back(),
-                child: BlueButton(content: "서비스로 돌아가기", isLong: true, isFill: true, isDialog: false)
+                child: BlueButton(content: "서비스로 돌아가기", isLong: true, isFill: true, isSmall: false, isDisable: false)
               )
             )
           ],

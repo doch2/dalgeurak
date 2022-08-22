@@ -3,18 +3,21 @@ import 'package:dalgeurak/controllers/notification_controller.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/utils/root.dart';
+import 'package:dalgeurak_meal_application/routes/pages.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_fgbg/flutter_fgbg.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await DimigoinFlutterPlugin().initializeApp();
   SharedPreference();
+  await Jiffy.locale("ko");
 
   NotificationController _notiController = Get.put<NotificationController>(NotificationController(), permanent: true);
   await _notiController.initialize();
@@ -55,6 +58,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           initialBinding: MainBinding(),
+          getPages: DalgeurakMealApplicationPages.pages,
           home: Root(notiController: notiController)),
     );
   }
