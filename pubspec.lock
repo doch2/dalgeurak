@@ -118,7 +118,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "7b6b9500bbb79c3f025c8b7aa898b1eebf765dc6"
+      resolved-ref: "2faee25fb8ae3b580998a526ce81e0a9daf0311d"
       url: "https://github.com/dimigoin/dalgeurak-meal-application.git"
     source: git
     version: "1.0.0+1"
@@ -127,7 +127,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "4cd888f2aeb4bd287ac1a9babfe81a71e5687d0f"
+      resolved-ref: "1920ae0cb087770ef6b52c2f78dc7898979f956f"
       url: "https://github.com/dimigoin/dalgeurak-widget-package.git"
     source: git
     version: "0.0.2"
@@ -144,7 +144,7 @@ packages:
       name: dimigoin_flutter_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.4"
   dio:
     dependency: "direct main"
     description:
@@ -186,7 +186,7 @@ packages:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.3"
   firebase:
     dependency: transitive
     description:
@@ -345,7 +345,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "9.8.0"
+    version: "9.8.0+1"
   flutter_local_notifications_linux:
     dependency: transitive
     description:

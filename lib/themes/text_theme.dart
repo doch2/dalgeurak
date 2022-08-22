@@ -108,27 +108,10 @@ final mealPlannerContent = TextStyle(
 final mealPlannerTabText = TextStyle(
     fontSize: 15, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
 
-final myProfileTitle = TextStyle(
-    fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
-final myProfileSubTitle = TextStyle(
-    fontSize: 20, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
-final myProfileName = TextStyle(
-    fontSize: 21, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
-final myProfileStudentId = TextStyle(
-    fontSize: 14, color: grayOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
-final myProfileMenuTitle = TextStyle(
-    fontSize: 18, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
-final myProfileDetailListTitle = TextStyle(
-    fontSize: 16, color: grayOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
-final myProfileQrLogDetailListSort = TextStyle(
-    fontSize: 13, color: grayOne, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
-final myProfileDate = TextStyle(
-    fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
-final myProfileQrLogTime = TextStyle(
-    fontSize: 15, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
-final myProfileTardyAmountNum = TextStyle(
-    fontSize: 16, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
-
+final myProfile_warning_date = TextStyle(
+    fontSize: 15, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+final myProfile_warning_reason = TextStyle(
+    fontSize: 12, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
 final myProfileAlert = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 

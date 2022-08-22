@@ -9,10 +9,12 @@ import 'package:dalgeurak/screens/widgets/medium_menu_button.dart';
 import 'package:dalgeurak/screens/widgets/simple_list_button.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
+import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MyProfile extends GetWidget<UserController> {
@@ -29,6 +31,8 @@ class MyProfile extends GetWidget<UserController> {
 
     MyProfileBottomSheet myProfileBottomSheet = MyProfileBottomSheet();
     DalgeurakDialog dalgeurakDialog = DalgeurakDialog();
+
+    controller.getUserWarningList();
 
 
     return Scaffold(
@@ -146,10 +150,38 @@ class MyProfile extends GetWidget<UserController> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  MediumMenuButton(
-                                    iconName: "noticeCircle", title: "경고 횟수", subTitle: "3회",
-                                    clickAction: () => print("onCLick"),
-                                  ),
+                                  Obx(() {
+                                    int warningAmount = controller.warningList.length;
+
+                                    return MediumMenuButton(
+                                      iconName: "noticeCircle", title: "경고 횟수", subTitle: "$warningAmount회",
+                                      clickAction: () => dalgeurakDialog.showList(
+                                          "경고",
+                                          "누적 $warningAmount회",
+                                          "경고 기록",
+                                          ListView.builder(
+                                            itemCount: warningAmount,
+                                            itemBuilder: (context, index) {
+                                              DalgeurakWarning warning = controller.warningList[index];
+
+                                              String warningTypeStr = "";
+                                              warning.warningTypeList?.forEach((element) => warningTypeStr = warningTypeStr + element.convertKorStr + ", ");
+                                              warningTypeStr = warningTypeStr.substring(0, warningTypeStr.length-2);
+
+                                              return Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("${Jiffy(warning.date).format("MM.dd (E) a hh:mm")}", style: myProfile_warning_date),
+                                                  SizedBox(height: 2),
+                                                  Text("$warningTypeStr(${warning.reason})", style: myProfile_warning_reason),
+                                                  SizedBox(height: 20),
+                                                ],
+                                              );
+                                            }
+                                          )
+                                      ),
+                                    );
+                                  }),
                                   MediumMenuButton(
                                     iconName: "foodBucket", title: "간편식", subTitle: "신청",
                                     clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.CONVENIENCEFOOD),
@@ -164,7 +196,12 @@ class MyProfile extends GetWidget<UserController> {
                                 children: [
                                   MediumMenuButton(
                                     iconName: "checkCircle_round", title: "입장 기록", subTitle: "체크",
-                                    clickAction: () => print("onCLick"),
+                                    clickAction: () => dalgeurakDialog.showList(
+                                        "${controller.user?.name}", 
+                                        "입장 기록", 
+                                        "입장 기록", 
+                                        null
+                                    ),
                                   ),
                                   MediumMenuButton(
                                     iconName: "signDocu", title: "선/후밥", subTitle: "신청",
