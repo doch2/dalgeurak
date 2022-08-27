@@ -237,7 +237,7 @@ class HomeBottomSheet {
           Positioned(
               top: Get.height * 0.04,
               left: Get.width * 0.07,
-              child: Text("급식 급식 순서 수정", style: homeBottomSheetTitle)
+              child: Text("${modifyMealInfoTime.value.convertKorStr} 급식 순서 수정", style: homeBottomSheetTitle)
           ),
           Positioned(
               top: Get.height * 0.075,
@@ -360,7 +360,7 @@ class HomeBottomSheet {
           Positioned(
               top: Get.height * 0.04,
               left: Get.width * 0.07,
-              child: Text("급식 정보 장소수정", style: homeBottomSheetTitle)
+              child: Text("${modifyMealInfoTime.value.convertKorStr} 급식 장소 수정", style: homeBottomSheetTitle)
           ),
           Positioned(
               top: Get.height * 0.075,
