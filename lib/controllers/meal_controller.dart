@@ -161,6 +161,13 @@ class MealController extends GetxController {
     _dalgeurakToast.show("급식 순서 수정에 ${result1['success'] && result2['success'] ? "성공" : "실패"}하였습니다.");
   }
 
+  setMealWaitingPlace(MealWaitingPlaceType placeType) async {
+    Map result = await dalgeurakService.setMealWaitingPlace(placeType);
+
+    Get.back();
+    _dalgeurakToast.show("급식 대기 장소 수정에 ${result['success'] ? "성공" : "실패"}하였습니다.");
+  }
+
   getUserLeftMealTime() {
     MealStatusType mealStatus = userMealStatus.value;
 

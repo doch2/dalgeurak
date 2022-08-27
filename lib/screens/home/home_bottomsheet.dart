@@ -26,6 +26,7 @@ class HomeBottomSheet {
   Rx<MealType> modifyMealInfoTime = MealType.none.obs;
   Rx<ModifyMealInfoType> modifyMealInfoType = ModifyMealInfoType.none.obs;
   Map<int, RxList<int>> modifyMealClassSequence = {1: ([].cast<int>()).obs, 2: ([].cast<int>()).obs};
+  Rx<MealWaitingPlaceType> modifyMealPlaceType = MealWaitingPlaceType.outside.obs;
 
   showMealDelay(BuildContext context) => _dalgeurakBottomSheet.show(
       0.5,
@@ -211,6 +212,8 @@ class HomeBottomSheet {
                     Get.back();
                     if (modifyMealInfoType.value == ModifyMealInfoType.sequence) {
                       showMealSequence();
+                    } else if (modifyMealInfoType.value == ModifyMealInfoType.place) {
+                      showMealPlace();
                     }
                   } else {
                     _dalgeurakToast.show("수정할 정보 종류를 선택 후 다시 시도해주세요.");
@@ -339,6 +342,63 @@ class HomeBottomSheet {
                         _dalgeurakToast.show("모든 반의 순서를 지정하고 다시 시도해주세요.");
                       }
                     },
+                    child: BlueButton(content: "확인", isLong: false, isSmall: false, isFill: true, isDisable: false)
+                ),
+              ],
+            ),
+          )
+        ],
+      )
+  );
+
+  showMealPlace() => _dalgeurakBottomSheet.show(
+      0.55,
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(width: Get.width, height: Get.height * 0.55),
+          Positioned(
+              top: Get.height * 0.04,
+              left: Get.width * 0.07,
+              child: Text("급식 정보 장소수정", style: homeBottomSheetTitle)
+          ),
+          Positioned(
+              top: Get.height * 0.075,
+              left: Get.width * 0.07,
+              child: Text("장소를 선택하고 확인을 누르세요.", style: homeBottomSheetSubTitle)
+          ),
+          Positioned(
+              top: Get.height * 0.1,
+              child: Container(width: Get.width * 0.871, child: Divider(color: dalgeurakGrayTwo, thickness: 1.0))
+          ),
+          Positioned(
+              top: Get.height * 0.22,
+              child: Obx(() => Row(
+                children: [
+                  Row(
+                    children: [
+                      GestureDetector(
+                          onTap: () => modifyMealPlaceType.value = MealWaitingPlaceType.corridor,
+                          child: BlueButton(content: "1학년 복도", isLong: false, isFill: (modifyMealPlaceType.value == MealWaitingPlaceType.corridor), isSmall: false, isDisable: false)
+                      ),
+                      const SizedBox(width: 24),
+                      GestureDetector(
+                          onTap: () => modifyMealPlaceType.value = MealWaitingPlaceType.outside,
+                          child: BlueButton(content: "외부 통로", isLong: false, isFill: (modifyMealPlaceType.value == MealWaitingPlaceType.outside), isSmall: false, isDisable: false)
+                      ),
+                    ],
+                  )
+                ],
+              ))
+          ),
+          Positioned(
+            bottom: Get.height * 0.1,
+            child: Row(
+              children: [
+                GestureDetector(onTap: () => Get.back(), child: BlueButton(content: "취소", isLong: false, isSmall: false, isFill: false, isDisable: false)),
+                SizedBox(width: 30),
+                GestureDetector(
+                    onTap: () => mealController.setMealWaitingPlace(modifyMealPlaceType.value),
                     child: BlueButton(content: "확인", isLong: false, isSmall: false, isFill: true, isDisable: false)
                 ),
               ],
