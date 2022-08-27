@@ -13,6 +13,8 @@ final simpleListButtonTitle = TextStyle(
     fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 final detailTitle = TextStyle(
     fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final sequenceBlueButtonSequenceNum = TextStyle(
+    fontSize: 12, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 
 
 final loginTitle = TextStyle(
@@ -57,9 +59,9 @@ final homeMealSequenceClass = TextStyle(
 final homeMealSequenceClassTime = TextStyle(
     fontSize: 10, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
 
-final homeMealDelaySheetTitle = TextStyle(
+final homeBottomSheetTitle = TextStyle(
     fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
-final homeMealDelaySheetSubTitle = TextStyle(
+final homeBottomSheetSubTitle = TextStyle(
     fontSize: 14, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 final homeMealDelaySheetFieldDescription = TextStyle(
     fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
@@ -69,6 +71,10 @@ final homeMealDelaySheetNowSettingDescription = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
 final homeMealDelaySheetNowSettingTime = TextStyle(
     fontSize: 16, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final homeChooseModifyMealInfoKindSheetInfoKind = TextStyle(
+    fontSize: 15, color: dalgeurakGrayFour, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
+final homeMealSequenceSheetGradeKind = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 
 final studentSearchFieldLabel = TextStyle(
