@@ -1,4 +1,4 @@
-import 'package:dalgeurak_widget_package/widgets/toast.dart';
+import 'package:dalgeurak/screens/home/home_bottomsheet.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -6,19 +6,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
 import 'package:dalgeurak_widget_package/widgets/window_title.dart';
-import 'package:dalgeurak_widget_package/widgets//overlay_alert.dart';
-import 'package:dalgeurak_widget_package/widgets/dialog.dart';
-import 'package:dalgeurak_widget_package/widgets/bottom_sheet.dart';
-import '../controllers/meal_controller.dart';
-import '../controllers/qrcode_controller.dart';
-import '../controllers/user_controller.dart';
-import '../themes/color_theme.dart';
-import '../themes/text_theme.dart';
-import './widgets/big_menu_button.dart';
-import './studentManage/student_search.dart';
-import './studentManage/qrcode_scan.dart';
+import '../../controllers/meal_controller.dart';
+import '../../controllers/qrcode_controller.dart';
+import '../../controllers/user_controller.dart';
+import '../../themes/color_theme.dart';
+import '../../themes/text_theme.dart';
+import '../widgets/big_menu_button.dart';
+import '../studentManage/student_search.dart';
+import '../studentManage/qrcode_scan.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
@@ -36,6 +32,7 @@ class Home extends StatelessWidget {
     mealController = Get.find<MealController>();
     userController = Get.find<UserController>();
     qrCodeController = Get.find<QrCodeController>();
+    HomeBottomSheet _homeBottomSheet = HomeBottomSheet();
 
     if (!mealController.isCreateRefreshTimer) { mealController.refreshTimer(); mealController.isCreateRefreshTimer = true; }
 
@@ -100,109 +97,7 @@ class Home extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 GestureDetector(
-                                  onTap: () => DalgeurakBottomSheet().show(
-                                    0.5,
-                                    Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        SizedBox(width: _width, height: _height * 0.5),
-                                        Positioned(
-                                          top: _height * 0.04,
-                                          left: _width * 0.07,
-                                          child: Text("급식 지연", style: homeMealDelaySheetTitle)
-                                        ),
-                                        Positioned(
-                                          top: _height * 0.075,
-                                          left: _width * 0.07,
-                                          child: Text("지연 설정 할 시간을 입력해주세요.", style: homeMealDelaySheetSubTitle)
-                                        ),
-                                        Positioned(
-                                            top: _height * 0.1,
-                                            child: Container(width: _width * 0.871, child: Divider(color: dalgeurakGrayTwo, thickness: 1.0))
-                                        ),
-                                        Positioned(
-                                            top: _height * 0.125,
-                                            left: _width * 0.07,
-                                            child: Text("현재 지연 된 시간", style: homeMealDelaySheetNowSettingDescription)
-                                        ),
-                                        Positioned(
-                                            top: _height * 0.125,
-                                            left: _width * 0.36,
-                                            child: Text("${mealController.mealTime['extraMinute']}분", style: homeMealDelaySheetNowSettingTime)
-                                        ),
-                                        Positioned(
-                                          top: _height * 0.2,
-                                          child: Row(
-                                            children: [
-                                                SizedBox(
-                                                  width: _width * 0.141,
-                                                  height: _height * 0.04,
-                                                  child: TextField(
-                                                    keyboardType: TextInputType.number,
-                                                    controller: mealController.mealDelayTextController,
-                                                    textAlign: TextAlign.center,
-                                                    style: homeMealDelaySheetFieldText,
-                                                    decoration: InputDecoration(
-                                                      contentPadding: EdgeInsets.zero,
-                                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(3), borderSide: BorderSide(width: 0, style: BorderStyle.none,)),
-                                                      fillColor: dalgeurakGrayOne,
-                                                      filled: true,
-                                                    ),
-                                                  ),
-                                              ),
-                                              SizedBox(width: _width * 0.015),
-                                              Text("분 지연 설정", style: homeMealDelaySheetFieldDescription),
-                                            ],
-                                          ),
-                                        ),
-                                        Positioned(
-                                          bottom: _height * 0.08,
-                                          child: SizedBox(
-                                            width: _width * 0.825,
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                GestureDetector(
-                                                  onTap: () => Get.back(),
-                                                  child: BlueButton(content: "취소", isLong: false, isFill: false, isSmall: false, isDisable: false),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () => DalgeurakDialog().showWarning(
-                                                      "급식 시간을 ${mealController.mealDelayTextController.text}분 지연하시겠어요?",
-                                                      "장난으로 기재할 시 처벌 받을 수 있습니다.",
-                                                      () async {
-                                                        if (await mealController.setDelayMealTime()) {
-                                                          DalgeurakOverlayAlert(context: context).show(
-                                                            [
-                                                              {
-                                                                "content": "급식 시간이 ",
-                                                                "emphasis": false,
-                                                              },
-                                                              {
-                                                                "content": "${mealController.mealDelayTextController.text}분 지연",
-                                                                "emphasis": true,
-                                                              },
-                                                              {
-                                                                "content": " 되었습니다.",
-                                                                "emphasis": false,
-                                                              }
-                                                            ],
-                                                          );
-                                                          Get.back();
-                                                        } else {
-                                                          DalgeurakToast().show("시간 포멧이 정상적이지 않습니다. 다시 시도해주세요.");
-                                                        }
-                                                      }
-                                                  ),
-                                                  child: BlueButton(content: "확인", isLong: false, isFill: true, isSmall: false, isDisable: false),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  ),
+                                  onTap: () => _homeBottomSheet.showMealDelay(context),
                                   child: BigMenuButton(
                                     title: "급식 지연",
                                     iconName: "clock",
@@ -245,14 +140,15 @@ class Home extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 GestureDetector(
+                                  onTap: () => _homeBottomSheet.showChooseModifyMealInfoKind(),
                                   child: BigMenuButton(
-                                    title: "급식 순서",
+                                    title: "급식 순서･장소",
                                     iconName: "table",
                                     isHome: true,
                                     sizeRatio: 0.282,
                                     includeInnerShadow: true,
-                                    backgroundType: BigMenuButtonBackgroundType.color,
-                                    background: purpleTwo,
+                                    backgroundType: BigMenuButtonBackgroundType.gradient,
+                                    background: purpleGreenLinearGradientOne,
                                   ),
                                 ),
                                 GestureDetector(

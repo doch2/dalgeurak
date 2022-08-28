@@ -153,6 +153,21 @@ class MealController extends GetxController {
     }
   }
 
+  setMealSequence(MealType mealType, Map sequenceMap) async {
+    Map result1 = await dalgeurakService.setMealSequence(1, mealType, sequenceMap[1]);
+    Map result2 = await dalgeurakService.setMealSequence(2, mealType, sequenceMap[1]);
+
+    Get.back();
+    _dalgeurakToast.show("급식 순서 수정에 ${result1['success'] && result2['success'] ? "성공" : "실패"}하였습니다.");
+  }
+
+  setMealWaitingPlace(MealWaitingPlaceType placeType) async {
+    Map result = await dalgeurakService.setMealWaitingPlace(placeType);
+
+    Get.back();
+    _dalgeurakToast.show("급식 대기 장소 수정에 ${result['success'] ? "성공" : "실패"}하였습니다.");
+  }
+
   getUserLeftMealTime() {
     MealStatusType mealStatus = userMealStatus.value;
 
