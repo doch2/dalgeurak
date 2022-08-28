@@ -1,5 +1,5 @@
 import 'package:dalgeurak/controllers/user_controller.dart';
-import 'package:dalgeurak/screens/meal_planner.dart';
+import 'package:dalgeurak/screens/meal_planner/meal_planner.dart';
 import 'package:dalgeurak/screens/profile/my_profile.dart';
 import 'package:dalgeurak/screens/home/home.dart';
 import 'package:dalgeurak/screens/studentManage/admin_page.dart';

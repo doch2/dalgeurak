@@ -8,6 +8,7 @@ import 'package:dalgeurak/services/shared_preference.dart';
 import 'package:dalgeurak_widget_package/widgets/toast.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
 import 'package:get/get.dart';
 
 class MealController extends GetxController {
@@ -30,6 +31,8 @@ class MealController extends GetxController {
   RxInt nowClassMealSequence = 0.obs;
   bool isCreateRefreshTimer = false;
   final mealDelayTextController = TextEditingController();
+  late PageController mealPlannerPageController = PageController(initialPage: 6);
+  CustomTabBarController mealPlannerTabBarController = CustomTabBarController();
 
   UserController _userController = Get.find<UserController>();
   QrCodeController _qrCodeController = Get.find<QrCodeController>();

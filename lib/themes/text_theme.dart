@@ -104,13 +104,13 @@ final adminPageDescription = TextStyle(
     fontSize: 20, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 final mealPlannerTabDate = TextStyle(
-    fontSize: 15, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+    fontSize: 16, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
 final mealPlannerDate = TextStyle(
     fontSize: 20, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
 final mealPlannerMealType = TextStyle(
-    fontSize: 15, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);
+    fontSize: 15, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 final mealPlannerContent = TextStyle(
-    fontSize: 13, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
+    fontSize: 13, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500, height: 1.8);
 final mealPlannerTabText = TextStyle(
     fontSize: 15, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
 
