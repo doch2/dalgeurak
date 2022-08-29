@@ -34,13 +34,26 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
   Widget build(BuildContext context) {
     _mealController = Get.find<MealController>();
 
-    Future.delayed(Duration(milliseconds: 60), () => _mealController.mealPlannerTabBarController.animateToIndex(DateTime.now().weekday-1));
-
+    
     return Stack(
-      alignment: Alignment.center,
+      alignment: Alignment.topCenter,
       children: [
         Positioned(
-          top: Get.height * 0.13,
+          top: Get.height * 0.023,
+          child: SizedBox(
+            width: Get.width,
+            height: Get.height,
+            child: PageView.builder(
+                controller: _mealController.mealPlannerPageController,
+                itemCount: 7,
+                itemBuilder: (context, index) {
+                  return Center(child: mealPlannerView((index+1)));
+                }
+            ),
+          ),
+        ),
+        Positioned(
+          top: (Get.height * 0.023) + 80,
           child: Container(
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -68,13 +81,6 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
             ),
           ),
         ),
-        PageView.builder(
-            controller: _mealController.mealPlannerPageController,
-            itemCount: 7,
-            itemBuilder: (context, index) {
-              return Center(child: mealPlannerView((index+1)));
-            }
-        ),
       ],
     );
   }
@@ -87,7 +93,7 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
           builder: (context, color) {
             return Container(
               alignment: Alignment.center,
-              constraints: BoxConstraints(minWidth: 52),
+              constraints: BoxConstraints(minWidth: (Get.width / 7.8)),
               child: Text(
                 _mealController.weekDay[(index+1)],
                 style: mealPlannerTabDate.copyWith(color: color),
@@ -102,7 +108,6 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
     Map correctDate = MealInfo().getCorrectDate((DateTime.now().day - (DateTime.now().weekday - 1)) + (index-1));
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
@@ -113,7 +118,7 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
             WindowTitle(subTitle: "급식", title: "${correctDate["month"]}월 ${correctDate["day"]}일"),
           ],
         ),
-        SizedBox(height: Get.height * 0.12),
+        SizedBox(height: Get.height * 0.11),
         mealPlannerPanel(plannerData, index, MealType.breakfast),
         SizedBox(height: Get.height * 0.0165),
         mealPlannerPanel(plannerData, index, MealType.lunch),
@@ -146,14 +151,14 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
       children: [
         Container(
           width: Get.width * 0.897,
-          height: 170,
+          height: 164,
           decoration: BoxDecoration(
               color: bigBoxColor,
               borderRadius: BorderRadius.circular(13)
           ),
           child: Center(
             child: SizedBox(
-              width: Get.width * 0.75,
+              width: Get.width * 0.76,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
