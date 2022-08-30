@@ -15,6 +15,8 @@ final detailTitle = TextStyle(
     fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 final sequenceBlueButtonSequenceNum = TextStyle(
     fontSize: 12, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final downloadButton = TextStyle(
+    fontSize: 18, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 
 final loginTitle = TextStyle(
@@ -75,6 +77,8 @@ final homeChooseModifyMealInfoKindSheetInfoKind = TextStyle(
     fontSize: 15, color: dalgeurakGrayFour, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final homeMealSequenceSheetGradeKind = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final homeExcelDownloadSheetFileKind = TextStyle(
+    fontSize: 18, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 
 final studentSearchFieldLabel = TextStyle(

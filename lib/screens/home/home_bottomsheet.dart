@@ -1,3 +1,4 @@
+import 'package:dalgeurak/screens/widgets/download_button.dart';
 import 'package:dalgeurak/screens/widgets/sequence_blue_button.dart';
 import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
 import 'package:dalgeurak_widget_package/widgets/bottom_sheet.dart';
@@ -404,6 +405,46 @@ class HomeBottomSheet {
               ],
             ),
           )
+        ],
+      )
+  );
+
+  showExcelDownload() => _dalgeurakBottomSheet.show(
+      0.55,
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(width: Get.width, height: Get.height * 0.55),
+          Positioned(
+              top: Get.height * 0.04,
+              left: Get.width * 0.07,
+              child: Text("엑셀 다운", style: homeBottomSheetTitle)
+          ),
+          Positioned(
+              top: Get.height * 0.075,
+              left: Get.width * 0.07,
+              child: Text("엑셀로 다운로드할 파일을 선택해주세요.", style: homeBottomSheetSubTitle)
+          ),
+          Positioned(
+              top: Get.height * 0.11,
+              child: Container(width: Get.width * 0.871, child: Divider(color: dalgeurakGrayTwo, thickness: 1.0))
+          ),
+          Positioned(
+              top: Get.height * 0.15,
+              left: Get.width * 0.07,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("위탁 급식비", style: homeExcelDownloadSheetFileKind),
+                  const SizedBox(height: 24),
+                  DownloadButton(clickAction: () => print("onClick")),
+                  const SizedBox(height: 40),
+                  Text("잔류 급식비", style: homeExcelDownloadSheetFileKind),
+                  const SizedBox(height: 24),
+                  DownloadButton(clickAction: () => print("onClick"))
+                ],
+              )
+          ),
         ],
       )
   );

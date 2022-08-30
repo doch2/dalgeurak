@@ -22,6 +22,7 @@ class Home extends StatelessWidget {
   late MealController mealController;
   late UserController userController;
   late QrCodeController qrCodeController;
+  late HomeBottomSheet _homeBottomSheet;
   late double _height, _width;
 
   @override
@@ -32,7 +33,7 @@ class Home extends StatelessWidget {
     mealController = Get.find<MealController>();
     userController = Get.find<UserController>();
     qrCodeController = Get.find<QrCodeController>();
-    HomeBottomSheet _homeBottomSheet = HomeBottomSheet();
+    _homeBottomSheet = HomeBottomSheet();
 
     if (!mealController.isCreateRefreshTimer) { mealController.refreshTimer(); mealController.isCreateRefreshTimer = true; }
 
@@ -79,7 +80,7 @@ class Home extends StatelessWidget {
             ),
             Obx(() {
               bool? isDienen = userController.user?.permissions?.contains(DimigoinPermissionType.dalgeurak); isDienen ??= false;
-              bool isStudent = userController.user?.userType != DimigoinUserType.teacher && !isDienen;
+              bool isStudent = userController.user?.userType != DimigoinUserType.teacher;
 
               return Positioned(
                 top: _height * (isStudent ? 0.22 : 0.23),
@@ -87,148 +88,7 @@ class Home extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    (isStudent ?
-                      getQrCodeShowWidget(false) :
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: _width * 0.897,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                GestureDetector(
-                                  onTap: () => _homeBottomSheet.showMealDelay(context),
-                                  child: BigMenuButton(
-                                    title: "급식 지연",
-                                    iconName: "clock",
-                                    isHome: true,
-                                    sizeRatio: 0.282,
-                                    includeInnerShadow: false,
-                                    backgroundType: BigMenuButtonBackgroundType.image,
-                                    background: ExtendedImage.asset("assets/images/homeMenu_clock.png"),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  child: BigMenuButton(
-                                    title: "남은 인원",
-                                    iconName: "twoPeople",
-                                    isHome: true,
-                                    sizeRatio: 0.282,
-                                    includeInnerShadow: true,
-                                    backgroundType: BigMenuButtonBackgroundType.gradient,
-                                    background: blueLinearGradientOne,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  child: BigMenuButton(
-                                    title: "학생 관리",
-                                    iconName: "peopleClip",
-                                    isHome: true,
-                                    sizeRatio: 0.282,
-                                    includeInnerShadow: false,
-                                    backgroundType: BigMenuButtonBackgroundType.color,
-                                    background: dalgeurakYellowOne,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: _height * 0.0175),
-                          SizedBox(
-                            width: _width * 0.897,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                GestureDetector(
-                                  onTap: () => _homeBottomSheet.showChooseModifyMealInfoKind(),
-                                  child: BigMenuButton(
-                                    title: "급식 순서･장소",
-                                    iconName: "table",
-                                    isHome: true,
-                                    sizeRatio: 0.282,
-                                    includeInnerShadow: true,
-                                    backgroundType: BigMenuButtonBackgroundType.gradient,
-                                    background: purpleGreenLinearGradientOne,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () => showSearch(context: context, delegate: StudentSearch()),
-                                  child: BigMenuButton(
-                                    title: "학생 검색",
-                                    iconName: "peopleSearch",
-                                    isHome: true,
-                                    sizeRatio: 0.282,
-                                    includeInnerShadow: false,
-                                    backgroundType: BigMenuButtonBackgroundType.color,
-                                    background: blueNine,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () => Get.to(QrCodeScan()),
-                                  child: BigMenuButton(
-                                    title: "QR 입장 스캐너",
-                                    iconName: "qrCode",
-                                    isHome: true,
-                                    sizeRatio: 0.282,
-                                    includeInnerShadow: false,
-                                    backgroundType: BigMenuButtonBackgroundType.image,
-                                    background: ExtendedImage.asset("assets/images/homeMenu_qrCode.png"),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () => Get.dialog(
-                                Dialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(15))
-                                  ),
-                                  child: Container(
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        SizedBox(width: _width * 0.925, height: _height * 0.625),
-                                        getQrCodeShowWidget(true),
-                                        Positioned(
-                                          top: _width * 0.075,
-                                          right: _width * 0.075,
-                                          child: GestureDetector(onTap: () => Get.back(), child: Icon(Icons.close_rounded, color: dalgeurakGrayThree, size: _width * 0.08)),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                )
-                            ),
-                            child: Container(
-                              height: _height * 0.1,
-                              width: _width * 0.897,
-                              margin: EdgeInsets.only(top: _height * 0.02),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(15),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: dalgeurakBlueOne.withAlpha(20),
-                                        blurRadius: 10
-                                    )
-                                  ]
-                              ),
-                              child: Column(
-                                children: [
-                                  SizedBox(height: _height * 0.02),
-                                  SvgPicture.asset(
-                                    "assets/images/icons/entrance.svg",
-                                    width: _width * 0.1,
-                                  ),
-                                  Text("급식실 입장", style: homeEntranceCafeteriaWidgetTitle)
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ),
+                    (isStudent ? (isDienen ? getDienenMenuBtnWidget(context) : getQrCodeShowWidget(false)) : getTeacherMenuBtnWidget(context)),
                     Container(
                       height: _height * 0.18,
                       width: _width * 0.897,
@@ -420,4 +280,191 @@ class Home extends StatelessWidget {
       ),
     );
   });
+  
+  getDienenMenuBtnWidget(BuildContext context) => Column(
+    children: [
+      SizedBox(
+        width: _width * 0.897,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () => _homeBottomSheet.showMealDelay(context),
+              child: BigMenuButton(
+                title: "급식 지연",
+                iconName: "clock",
+                isHome: true,
+                sizeRatio: 0.282,
+                includeInnerShadow: false,
+                backgroundType: BigMenuButtonBackgroundType.image,
+                background: ExtendedImage.asset("assets/images/homeMenu_clock.png"),
+              ),
+            ),
+            GestureDetector(
+              child: BigMenuButton(
+                title: "남은 인원",
+                iconName: "twoPeople",
+                isHome: true,
+                sizeRatio: 0.282,
+                includeInnerShadow: true,
+                backgroundType: BigMenuButtonBackgroundType.gradient,
+                background: blueLinearGradientOne,
+              ),
+            ),
+            GestureDetector(
+              child: BigMenuButton(
+                title: "학생 관리",
+                iconName: "peopleClip",
+                isHome: true,
+                sizeRatio: 0.282,
+                includeInnerShadow: false,
+                backgroundType: BigMenuButtonBackgroundType.color,
+                background: dalgeurakYellowOne,
+              ),
+            )
+          ],
+        ),
+      ),
+      SizedBox(height: _height * 0.0175),
+      SizedBox(
+        width: _width * 0.897,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () => _homeBottomSheet.showChooseModifyMealInfoKind(),
+              child: BigMenuButton(
+                title: "급식 순서･장소",
+                iconName: "table",
+                isHome: true,
+                sizeRatio: 0.282,
+                includeInnerShadow: true,
+                backgroundType: BigMenuButtonBackgroundType.gradient,
+                background: purpleGreenLinearGradientOne,
+              ),
+            ),
+            GestureDetector(
+              onTap: () => showSearch(context: context, delegate: StudentSearch()),
+              child: BigMenuButton(
+                title: "학생 검색",
+                iconName: "peopleSearch",
+                isHome: true,
+                sizeRatio: 0.282,
+                includeInnerShadow: false,
+                backgroundType: BigMenuButtonBackgroundType.color,
+                background: blueNine,
+              ),
+            ),
+            GestureDetector(
+              onTap: () => Get.to(QrCodeScan()),
+              child: BigMenuButton(
+                title: "QR 입장 스캐너",
+                iconName: "qrCode",
+                isHome: true,
+                sizeRatio: 0.282,
+                includeInnerShadow: false,
+                backgroundType: BigMenuButtonBackgroundType.image,
+                background: ExtendedImage.asset("assets/images/homeMenu_qrCode.png"),
+              ),
+            )
+          ],
+        ),
+      ),
+      GestureDetector(
+        onTap: () => Get.dialog(
+            Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15))
+              ),
+              child: Container(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(width: _width * 0.925, height: _height * 0.625),
+                    getQrCodeShowWidget(true),
+                    Positioned(
+                      top: _width * 0.075,
+                      right: _width * 0.075,
+                      child: GestureDetector(onTap: () => Get.back(), child: Icon(Icons.close_rounded, color: dalgeurakGrayThree, size: _width * 0.08)),
+                    )
+                  ],
+                ),
+              ),
+            )
+        ),
+        child: Container(
+          height: _height * 0.1,
+          width: _width * 0.897,
+          margin: EdgeInsets.only(top: _height * 0.02),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                    color: dalgeurakBlueOne.withAlpha(20),
+                    blurRadius: 10
+                )
+              ]
+          ),
+          child: Column(
+            children: [
+              SizedBox(height: _height * 0.02),
+              SvgPicture.asset(
+                "assets/images/icons/entrance.svg",
+                width: _width * 0.1,
+              ),
+              Text("급식실 입장", style: homeEntranceCafeteriaWidgetTitle)
+            ],
+          ),
+        ),
+      ),
+    ],
+  );
+
+  getTeacherMenuBtnWidget(BuildContext context) => Column(
+    children: [
+      SizedBox(
+        width: _width * 0.897,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () => _homeBottomSheet.showExcelDownload(),
+              child: BigMenuButton(
+                title: "엑셀 다운",
+                iconName: "excel",
+                isHome: true,
+                sizeRatio: 0.282,
+                includeInnerShadow: true,
+                backgroundType: BigMenuButtonBackgroundType.gradient,
+                background: blueLinearGradientOne,
+              ),
+            ),
+            GestureDetector(
+              child: BigMenuButton(
+                title: "급식 취소",
+                iconName: "cancel",
+                isHome: true,
+                sizeRatio: 0.282,
+                includeInnerShadow: true,
+                backgroundType: BigMenuButtonBackgroundType.color,
+                background: purpleTwo,
+              ),
+            ),
+            GestureDetector(
+              child: BigMenuButton(
+                title: "급식 단가 수정",
+                iconName: "signDocu",
+                isHome: true,
+                sizeRatio: 0.282,
+                includeInnerShadow: false,
+                backgroundType: BigMenuButtonBackgroundType.color,
+                background: dalgeurakYellowOne,
+              ),
+            )
+          ],
+        ),
+      ),
+    ],
+  );
 }
