@@ -448,4 +448,70 @@ class HomeBottomSheet {
         ],
       )
   );
+
+  showModifyMealPrice() => _dalgeurakBottomSheet.show(
+      0.55,
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(width: Get.width, height: Get.height * 0.55),
+          Positioned(
+              top: Get.height * 0.04,
+              left: Get.width * 0.07,
+              child: Text("급식 단가 수정", style: homeBottomSheetTitle)
+          ),
+          Positioned(
+              top: Get.height * 0.075,
+              left: Get.width * 0.07,
+              child: Text("잔류 급식비를 입력해주세요.", style: homeBottomSheetSubTitle)
+          ),
+          Positioned(
+              top: Get.height * 0.11,
+              child: Container(width: Get.width * 0.871, child: Divider(color: dalgeurakGrayTwo, thickness: 1.0))
+          ),
+          Positioned(
+              top: Get.height * 0.15,
+              left: Get.width * 0.07,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("현재 잔류 급식 단가: 5,630원", style: homeModifyMealPriceSheetNowPrice),
+                  const SizedBox(height: 36),
+                  Text("가격", style: homeModifyMealPriceSheetText),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 79,
+                        height: 35,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: mealController.mealPriceTextController,
+                          textAlign: TextAlign.center,
+                          style: homeModifyMealPriceSheetText,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(3), borderSide: BorderSide(width: 0, style: BorderStyle.none,)),
+                            fillColor: dalgeurakGrayOne,
+                            filled: true,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 6),
+                      Text("원", style: homeModifyMealPriceSheetText),
+                    ],
+                  )
+                ],
+              )
+          ),
+          Positioned(
+            bottom: Get.height * 0.1,
+            child: GestureDetector(
+                onTap: () => print("onClick"),
+                child: BlueButton(content: "확인", isLong: false, isSmall: false, isFill: true, isDisable: false)
+            ),
+          )
+        ],
+      )
+  );
 }

@@ -79,6 +79,10 @@ final homeMealSequenceSheetGradeKind = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 final homeExcelDownloadSheetFileKind = TextStyle(
     fontSize: 18, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final homeModifyMealPriceSheetNowPrice = TextStyle(
+    fontSize: 16, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final homeModifyMealPriceSheetText = TextStyle(
+    fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 
 final studentSearchFieldLabel = TextStyle(

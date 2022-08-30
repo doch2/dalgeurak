@@ -31,6 +31,7 @@ class MealController extends GetxController {
   RxInt nowClassMealSequence = 0.obs;
   bool isCreateRefreshTimer = false;
   final mealDelayTextController = TextEditingController();
+  final mealPriceTextController = TextEditingController();
   late PageController mealPlannerPageController = PageController(initialPage: (DateTime.now().weekday-1));
   CustomTabBarController mealPlannerTabBarController = CustomTabBarController();
 

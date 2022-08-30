@@ -452,6 +452,7 @@ class Home extends StatelessWidget {
               ),
             ),
             GestureDetector(
+              onTap: () => _homeBottomSheet.showModifyMealPrice(),
               child: BigMenuButton(
                 title: "급식 단가 수정",
                 iconName: "signDocu",
