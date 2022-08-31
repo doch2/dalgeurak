@@ -22,6 +22,7 @@ enum ModifyMealInfoType {
 class HomeBottomSheet {
   DalgeurakBottomSheet _dalgeurakBottomSheet = DalgeurakBottomSheet();
   DalgeurakToast _dalgeurakToast = DalgeurakToast();
+  DalgeurakDialog _dalgeurakDialog = DalgeurakDialog();
   MealController mealController = Get.find<MealController>();
 
   Rx<MealType> modifyMealInfoTime = MealType.none.obs;
@@ -507,7 +508,11 @@ class HomeBottomSheet {
           Positioned(
             bottom: Get.height * 0.1,
             child: GestureDetector(
-                onTap: () => print("onClick"),
+                onTap: () => _dalgeurakDialog.showWarning(
+                    "급식 단가를 ${mealController.mealPriceTextController.text}원으로 수정하시겠어요?",
+                    "",
+                    () => print("onClick")
+                ),
                 child: BlueButton(content: "확인", isLong: false, isSmall: false, isFill: true, isDisable: false)
             ),
           )
