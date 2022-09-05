@@ -110,7 +110,7 @@ class MealController extends GetxController {
       mealListToStr(list) {
         String result = "";
         (list as List).forEach((element) => result = result + element + ", ");
-        result = result.substring(0, (result.length - 2));
+        result = result.isNotEmpty ? result.substring(0, (result.length - 2)) : "급식 정보가 없습니다.";
         return result;
       }
 
