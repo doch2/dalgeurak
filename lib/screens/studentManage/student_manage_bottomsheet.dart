@@ -1,3 +1,4 @@
+import 'package:dalgeurak_widget_package/services/dalgeurak_api.dart';
 import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
 import 'package:dalgeurak_widget_package/widgets/checkbox.dart';
 import 'package:dalgeurak_widget_package/widgets/dialog.dart';
@@ -82,7 +83,7 @@ class StudentManageBottomSheet {
                             }
                           ]
                       );
-                      studentSearch.studentList = List<DimigoinUser>.from(await mealController.getStudentList(true));
+                      studentSearch.studentList = List<DimigoinUser>.from(await DalgeurakAPI().getStudentList(true));
                       studentSearch.query = studentSearch.query + " ";
                       studentSearch.query = studentSearch.query.substring(0, studentSearch.query.length - 1); //권한 새로고침을 위한 코드
                       Get.back();

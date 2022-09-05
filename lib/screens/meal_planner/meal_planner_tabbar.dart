@@ -105,7 +105,7 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
   }
 
   Widget mealPlannerView(int index) {
-    Map correctDate = MealInfo().getCorrectDate((DateTime.now().day - (DateTime.now().weekday - 1)) + (index-1));
+    Map correctDate = Get.find<MealController>().dalgeurakService.getCorrectDate((DateTime.now().day - (DateTime.now().weekday - 1)) + (index-1));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,

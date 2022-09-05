@@ -94,7 +94,7 @@ class MealController extends GetxController {
 
 
     if (connectivityResult == ConnectivityResult.none) {
-      Map correctFirstDay = mealInfo.getCorrectDate(weekFirstDay);
+      Map correctFirstDay = dalgeurakService.getCorrectDate(weekFirstDay);
       correctFirstDay['month'] = correctFirstDay['month'].toString().length == 2 ? correctFirstDay['month'] : "0${correctFirstDay['month']}";
       correctFirstDay['day'] = correctFirstDay['day'].toString().length == 2 ? correctFirstDay['day'] : "0${correctFirstDay['day']}";
 
@@ -117,7 +117,7 @@ class MealController extends GetxController {
       List dataResponse = await mealInfo.getMealPlannerFromDimigoin();
       Map result = {};
       if (dataResponse.isEmpty) { //디미고인 서버에 급식 정보가 없을 경우
-        if (stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
+        if (stringData == null || (json.decode(stringData))["weekFirstDay"] != dalgeurakService.getCorrectDate(weekFirstDay)['day']) {
           result = await mealInfo.getMealPlannerFromDimigoHomepage(); //디미고 홈페이지에서 급식 정보 로딩
         } else {
           result = json.decode(stringData);
@@ -183,28 +183,6 @@ class MealController extends GetxController {
       if (leftTimeHour == 0) { return "$leftTimeMinute분"; } else { return "$leftTimeHour시간 $leftTimeMinute분"; }
     } else {
       return "";
-    }
-  }
-
-  getStudentList(bool isMust) async {
-    String? stringData = SharedPreference().getStudentList();
-    int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
-
-    if (isMust || stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
-      Map data = await dalgeurakService.getAllStudentList();
-
-      if (data['success']) {
-        SharedPreference().saveStudentList({"studentList": data['content'], "weekFirstDay": mealInfo.getCorrectDate(weekFirstDay)['day']});
-        return data['content'];
-      } else {
-        _dalgeurakToast.show(data['content']);
-      }
-    } else {
-      List originalData = (json.decode(stringData))['studentList'];
-      List formattingData = [];
-      originalData.forEach((element) => formattingData.add(DimigoinUser.fromJson(element)));
-
-      return formattingData;
     }
   }
 
