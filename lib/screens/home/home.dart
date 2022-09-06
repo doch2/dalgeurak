@@ -1,4 +1,5 @@
 import 'package:dalgeurak/screens/home/home_bottomsheet.dart';
+import 'package:dalgeurak/screens/home/widgets/live_meal_sequence.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +66,7 @@ class Home extends StatelessWidget {
                   );
                 } else {
                   return WindowTitle(
-                    subTitle: "안녕하세요!",
+                    subTitle: userController.user?.userType != DimigoinUserType.teacher ? "안녕하세요!" : "${userController.user?.teacherRole}",
                     title: "${userController.user?.name}님",
                   );
                 }
@@ -89,106 +90,17 @@ class Home extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     (isStudent ? (isDienen ? getDienenMenuBtnWidget(context) : getQrCodeShowWidget(false)) : getTeacherMenuBtnWidget(context)),
-                    Container(
-                      height: _height * 0.18,
-                      width: _width * 0.897,
-                      margin: EdgeInsets.only(top: _height * 0.02),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(13),
-                        color: dalgeurakBlueOne,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(height: _height * 0.02),
-                          SizedBox(
-                            width: _width * 0.725,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                    "급식 순서",
-                                    style: homeMealSequenceTitle
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: _height * 0.016),
-                          SizedBox(
-                            width: _width * 0.65,
-                            child: Obx(() {
-                              Map mealSequence = mealController.mealSequence;
-                              Map mealTime = mealController.mealTime;
-
-                              if (mealSequence.isEmpty) { return Center(child: Text("로딩중입니다..", style: TextStyle(color: Colors.white))); }
-                              String mealType = mealController.dalgeurakService.getMealKind(false).convertEngStr;
-                              List userGradeMealSequence = mealSequence[mealType][(userController.user?.gradeNum)!-1];
-                              List userGradeMealTime = mealTime["extra${mealType[0].toUpperCase()}${mealType.substring(1)}"][(userController.user?.gradeNum)!-1];
-
-                              List<Widget> widgetList = [];
-                              for (int i=1; i<=6; i++) {
-                                bool isOn = ((mealController.nowClassMealSequence.value == i) ? true : false);
-
-                                widgetList.add(Container(
-                                  width: _width * 0.1,
-                                  height: _width * 0.15,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Stack(
-                                    alignment: Alignment.bottomCenter,
-                                    children: [
-                                      Positioned(
-                                        top: -9,
-                                        child: isOn ? Icon(Icons.arrow_drop_down, color: Colors.white) : SizedBox(),
-                                      ),
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text("${userGradeMealSequence[i-1]}반", style: homeMealSequenceClass),
-                                          SizedBox(height: 3),
-                                          Text(isOn ? "배식중" : "${userGradeMealTime[i-1].toString().substring(0, 2)}:${userGradeMealTime[i-1].toString().substring(2)}", style: homeMealSequenceClassTime)
-                                        ],
-                                      ),
-                                    ]
-                                  )
-                                ));
-                              }
-
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: widgetList,
-                              );
-                            }),
-                          ),
-                          SizedBox(height: _height * 0.0075),
-                          Stack(
-                            alignment: Alignment.centerLeft,
-                            children: [
-                              Container(
-                                width: _width * 0.725,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                    color: blueFive,
-                                    borderRadius: BorderRadius.circular(14.5)
-                                ),
-                              ),
-                              Obx(() => AnimatedContainer(
-                                duration: Duration(milliseconds: 200),
-                                width: ((_width * 0.75) / 6) * mealController.nowClassMealSequence.value,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                    color: yellowFive,
-                                    borderRadius: BorderRadius.circular(14.5)
-                                ),
-                              )),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
+                    (
+                      isStudent ?
+                          LiveMealSequence(mealSequenceMode: LiveMealSequenceMode.blue)
+                        : Column(children: [
+                            SizedBox(height: Get.height * 0.09),
+                            LiveMealSequence(mealSequenceMode: LiveMealSequenceMode.white, checkGradeNum: 2),
+                            SizedBox(height: Get.height * 0.025),
+                            LiveMealSequence(mealSequenceMode: LiveMealSequenceMode.blue, checkGradeNum: 1),
+                          ]
+                        )
+                    )
                   ],
                 ),
               );
@@ -434,21 +346,11 @@ class Home extends StatelessWidget {
                 title: "엑셀 다운",
                 iconName: "excel",
                 isHome: true,
-                sizeRatio: 0.282,
+                isTeacherHome: true,
+                sizeRatio: 0.207,
                 includeInnerShadow: true,
                 backgroundType: BigMenuButtonBackgroundType.gradient,
                 background: blueLinearGradientOne,
-              ),
-            ),
-            GestureDetector(
-              child: BigMenuButton(
-                title: "급식 취소",
-                iconName: "cancel",
-                isHome: true,
-                sizeRatio: 0.282,
-                includeInnerShadow: true,
-                backgroundType: BigMenuButtonBackgroundType.color,
-                background: purpleTwo,
               ),
             ),
             GestureDetector(
@@ -457,12 +359,37 @@ class Home extends StatelessWidget {
                 title: "급식 단가 수정",
                 iconName: "signDocu",
                 isHome: true,
-                sizeRatio: 0.282,
+                isTeacherHome: true,
+                sizeRatio: 0.207,
                 includeInnerShadow: false,
                 backgroundType: BigMenuButtonBackgroundType.color,
                 background: dalgeurakYellowOne,
               ),
-            )
+            ),
+            GestureDetector(
+              child: BigMenuButton(
+                title: "급식 취소 컨펌",
+                iconName: "cancel",
+                isHome: true,
+                isTeacherHome: true,
+                sizeRatio: 0.207,
+                includeInnerShadow: true,
+                backgroundType: BigMenuButtonBackgroundType.color,
+                background: purpleTwo,
+              ),
+            ),
+            GestureDetector(
+              child: BigMenuButton(
+                title: "선후밥 관리",
+                iconName: "checkCircle_round",
+                isHome: true,
+                isTeacherHome: true,
+                sizeRatio: 0.207,
+                includeInnerShadow: true,
+                backgroundType: BigMenuButtonBackgroundType.color,
+                background: blueNine,
+              ),
+            ),
           ],
         ),
       ),

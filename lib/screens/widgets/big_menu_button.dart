@@ -14,12 +14,13 @@ class BigMenuButton extends StatelessWidget {
   final String title;
   final String iconName;
   final bool isHome;
+  bool? isTeacherHome;
   double sizeRatio;
   final BigMenuButtonBackgroundType backgroundType;
   final bool includeInnerShadow;
   dynamic background;
   BigMenuButton({
-    required this.title, required this.iconName, required this.isHome,
+    required this.title, required this.iconName, required this.isHome, this.isTeacherHome,
     required this.sizeRatio, required this.backgroundType,
     required this.includeInnerShadow,
     required this.background
@@ -30,6 +31,8 @@ class BigMenuButton extends StatelessWidget {
     double _displayHeight = MediaQuery.of(context).size.height;
     double _displayWidth = MediaQuery.of(context).size.width;
 
+    isTeacherHome ??= false;
+
 
     Widget childWidget = Stack(
       alignment: Alignment.center,
@@ -37,21 +40,21 @@ class BigMenuButton extends StatelessWidget {
         Positioned(
           child: SizedBox(width: _displayWidth * (isHome ? 0.282 : 0.579), height: _displayHeight * (isHome ? 0.282 : 0.579)),
         ),
-        Positioned(
-          top: _displayWidth * (isHome ? 0.08 : 0.11),
-          child: SvgPicture.asset(
-            "assets/images/icons/$iconName.svg",
-            color: Colors.white,
-            width: _displayWidth * (isHome ? 0.1 : 0.11),
-          ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              "assets/images/icons/$iconName.svg",
+              color: Colors.white,
+              width: _displayWidth * (isHome ? (isTeacherHome! ? 0.08 : 0.1) : 0.11),
+            ),
+            SizedBox(height: 4),
+            Text(
+              title,
+              style: isHome ? homeMenuWidgetTitle : homeMenuWidgetTitle.copyWith(fontSize: 18),
+            ),
+          ],
         ),
-        Positioned(
-          top: _displayWidth * (isHome ? 0.2 : 0.27),
-          child: Text(
-            title,
-            style: isHome ? homeMenuWidgetTitle : homeMenuWidgetTitle.copyWith(fontSize: 18),
-          ),
-        )
       ],
     );
 
