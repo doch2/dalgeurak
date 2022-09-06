@@ -67,7 +67,7 @@ class Home extends StatelessWidget {
                 } else {
                   return WindowTitle(
                     subTitle: userController.user?.userType != DimigoinUserType.teacher ? "안녕하세요!" : "${userController.user?.teacherRole}",
-                    title: "${userController.user?.name}님",
+                    title: "${userController.user?.name}${userController.user?.userType != DimigoinUserType.teacher ? "님" : " 선생님"}",
                   );
                 }
               }),
