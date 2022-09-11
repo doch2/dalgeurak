@@ -84,7 +84,7 @@ class Home extends StatelessWidget {
               bool isStudent = userController.user?.userType != DimigoinUserType.teacher;
 
               return Positioned(
-                top: _height * (isStudent ? 0.22 : 0.23),
+                top: _height * (isStudent ? 0.22 : 0.2),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,9 +94,7 @@ class Home extends StatelessWidget {
                       isStudent ?
                           LiveMealSequence(mealSequenceMode: LiveMealSequenceMode.blue)
                         : Column(children: [
-                            SizedBox(height: Get.height * 0.09),
                             LiveMealSequence(mealSequenceMode: LiveMealSequenceMode.white, checkGradeNum: 2),
-                            SizedBox(height: Get.height * 0.025),
                             LiveMealSequence(mealSequenceMode: LiveMealSequenceMode.blue, checkGradeNum: 1),
                           ]
                         )
@@ -341,26 +339,55 @@ class Home extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
+              child: BigMenuButton(
+                title: "간편식 명단",
+                iconName: "foodBucket",
+                isHome: true,
+                sizeRatio: 0.282,
+                includeInnerShadow: false,
+                backgroundType: BigMenuButtonBackgroundType.gradient,
+                background: greenLinearGradientOne,
+              ),
+            ),
+            GestureDetector(
+              child: BigMenuButton(
+                title: "선후밥 명단",
+                iconName: "twoPeople",
+                isHome: true,
+                sizeRatio: 0.282,
+                includeInnerShadow: true,
+                backgroundType: BigMenuButtonBackgroundType.color,
+                background: blueNine,
+              ),
+            ),
+            GestureDetector(
               onTap: () => _homeBottomSheet.showExcelDownload(),
               child: BigMenuButton(
                 title: "엑셀 다운",
                 iconName: "excel",
                 isHome: true,
-                isTeacherHome: true,
-                sizeRatio: 0.207,
+                sizeRatio: 0.282,
                 includeInnerShadow: true,
                 backgroundType: BigMenuButtonBackgroundType.gradient,
                 background: blueLinearGradientOne,
               ),
             ),
+          ],
+        ),
+      ),
+      SizedBox(height: _height * 0.0175),
+      SizedBox(
+        width: _width * 0.897,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
             GestureDetector(
               onTap: () => _homeBottomSheet.showModifyMealPrice(),
               child: BigMenuButton(
                 title: "급식 단가 수정",
                 iconName: "signDocu",
                 isHome: true,
-                isTeacherHome: true,
-                sizeRatio: 0.207,
+                sizeRatio: 0.282,
                 includeInnerShadow: false,
                 backgroundType: BigMenuButtonBackgroundType.color,
                 background: dalgeurakYellowOne,
@@ -369,10 +396,9 @@ class Home extends StatelessWidget {
             GestureDetector(
               child: BigMenuButton(
                 title: "급식 취소 컨펌",
-                iconName: "cancel",
+                iconName: "checkCircle_round",
                 isHome: true,
-                isTeacherHome: true,
-                sizeRatio: 0.207,
+                sizeRatio: 0.282,
                 includeInnerShadow: true,
                 backgroundType: BigMenuButtonBackgroundType.color,
                 background: purpleTwo,
@@ -380,14 +406,13 @@ class Home extends StatelessWidget {
             ),
             GestureDetector(
               child: BigMenuButton(
-                title: "선후밥 관리",
-                iconName: "checkCircle_round",
+                title: "급식 취소 신청",
+                iconName: "cancelCircle",
                 isHome: true,
-                isTeacherHome: true,
-                sizeRatio: 0.207,
+                sizeRatio: 0.282,
                 includeInnerShadow: true,
-                backgroundType: BigMenuButtonBackgroundType.color,
-                background: blueNine,
+                backgroundType: BigMenuButtonBackgroundType.gradient,
+                background: pinkLinearGradientOne,
               ),
             ),
           ],

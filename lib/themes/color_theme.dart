@@ -28,6 +28,8 @@ final greenOne = Color(0xFF00CE84);
 final greenTwo = Color(0xFF009329);
 final greenThree = Color(0xFFDCEDC4);
 final greenFour = Color(0xFF00FFC2);
+final greenFive = Color(0xFF00C868);
+final greenSix = Color(0xFF00C9A5);
 final greenShadowOne = Color(0x8022F900);
 
 final blueOne = Color(0xFF3D73DD);
@@ -42,6 +44,9 @@ final blueNine = Color(0xFF313B53);
 
 final purpleOne = Color(0xFF5D5ADE);
 final purpleTwo = Color(0xFFA954FF);
+
+final pinkOne = Color(0xFFFF7777);
+final pinkTwo = Color(0xFFF000CA);
 
 final grayOne = Color(0xFFC4C4C4);
 final grayTwo = Color(0xFFF5F5F5);
@@ -62,5 +67,7 @@ final grayShadowFour = Color(0xb3c5b8a5);
 
 final blueLinearGradientOne = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [ dalgeurakBlueOne, purpleOne ]);
 final purpleGreenLinearGradientOne = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [ purpleTwo, greenFour ]);
+final greenLinearGradientOne = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [ greenFive, greenSix ]);
+final pinkLinearGradientOne = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [ pinkOne, pinkTwo ]);
 
 final emptyColor = Color(0xFFFFFF);
