@@ -727,6 +727,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  pull_to_refresh:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "6d7fbdd5b3cde242a474d66da312aac4aa892b9b"
+      url: "https://github.com/miquelbeltran/flutter_pulltorefresh"
+    source: git
+    version: "2.0.0"
   qr:
     dependency: transitive
     description:
@@ -804,6 +813,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  simple_gesture_detector:
+    dependency: transitive
+    description:
+      name: simple_gesture_detector
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -865,6 +881,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "20.2.46"
+  table_calendar:
+    dependency: "direct main"
+    description:
+      name: table_calendar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.7"
   term_glyph:
     dependency: transitive
     description:

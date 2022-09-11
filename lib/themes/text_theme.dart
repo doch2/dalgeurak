@@ -138,6 +138,21 @@ final myProfile_appInfo_content = TextStyle(
 final myProfile_appInfo_license = TextStyle(
     fontSize: 14, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
+final calendar_headerTitle = TextStyle(
+    fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final calendar_makeScheduleButton = TextStyle(
+    fontSize: 12, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final calendar_dateNum = TextStyle(
+    fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final calendar_todayBox_dayNum = TextStyle(
+    fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final calendar_todayBox_dayWeekStr = TextStyle(
+    fontSize: 12, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
+final calendar_todayBox_mealType = TextStyle(
+    fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final calendar_todayBox_schedule = TextStyle(
+    fontSize: 12, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
+
 final migrationTitle = TextStyle(
     fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 final migrationDescription = TextStyle(
