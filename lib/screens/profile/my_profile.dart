@@ -49,8 +49,8 @@ class MyProfile extends GetWidget<UserController> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   WindowTitle(
-                    subTitle: "${controller.user?.studentId}",
-                    title: "${controller.user?.name}",
+                    subTitle: "${controller.user?.userType != DimigoinUserType.teacher ? controller.user?.studentId : controller.user?.teacherRole}",
+                    title: "${controller.user?.name}${controller.user?.userType != DimigoinUserType.teacher ? "" : " 선생님"}",
                   ),
                   SizedBox(width: 3),
                   Column(
