@@ -75,8 +75,10 @@ class LiveMealSequence extends GetWidget<MealController> {
               Map mealSequence = controller.mealSequence;
               Map mealTime = controller.mealTime;
 
-              if (mealSequence.isEmpty) { return Center(child: Text("로딩중입니다..", style: TextStyle(color: mealSequenceMode.convertAssetColor))); }
               String mealType = controller.dalgeurakService.getMealKind(false).convertEngStr;
+
+              
+              if (mealSequence.isEmpty || mealTime["extra${mealType[0].toUpperCase()}${mealType.substring(1)}"] == null) { return Center(child: Text("로딩중입니다..", style: TextStyle(color: mealSequenceMode.convertAssetColor))); }
               List userGradeMealSequence = mealSequence[mealType][checkGradeNum!-1];
               List userGradeMealTime = mealTime["extra${mealType[0].toUpperCase()}${mealType.substring(1)}"][checkGradeNum!-1];
 
