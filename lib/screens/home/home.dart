@@ -1,5 +1,6 @@
 import 'package:dalgeurak/screens/home/home_bottomsheet.dart';
 import 'package:dalgeurak/screens/home/widgets/live_meal_sequence.dart';
+import 'package:dalgeurak_meal_application/pages/teacher_meal_cancel/teacher_meal_cancel.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import '../../controllers/qrcode_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../themes/color_theme.dart';
 import '../../themes/text_theme.dart';
+import '../studentManage/meal_cancel_confirm.dart';
 import '../widgets/big_menu_button.dart';
 import '../studentManage/student_search.dart';
 import '../studentManage/qrcode_scan.dart';
@@ -394,6 +396,7 @@ class Home extends StatelessWidget {
               ),
             ),
             GestureDetector(
+              onTap: () => Get.to(MealCancelConfirm()),
               child: BigMenuButton(
                 title: "급식 취소 컨펌",
                 iconName: "checkCircle_round",
@@ -405,6 +408,7 @@ class Home extends StatelessWidget {
               ),
             ),
             GestureDetector(
+              onTap: () => TeacherMealCancel().showStudentChoicePage(),
               child: BigMenuButton(
                 title: "급식 취소 신청",
                 iconName: "cancelCircle",

@@ -153,6 +153,11 @@ final calendar_todayBox_mealType = TextStyle(
 final calendar_todayBox_schedule = TextStyle(
     fontSize: 12, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
 
+final mealCancelConfirm_subTitle = TextStyle(
+    fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final mealCancelConfirm_title = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+
 final migrationTitle = TextStyle(
     fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 final migrationDescription = TextStyle(

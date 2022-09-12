@@ -83,7 +83,7 @@ class StudentManageBottomSheet {
                             }
                           ]
                       );
-                      studentSearch.studentList = List<DimigoinUser>.from(await DalgeurakAPI().getStudentList(true));
+                      studentSearch.studentList = List<DimigoinUser>.from(await DalgeurakStudentListAPI().getStudentList(true));
                       studentSearch.query = studentSearch.query + " ";
                       studentSearch.query = studentSearch.query.substring(0, studentSearch.query.length - 1); //권한 새로고침을 위한 코드
                       Get.back();
@@ -313,7 +313,7 @@ class StudentManageBottomSheet {
           Positioned(
               top: Get.height * 0.23,
               left: Get.width * 0.0925,
-              child: ReasonTextField(hintText: "상세 사유를 입력해주세요.", textController: warningReasonTextController, isBig: true)
+              child: ReasonTextField(hintText: "상세 사유를 입력해주세요.", textController: warningReasonTextController, isBig: true, isEnable: true)
           ),
           Positioned(
               bottom: Get.height * 0.06,
