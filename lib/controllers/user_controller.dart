@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class UserController extends GetxController {
   FirebaseRemoteConfig _remoteConfig = FirebaseRemoteConfig.instance;
 
-  DalgeurakToast _dalgeurakToast = DalgeurakToast();
+  DalgeurakToast dalgeurakToast = DalgeurakToast();
   DalgeurakService dalgeurakService = Get.find<DalgeurakService>();
   DimigoinAccount _dimigoinAccount = Get.find<DimigoinAccount>();
 
@@ -44,7 +44,7 @@ class UserController extends GetxController {
     if (result['success']) {
       warningList.value = (result['content'] as List).cast<DalgeurakWarning>();
     } else {
-      _dalgeurakToast.show("경고 목록을 불러오는데 실패하였습니다.");
+      dalgeurakToast.show("경고 목록을 불러오는데 실패하였습니다.");
     }
   }
 

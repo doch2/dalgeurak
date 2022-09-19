@@ -185,7 +185,7 @@ class MyProfile extends GetWidget<UserController> {
                                   }),
                                   MediumMenuButton(
                                     iconName: "foodBucket", title: "간편식", subTitle: "신청",
-                                    clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.CONVENIENCEFOOD),
+                                    clickAction: () => controller.dalgeurakToast.show("현재 공개된 기능이 아닙니다. 추후 공개 예정입니다."),//Get.toNamed(DalgeurakMealApplicationRoutes.CONVENIENCEFOOD),
                                   ),
                                 ],
                               ),
@@ -222,7 +222,7 @@ class MyProfile extends GetWidget<UserController> {
                                   ),
                                   MediumMenuButton(
                                     iconName: "cancel", title: "급식 취소", subTitle: "신청",
-                                    clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.MEALCANCEL, arguments: {"pageMode": MealCancelPageMode.application}),
+                                    clickAction: () => controller.dalgeurakToast.show("현재 공개된 기능이 아닙니다. 추후 공개 예정입니다."),//Get.toNamed(DalgeurakMealApplicationRoutes.MEALCANCEL, arguments: {"pageMode": MealCancelPageMode.application}),
                                   ),
                                 ],
                               ),
