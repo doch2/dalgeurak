@@ -1,5 +1,6 @@
 import 'package:dalgeurak/screens/home/home_bottomsheet.dart';
 import 'package:dalgeurak/screens/home/widgets/live_meal_sequence.dart';
+import 'package:dalgeurak_meal_application/pages/meal_exception/page.dart';
 import 'package:dalgeurak_meal_application/pages/teacher_meal_cancel/teacher_meal_cancel.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:extended_image/extended_image.dart';
@@ -15,6 +16,7 @@ import '../../controllers/user_controller.dart';
 import '../../themes/color_theme.dart';
 import '../../themes/text_theme.dart';
 import '../studentManage/meal_cancel_confirm.dart';
+import '../studentManage/meal_exception_list.dart';
 import '../widgets/big_menu_button.dart';
 import '../studentManage/student_search.dart';
 import '../studentManage/qrcode_scan.dart';
@@ -352,6 +354,7 @@ class Home extends StatelessWidget {
               ),
             ),
             GestureDetector(
+              onTap: () => Get.to(MealExceptionListPage()),
               child: BigMenuButton(
                 title: "선후밥 명단",
                 iconName: "twoPeople",

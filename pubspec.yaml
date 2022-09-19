@@ -33,7 +33,7 @@ dependencies:
   get: ^4.6.5
   dio: ^4.0.1
 
-  dimigoin_flutter_plugin: ^0.4.10
+  dimigoin_flutter_plugin: ^0.4.12
   dalgeurak_meal_application:
     git:
       url: https://github.com/dimigoin/dalgeurak-meal-application.git
@@ -54,7 +54,7 @@ dependencies:
   qr_flutter: ^4.0.0
   qr_code_scanner: ^1.0.0
 
-  shared_preferences: ^2.0.8
+  shared_preferences: ^2.0.15
   url_launcher: ^6.0.12
   permission_handler: ^8.2.5
   package_info_plus: ^1.2.0

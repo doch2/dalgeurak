@@ -111,6 +111,14 @@ final studentManageWarningReasonDialogTextField = TextStyle(
 final adminPageDescription = TextStyle(
     fontSize: 20, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
+final managePageTabBar_big = TextStyle(
+    fontSize: 18, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final managePageTabBar_small = TextStyle(
+    fontSize: 16, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+
+final mealExceptionList_exceptionType = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+
 final mealPlannerTabDate = TextStyle(
     fontSize: 16, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
 final mealPlannerDate = TextStyle(
@@ -153,9 +161,9 @@ final calendar_todayBox_mealType = TextStyle(
 final calendar_todayBox_schedule = TextStyle(
     fontSize: 12, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
 
-final mealCancelConfirm_subTitle = TextStyle(
+final pageSubTitle1 = TextStyle(
     fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
-final mealCancelConfirm_title = TextStyle(
+final pageTitle1 = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 final migrationTitle = TextStyle(

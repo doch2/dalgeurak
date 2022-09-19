@@ -5,6 +5,7 @@ import 'package:dalgeurak/controllers/qrcode_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/services/meal_info.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
+import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak_widget_package/widgets/toast.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,10 @@ class MealController extends GetxController {
   final mealPriceTextController = TextEditingController();
   late PageController mealPlannerPageController = PageController(initialPage: (DateTime.now().weekday-1));
   CustomTabBarController mealPlannerTabBarController = CustomTabBarController();
+  CustomTabBarController managePageTabBarController = CustomTabBarController();
+  PageController managePagePageController = PageController(initialPage: 0);
+  RxMap<String, RxMap<String, Color>> managePageStudentListTileBtnColor = ({}.cast<String, RxMap<String, Color>>()).obs;
+  RxMap<String, RxMap<String, Color>> managePageStudentListTileBtnTextColor = ({}.cast<String, RxMap<String, Color>>()).obs;
 
   UserController _userController = Get.find<UserController>();
   QrCodeController _qrCodeController = Get.find<QrCodeController>();
@@ -135,6 +140,35 @@ class MealController extends GetxController {
       SharedPreference().saveMealPlanner(result);
 
       return result;
+    }
+  }
+
+  getMealExceptionStudentList() async {
+    Map result = await dalgeurakService.getAllUserMealException();
+
+    if (!result['success']) { _dalgeurakToast.show("선후밥 명단 불러오기에 실패하였습니다. 인터넷 연결을 확인해주세요."); return; }
+
+    List<DalgeurakMealException> originalData = (result['content'] as List).cast<DalgeurakMealException>();
+    List<DalgeurakMealException> formattingData = [].cast<DalgeurakMealException>();
+    originalData.forEach((element) {
+      if (element.groupApplierUserList!.isEmpty) {
+        element.groupApplierUserList!.forEach((element) => DalgeurakMealException.fromJson({"applier": element}));
+      } else {
+        formattingData.add(element);
+      }
+    });
+
+    return formattingData;
+  }
+
+  enterMealException(String tabBarMenuStr, String studentObjId) async {
+    Map result = await dalgeurakService.enterStudentMealException(studentObjId);
+
+    _dalgeurakToast.show("선후밥 입장 처리에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
+
+    if (result['success']) {
+      managePageStudentListTileBtnColor[tabBarMenuStr]![studentObjId] = dalgeurakBlueOne;
+      managePageStudentListTileBtnTextColor[tabBarMenuStr]![studentObjId] = Colors.white;
     }
   }
 

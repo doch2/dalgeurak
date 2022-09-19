@@ -33,9 +33,9 @@ class MealCancelConfirm extends GetWidget<MealController> {
                   SizedBox(width: Get.width),
                   Column(
                     children: [
-                      Text("${isAramark ? "급식실 " : "담임"}선생님", style: mealCancelConfirm_subTitle),
+                      Text("${isAramark ? "급식실 " : "담임"}선생님", style: pageSubTitle1),
                       SizedBox(height: 4),
-                      Text("급식 취소 컨펌", style: mealCancelConfirm_title)
+                      Text("급식 취소 컨펌", style: pageTitle1)
                     ],
                   ),
                   Positioned(
