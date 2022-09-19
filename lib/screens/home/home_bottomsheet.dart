@@ -1,3 +1,4 @@
+import 'package:dalgeurak/screens/widgets/download_button.dart';
 import 'package:dalgeurak/screens/widgets/sequence_blue_button.dart';
 import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
 import 'package:dalgeurak_widget_package/widgets/bottom_sheet.dart';
@@ -21,6 +22,7 @@ enum ModifyMealInfoType {
 class HomeBottomSheet {
   DalgeurakBottomSheet _dalgeurakBottomSheet = DalgeurakBottomSheet();
   DalgeurakToast _dalgeurakToast = DalgeurakToast();
+  DalgeurakDialog _dalgeurakDialog = DalgeurakDialog();
   MealController mealController = Get.find<MealController>();
 
   Rx<MealType> modifyMealInfoTime = MealType.none.obs;
@@ -402,6 +404,116 @@ class HomeBottomSheet {
                     child: BlueButton(content: "확인", isLong: false, isSmall: false, isFill: true, isDisable: false)
                 ),
               ],
+            ),
+          )
+        ],
+      )
+  );
+
+  showExcelDownload() => _dalgeurakBottomSheet.show(
+      0.55,
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(width: Get.width, height: Get.height * 0.55),
+          Positioned(
+              top: Get.height * 0.04,
+              left: Get.width * 0.07,
+              child: Text("엑셀 다운", style: homeBottomSheetTitle)
+          ),
+          Positioned(
+              top: Get.height * 0.075,
+              left: Get.width * 0.07,
+              child: Text("엑셀로 다운로드할 파일을 선택해주세요.", style: homeBottomSheetSubTitle)
+          ),
+          Positioned(
+              top: Get.height * 0.11,
+              child: Container(width: Get.width * 0.871, child: Divider(color: dalgeurakGrayTwo, thickness: 1.0))
+          ),
+          Positioned(
+              top: Get.height * 0.15,
+              left: Get.width * 0.07,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("위탁 급식비", style: homeExcelDownloadSheetFileKind),
+                  const SizedBox(height: 24),
+                  DownloadButton(clickAction: () => print("onClick")),
+                  const SizedBox(height: 40),
+                  Text("잔류 급식비", style: homeExcelDownloadSheetFileKind),
+                  const SizedBox(height: 24),
+                  DownloadButton(clickAction: () => print("onClick"))
+                ],
+              )
+          ),
+        ],
+      )
+  );
+
+  showModifyMealPrice() => _dalgeurakBottomSheet.show(
+      0.55,
+      Stack(
+        alignment: Alignment.center,
+        children: [
+          SizedBox(width: Get.width, height: Get.height * 0.55),
+          Positioned(
+              top: Get.height * 0.04,
+              left: Get.width * 0.07,
+              child: Text("급식 단가 수정", style: homeBottomSheetTitle)
+          ),
+          Positioned(
+              top: Get.height * 0.075,
+              left: Get.width * 0.07,
+              child: Text("잔류 급식비를 입력해주세요.", style: homeBottomSheetSubTitle)
+          ),
+          Positioned(
+              top: Get.height * 0.11,
+              child: Container(width: Get.width * 0.871, child: Divider(color: dalgeurakGrayTwo, thickness: 1.0))
+          ),
+          Positioned(
+              top: Get.height * 0.15,
+              left: Get.width * 0.07,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("현재 잔류 급식 단가: 5,630원", style: homeModifyMealPriceSheetNowPrice),
+                  const SizedBox(height: 36),
+                  Text("가격", style: homeModifyMealPriceSheetText),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 79,
+                        height: 35,
+                        child: TextField(
+                          keyboardType: TextInputType.number,
+                          controller: mealController.mealPriceTextController,
+                          textAlign: TextAlign.center,
+                          style: homeModifyMealPriceSheetText,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(3), borderSide: BorderSide(width: 0, style: BorderStyle.none,)),
+                            fillColor: dalgeurakGrayOne,
+                            filled: true,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 6),
+                      Text("원", style: homeModifyMealPriceSheetText),
+                    ],
+                  )
+                ],
+              )
+          ),
+          Positioned(
+            bottom: Get.height * 0.1,
+            child: GestureDetector(
+                onTap: () => _dalgeurakDialog.showWarning(
+                    "급식 단가를 ${mealController.mealPriceTextController.text}원으로 수정하시겠어요?",
+                    "",
+                    () => print("onClick")
+                ),
+                child: BlueButton(content: "확인", isLong: false, isSmall: false, isFill: true, isDisable: false)
             ),
           )
         ],

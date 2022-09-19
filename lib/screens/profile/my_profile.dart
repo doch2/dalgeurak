@@ -1,6 +1,7 @@
 import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/profile/myprofile_bottomsheet.dart';
+import 'package:dalgeurak_meal_application/pages/meal_cancel/page.dart';
 import 'package:dalgeurak_meal_application/routes/routes.dart';
 import 'package:dalgeurak_widget_package/widgets/dialog.dart';
 import 'package:dalgeurak_widget_package/widgets/toast.dart';
@@ -49,8 +50,8 @@ class MyProfile extends GetWidget<UserController> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   WindowTitle(
-                    subTitle: "${controller.user?.studentId}",
-                    title: "${controller.user?.name}",
+                    subTitle: "${controller.user?.userType != DimigoinUserType.teacher ? controller.user?.studentId : controller.user?.teacherRole}",
+                    title: "${controller.user?.name}${controller.user?.userType != DimigoinUserType.teacher ? "" : " 선생님"}",
                   ),
                   SizedBox(width: 3),
                   Column(
@@ -221,7 +222,7 @@ class MyProfile extends GetWidget<UserController> {
                                   ),
                                   MediumMenuButton(
                                     iconName: "cancel", title: "급식 취소", subTitle: "신청",
-                                    clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.MEALCANCEL),
+                                    clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.MEALCANCEL, arguments: {"pageMode": MealCancelPageMode.application}),
                                   ),
                                 ],
                               ),

@@ -1,4 +1,5 @@
 import 'package:dalgeurak/controllers/user_controller.dart';
+import 'package:dalgeurak/screens/calendar/calendar_page.dart';
 import 'package:dalgeurak/screens/meal_planner/meal_planner.dart';
 import 'package:dalgeurak/screens/profile/my_profile.dart';
 import 'package:dalgeurak/screens/home/home.dart';
@@ -31,6 +32,7 @@ class _MainScreenState extends State<MainScreen> {
       '홈': 'home',
       '급식표': 'calendar',
       '관리': 'signDocu',
+      '일정': 'calendar2',
       '내 정보': 'user'
     };
 
@@ -55,12 +57,21 @@ class _MainScreenState extends State<MainScreen> {
       ),
     ];
 
-    if ((userGroup != null && userGroup != DimigoinUserType.student) || userPermission!.contains(DimigoinPermissionType.dalgeurak)) {
+    if ((userGroup != null && userGroup == DimigoinUserType.student) && userPermission!.contains(DimigoinPermissionType.dalgeurak)) {
       pages.insert(2, AdminPage());
 
       bottomNavigatorItem.insert(2, BottomNavigationBarItem(
           label: "관리",
           icon: SvgPicture.asset('assets/images/icons/signDocu_unselect.svg'),
+      ));
+    }
+
+    if ((userGroup != null && userGroup == DimigoinUserType.teacher)) {
+      pages.insert(2, CalendarPage());
+
+      bottomNavigatorItem.insert(2, BottomNavigationBarItem(
+        label: "일정",
+        icon: SvgPicture.asset('assets/images/icons/calendar2_unselect.svg'),
       ));
     }
 

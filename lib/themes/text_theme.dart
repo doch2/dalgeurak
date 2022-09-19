@@ -15,6 +15,8 @@ final detailTitle = TextStyle(
     fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 final sequenceBlueButtonSequenceNum = TextStyle(
     fontSize: 12, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final downloadButton = TextStyle(
+    fontSize: 18, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 
 final loginTitle = TextStyle(
@@ -75,6 +77,12 @@ final homeChooseModifyMealInfoKindSheetInfoKind = TextStyle(
     fontSize: 15, color: dalgeurakGrayFour, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w500);
 final homeMealSequenceSheetGradeKind = TextStyle(
     fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final homeExcelDownloadSheetFileKind = TextStyle(
+    fontSize: 18, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+final homeModifyMealPriceSheetNowPrice = TextStyle(
+    fontSize: 16, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final homeModifyMealPriceSheetText = TextStyle(
+    fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 
 final studentSearchFieldLabel = TextStyle(
@@ -103,6 +111,14 @@ final studentManageWarningReasonDialogTextField = TextStyle(
 final adminPageDescription = TextStyle(
     fontSize: 20, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
+final managePageTabBar_big = TextStyle(
+    fontSize: 18, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final managePageTabBar_small = TextStyle(
+    fontSize: 16, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+
+final mealExceptionList_exceptionType = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+
 final mealPlannerTabDate = TextStyle(
     fontSize: 16, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w400);
 final mealPlannerDate = TextStyle(
@@ -129,6 +145,26 @@ final myProfile_appInfo_content = TextStyle(
     fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w400, height: 1.5);
 final myProfile_appInfo_license = TextStyle(
     fontSize: 14, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
+
+final calendar_headerTitle = TextStyle(
+    fontSize: 17, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final calendar_makeScheduleButton = TextStyle(
+    fontSize: 12, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final calendar_dateNum = TextStyle(
+    fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final calendar_todayBox_dayNum = TextStyle(
+    fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final calendar_todayBox_dayWeekStr = TextStyle(
+    fontSize: 12, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
+final calendar_todayBox_mealType = TextStyle(
+    fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final calendar_todayBox_schedule = TextStyle(
+    fontSize: 12, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
+
+final pageSubTitle1 = TextStyle(
+    fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+final pageTitle1 = TextStyle(
+    fontSize: 16, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 final migrationTitle = TextStyle(
     fontSize: 20, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);

@@ -5,6 +5,7 @@ import 'package:dalgeurak/controllers/qrcode_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/services/meal_info.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
+import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak_widget_package/widgets/toast.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +32,13 @@ class MealController extends GetxController {
   RxInt nowClassMealSequence = 0.obs;
   bool isCreateRefreshTimer = false;
   final mealDelayTextController = TextEditingController();
+  final mealPriceTextController = TextEditingController();
   late PageController mealPlannerPageController = PageController(initialPage: (DateTime.now().weekday-1));
   CustomTabBarController mealPlannerTabBarController = CustomTabBarController();
+  CustomTabBarController managePageTabBarController = CustomTabBarController();
+  PageController managePagePageController = PageController(initialPage: 0);
+  RxMap<String, RxMap<String, Color>> managePageStudentListTileBtnColor = ({}.cast<String, RxMap<String, Color>>()).obs;
+  RxMap<String, RxMap<String, Color>> managePageStudentListTileBtnTextColor = ({}.cast<String, RxMap<String, Color>>()).obs;
 
   UserController _userController = Get.find<UserController>();
   QrCodeController _qrCodeController = Get.find<QrCodeController>();
@@ -93,7 +99,7 @@ class MealController extends GetxController {
 
 
     if (connectivityResult == ConnectivityResult.none) {
-      Map correctFirstDay = mealInfo.getCorrectDate(weekFirstDay);
+      Map correctFirstDay = dalgeurakService.getCorrectDate(weekFirstDay);
       correctFirstDay['month'] = correctFirstDay['month'].toString().length == 2 ? correctFirstDay['month'] : "0${correctFirstDay['month']}";
       correctFirstDay['day'] = correctFirstDay['day'].toString().length == 2 ? correctFirstDay['day'] : "0${correctFirstDay['day']}";
 
@@ -109,14 +115,14 @@ class MealController extends GetxController {
       mealListToStr(list) {
         String result = "";
         (list as List).forEach((element) => result = result + element + ", ");
-        result = result.substring(0, (result.length - 2));
+        result = result.isNotEmpty ? result.substring(0, (result.length - 2)) : "급식 정보가 없습니다.";
         return result;
       }
 
       List dataResponse = await mealInfo.getMealPlannerFromDimigoin();
       Map result = {};
       if (dataResponse.isEmpty) { //디미고인 서버에 급식 정보가 없을 경우
-        if (stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
+        if (stringData == null || (json.decode(stringData))["weekFirstDay"] != dalgeurakService.getCorrectDate(weekFirstDay)['day']) {
           result = await mealInfo.getMealPlannerFromDimigoHomepage(); //디미고 홈페이지에서 급식 정보 로딩
         } else {
           result = json.decode(stringData);
@@ -134,6 +140,35 @@ class MealController extends GetxController {
       SharedPreference().saveMealPlanner(result);
 
       return result;
+    }
+  }
+
+  getMealExceptionStudentList() async {
+    Map result = await dalgeurakService.getAllUserMealException();
+
+    if (!result['success']) { _dalgeurakToast.show("선후밥 명단 불러오기에 실패하였습니다. 인터넷 연결을 확인해주세요."); return; }
+
+    List<DalgeurakMealException> originalData = (result['content'] as List).cast<DalgeurakMealException>();
+    List<DalgeurakMealException> formattingData = [].cast<DalgeurakMealException>();
+    originalData.forEach((element) {
+      if (element.groupApplierUserList!.isEmpty) {
+        element.groupApplierUserList!.forEach((element) => DalgeurakMealException.fromJson({"applier": element}));
+      } else {
+        formattingData.add(element);
+      }
+    });
+
+    return formattingData;
+  }
+
+  enterMealException(String tabBarMenuStr, String studentObjId) async {
+    Map result = await dalgeurakService.enterStudentMealException(studentObjId);
+
+    _dalgeurakToast.show("선후밥 입장 처리에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
+
+    if (result['success']) {
+      managePageStudentListTileBtnColor[tabBarMenuStr]![studentObjId] = dalgeurakBlueOne;
+      managePageStudentListTileBtnTextColor[tabBarMenuStr]![studentObjId] = Colors.white;
     }
   }
 
@@ -182,28 +217,6 @@ class MealController extends GetxController {
       if (leftTimeHour == 0) { return "$leftTimeMinute분"; } else { return "$leftTimeHour시간 $leftTimeMinute분"; }
     } else {
       return "";
-    }
-  }
-
-  getStudentList(bool isMust) async {
-    String? stringData = SharedPreference().getStudentList();
-    int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
-
-    if (isMust || stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
-      Map data = await dalgeurakService.getAllStudentList();
-
-      if (data['success']) {
-        SharedPreference().saveStudentList({"studentList": data['content'], "weekFirstDay": mealInfo.getCorrectDate(weekFirstDay)['day']});
-        return data['content'];
-      } else {
-        _dalgeurakToast.show(data['content']);
-      }
-    } else {
-      List originalData = (json.decode(stringData))['studentList'];
-      List formattingData = [];
-      originalData.forEach((element) => formattingData.add(DimigoinUser.fromJson(element)));
-
-      return formattingData;
     }
   }
 

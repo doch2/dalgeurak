@@ -41,6 +41,7 @@ class BigMenuButton extends StatelessWidget {
           top: _displayWidth * (isHome ? 0.08 : 0.11),
           child: SvgPicture.asset(
             "assets/images/icons/$iconName.svg",
+            color: Colors.white,
             width: _displayWidth * (isHome ? 0.1 : 0.11),
           ),
         ),
