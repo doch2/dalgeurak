@@ -27,6 +27,8 @@ final loginTextFieldText = TextStyle(
     fontSize: 14, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
 final loginTextFieldHintText = TextStyle(
     fontSize: 14, color: dalgeurakGrayThree, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
+final loginPageMealPlanner = TextStyle(
+    fontSize: 12, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w400, decoration: TextDecoration.underline);
 
 final loginSuccessTitle = TextStyle(
     fontSize: 30, color: Colors.black, fontFamily: 'NotoSansKR', fontWeight: FontWeight.w700);

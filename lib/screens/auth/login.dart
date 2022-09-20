@@ -1,4 +1,5 @@
 import 'package:dalgeurak/controllers/auth_controller.dart';
+import 'package:dalgeurak/screens/meal_planner/meal_planner.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,12 @@ class Login extends GetWidget<AuthController> {
             getInputTextField("디미고인 아이디", controller.userIdTextController),
             SizedBox(height: _height * 0.0075),
             getInputTextField("디미고인 비밀번호", controller.passwordTextController),
-            SizedBox(height: _height * 0.175),
+            SizedBox(height: _height * 0.022),
+            GestureDetector(
+              onTap: () => Get.to(MealPlanner()),
+              child: Text("로그인 없이 급식표 확인하기", style: loginPageMealPlanner),
+            ),
+            SizedBox(height: _height * 0.145),
             Obx(() {
               bool isEmpty = controller.isTextFieldsEmpty['username'] || controller.isTextFieldsEmpty['password'];
 
