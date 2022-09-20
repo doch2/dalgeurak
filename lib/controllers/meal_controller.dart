@@ -1,25 +1,17 @@
 import 'dart:convert';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-<<<<<<< HEAD
-import 'package:dalgeurak/services/firestore_database.dart';
-=======
 import 'package:dalgeurak/controllers/qrcode_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 import 'package:dalgeurak/services/meal_info.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak_widget_package/widgets/dialog.dart';
 import 'package:dalgeurak_widget_package/widgets/toast.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
-<<<<<<< HEAD
-=======
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/indicator/custom_indicator.dart';
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 import 'package:get/get.dart';
-import 'package:jiffy/jiffy.dart';
 
 class MealController extends GetxController {
   Map weekDay = {
@@ -33,18 +25,9 @@ class MealController extends GetxController {
   };
 
   RxString userMealTime = "로드 중..".obs;
-  RxBool userNotEatMeal = false.obs;
-  RxString mealWaitStatus = "initData".obs;
-  RxString mealWaitStatusInSetDialog = "initData".obs;
-  RxInt mealSequence = 0.obs;
-  RxInt mealClassSequenceInSetDialog = 0.obs;
+  RxMap mealSequence = {}.obs;
+  RxMap mealTime = {}.obs;
   Map classLeftPeople = {};
-<<<<<<< HEAD
-  RxMap mealPlannerData = {}.obs;
-
-  FirestoreDatabase firestoreDatabase = FirestoreDatabase();
-  DalgeurakService dalgeurakService = DalgeurakService();
-=======
   Rx<MealStatusType> userMealStatus = MealStatusType.empty.obs;
   Rx<MealExceptionType> userMealException = MealExceptionType.normal.obs;
   RxInt nowClassMealSequence = 0.obs;
@@ -65,16 +48,11 @@ class MealController extends GetxController {
   DalgeurakService dalgeurakService = Get.find<DalgeurakService>();
   DalgeurakToast _dalgeurakToast = DalgeurakToast();
   DalgeurakDialog _dalgeurakDialog = DalgeurakDialog();
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
   MealInfo mealInfo = MealInfo();
   DateTime nowTime = DateTime.now();
 
-  getMealPlanner(bool mustNewData) async {
-    Map result = {};
-    mealPlannerData.value = {}; //데이터 초기화
+  RxInt refreshTime = 0.obs;
 
-<<<<<<< HEAD
-=======
   Future<void> refreshTimer() async {
     try {
       while (true) {
@@ -118,11 +96,11 @@ class MealController extends GetxController {
   }
 
   getMealPlanner() async {
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
     String? stringData = SharedPreference().getMealPlanner();
     ConnectivityResult connectivityResult = await (Connectivity().checkConnectivity());
 
     int weekFirstDay = (nowTime.day - (nowTime.weekday - 1));
+
 
     if (connectivityResult == ConnectivityResult.none) {
       Map correctFirstDay = dalgeurakService.getCorrectDate(weekFirstDay);
@@ -133,9 +111,9 @@ class MealController extends GetxController {
         (json.decode(stringData))["1"]["date"] == null ||
         !((json.decode(stringData))["1"]["date"] as String).contains("${correctFirstDay['month']}-${correctFirstDay['day']}")) {
           Map data = await mealInfo.getMealPlannerFromDimigoHomepage(); //급식 정보 없다고 표시하기 위한 코드. 인터넷 연결 안되어 있으면 함수 Return 값이 급식 정보 없다고 뜸.
-          result =  data;
+          return data;
       } else {
-          result = json.decode(stringData);
+          return json.decode(stringData);
       }
     } else {
       mealListToStr(list) {
@@ -146,13 +124,9 @@ class MealController extends GetxController {
       }
 
       List dataResponse = await mealInfo.getMealPlannerFromDimigoin();
-
+      Map result = {};
       if (dataResponse.isEmpty) { //디미고인 서버에 급식 정보가 없을 경우
-<<<<<<< HEAD
-        if (mustNewData || stringData == null || (json.decode(stringData))["weekFirstDay"] != mealInfo.getCorrectDate(weekFirstDay)['day']) {
-=======
         if (stringData == null || (json.decode(stringData))["weekFirstDay"] != dalgeurakService.getCorrectDate(weekFirstDay)['day']) {
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
           result = await mealInfo.getMealPlannerFromDimigoHomepage(); //디미고 홈페이지에서 급식 정보 로딩
         } else {
           result = json.decode(stringData);
@@ -166,22 +140,13 @@ class MealController extends GetxController {
         });
       }
 
+
       SharedPreference().saveMealPlanner(result);
+
+      return result;
     }
-
-
-    mealPlannerData.value = result;
   }
 
-<<<<<<< HEAD
-  getMealKind(String lang, bool includeBreakfast) {
-    MealType typeResult = dalgeurakService.getMealKind(includeBreakfast);
-    return lang == "kor" ? typeResult.convertKorStr : typeResult.convertEngStr;
-  }
-
-  getMealTime() async {
-    String mealKind = getMealKind("eng", false);
-=======
   getMealExceptionStudentList(bool isEnterPage) async {
     isMealExceptionConfirmPageDataLoading.value = true;
     Map result = await dalgeurakService.getAllUserMealException(isEnterPage);
@@ -273,53 +238,18 @@ class MealController extends GetxController {
 
   getUserLeftMealTime() {
     MealStatusType mealStatus = userMealStatus.value;
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 
-    userMealTime.value = await firestoreDatabase.getUserMealTime(mealKind);
-  }
-
-<<<<<<< HEAD
-  isUserNotEatMeal() async => await firestoreDatabase.getStudentIsNotEatMeal();
-
-  setUserIsNotEatMeal(bool value) async {
-    userNotEatMeal.value = value;
-    FirestoreDatabase().setStudentIsNotEatMeal();
-  }
-
-  getMealWaitStatus() async => mealWaitStatus.value = (await firestoreDatabase.getMealWaitStatus());
-
-  setMealWaitStatus(String mealStatus) async {
-    await firestoreDatabase.setMealWaitStatus(mealStatus);
-    mealWaitStatus.value = mealStatus;
-  }
-
-  getMealSequence() async => mealSequence.value = (await firestoreDatabase.getMealSequence());
-
-  setMealSequence(int mealSequence) async {
-    await firestoreDatabase.setMealSequence(mealSequence);
-    this.mealSequence.value = mealSequence;
-  }
-
-  getGradeLeftPeopleAmount() async {
-    int result = 0;
-
-    for (int grade=1; grade<=3; grade++) {
-      int gradeLeftPeople = 0;
-      classLeftPeople[grade] = {};
-      for (int classNum=1; classNum<=6; classNum++) {
-        classLeftPeople[grade][classNum] = (await firestoreDatabase.getLeftStudentAmount(grade, classNum));
-
-        if (classLeftPeople[grade][classNum]["leftPeople"] != null) {
-          result = result + (classLeftPeople[grade][classNum]["leftPeople"] as int);
-          gradeLeftPeople = gradeLeftPeople + (classLeftPeople[grade][classNum]["leftPeople"] as int);
-        }
-      }
-
-      classLeftPeople[grade]["totalPeople"] = gradeLeftPeople;
+    if (mealStatus == MealStatusType.beforeLunch && mealStatus == MealStatusType.beforeDinner) {
+      int nowTimeHour = nowTime.hour;
+      int nowTimeMinute = nowTime.minute;
+      int leftTimeHour = int.parse(userMealTime.value.substring(0, 2)) - nowTimeHour;
+      int leftTimeMinute = int.parse(userMealTime.value.substring(4, 6)) - nowTimeMinute;
+      if (leftTimeHour == 0) { return "$leftTimeMinute분"; } else { return "$leftTimeHour시간 $leftTimeMinute분"; }
+    } else {
+      return "";
     }
+  }
 
-    return result;
-=======
   giveStudentWarning(String studentObjId, List warningType, String reason) async {
     Map result = await dalgeurakService.giveWarningToStudent(studentObjId, warningType, reason);
 
@@ -329,6 +259,5 @@ class MealController extends GetxController {
     } else {
       _dalgeurakToast.show("경고 등록에 실패하였습니다. ${result['message']}");
     }
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
   }
 }

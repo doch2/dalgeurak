@@ -45,7 +45,6 @@ class MealInfo {
         result["$tempWeekDay"]["lunch"] = preprocessingText(MealType.lunch, data.substring(data.lastIndexOf("중식 : ") + 5, data.lastIndexOf("*석식")));
         result["$tempWeekDay"]["dinner"] = preprocessingText(MealType.dinner, data.substring(data.lastIndexOf("석식 : ") + 5, data.lastIndexOf('</p></div> </div>')));
       } catch (e) {
-        print(e);
         if (result["$tempWeekDay"] == null) { result["$tempWeekDay"] = {}; }
         if (result["$tempWeekDay"]["breakfast"] == null) { result["$tempWeekDay"]["breakfast"] = "급식 정보가 없습니다."; }
         if (result["$tempWeekDay"]["lunch"] == null) { result["$tempWeekDay"]["lunch"] = "급식 정보가 없습니다."; }

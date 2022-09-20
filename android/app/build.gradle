@@ -32,11 +32,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-<<<<<<< HEAD
-    compileSdkVersion 32
-=======
     compileSdkVersion 33
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

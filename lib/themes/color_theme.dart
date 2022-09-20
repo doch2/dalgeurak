@@ -1,5 +1,15 @@
 import 'package:flutter/painting.dart';
 
+final dalgeurakBlueOne = Color(0xFF1564FF);
+
+final dalgeurakYellowOne = Color(0xFFFF9900);
+
+final dalgeurakGrayOne = Color(0xFFF2F3F5);
+final dalgeurakGrayTwo = Color(0xFFD4D4D4);
+final dalgeurakGrayThree = Color(0xFFC4C4C4);
+final dalgeurakGrayFour = Color(0xFF7A7A7A);
+
+
 final yellowOne = Color(0xFFFAB005);
 final yellowTwo = Color(0xFFFFF400);
 final yellowThree = Color(0xFFFF8A00);
@@ -14,7 +24,7 @@ final redTwo = Color(0xFFFF3838);
 final redThree = Color(0xFFFF0000);
 final redShadowOne = Color(0x4AFF0000);
 
-final greenOne = Color(0xFF7AFF64);
+final greenOne = Color(0xFF00CE84);
 final greenTwo = Color(0xFF009329);
 final greenThree = Color(0xFFDCEDC4);
 final greenFour = Color(0xFF00FFC2);
@@ -29,6 +39,11 @@ final blueFour = Color(0xFF2C6EDC);
 final blueFive = Color(0xFF2152B0);
 final blueSix = Color(0xFF1952B6);
 final blueSeven = Color(0xFFD6DBFF);
+final blueEight = Color(0xFF1564FF);
+final blueNine = Color(0xFF313B53);
+
+final purpleOne = Color(0xFF5D5ADE);
+final purpleTwo = Color(0xFFA954FF);
 
 final pinkOne = Color(0xFFFF7777);
 final pinkTwo = Color(0xFFF000CA);
@@ -43,17 +58,16 @@ final graySeven = Color(0xFF6A6E85);
 final grayEight = Color(0xFFA5B0C5);
 final grayNine = Color(0xFFEBEBEB);
 final grayTen = Color(0xFFAFAFAF);
+final grayEleven = Color(0xFFD4D4D4);
+final grayTwelve = Color(0xFFB1B8C1);
 final grayShadowOne = Color(0xA3CAC9C9);
 final grayShadowTwo = Color(0xDA7A7A7);
 final grayShadowThree = Color(0x80000000);
 final grayShadowFour = Color(0xb3c5b8a5);
 
-<<<<<<< HEAD
-=======
 final blueLinearGradientOne = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [ dalgeurakBlueOne, purpleOne ]);
 final purpleGreenLinearGradientOne = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [ purpleTwo, greenFour ]);
 final greenLinearGradientOne = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [ greenFive, greenSix ]);
 final pinkLinearGradientOne = LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [ pinkOne, pinkTwo ]);
 
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 final emptyColor = Color(0xFFFFFF);

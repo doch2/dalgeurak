@@ -2,16 +2,15 @@ import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/calendar/calendar_page.dart';
 import 'package:dalgeurak/screens/meal_planner/meal_planner.dart';
 import 'package:dalgeurak/screens/profile/my_profile.dart';
-<<<<<<< HEAD
-import 'package:dalgeurak/screens/home.dart';
-import 'package:dalgeurak/screens/admin_page.dart';
-=======
 import 'package:dalgeurak/screens/home/home.dart';
 import 'package:dalgeurak/screens/studentManage/admin_page.dart';
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 import 'package:dalgeurak/themes/color_theme.dart';
+import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+
+import '../themes/text_theme.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({Key? key}) : super(key: key);
@@ -26,9 +25,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    String? userGroup = Get.find<UserController>().user.group;
-=======
     DimigoinUserType? userGroup = Get.find<UserController>().user?.userType;
     List<DimigoinPermissionType>? userPermission = Get.find<UserController>().user?.permissions;
 
@@ -39,7 +35,6 @@ class _MainScreenState extends State<MainScreen> {
       '일정': 'calendar2',
       '내 정보': 'user'
     };
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 
     List pages = [
       Home(),
@@ -49,35 +44,28 @@ class _MainScreenState extends State<MainScreen> {
 
     List<BottomNavigationBarItem> bottomNavigatorItem = [
       BottomNavigationBarItem(
-          label: "홈",
-          icon: Icon(Icons.home_filled)
+        label: "홈",
+        icon: SvgPicture.asset('assets/images/icons/home_select.svg'),
       ),
       BottomNavigationBarItem(
-          label: "급식표",
-          icon: Icon(Icons.calendar_today)
+        label: "급식표",
+        icon: SvgPicture.asset('assets/images/icons/calendar_unselect.svg'),
       ),
       BottomNavigationBarItem(
-          label: "내 정보",
-          icon: Icon(Icons.person)
+        label: "내 정보",
+        icon: SvgPicture.asset('assets/images/icons/user_unselect.svg'),
       ),
     ];
 
-<<<<<<< HEAD
-    if (userGroup != null && userGroup != "student") {
-      pages.insert(1, AdminPage());
-=======
     if ((userGroup != null && userGroup == DimigoinUserType.student) && userPermission!.contains(DimigoinPermissionType.dalgeurak)) {
       pages.insert(2, AdminPage());
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 
-      bottomNavigatorItem.insert(1, BottomNavigationBarItem(
-          label: "급식 정보",
-          icon: Icon(Icons.edit)
+      bottomNavigatorItem.insert(2, BottomNavigationBarItem(
+          label: "관리",
+          icon: SvgPicture.asset('assets/images/icons/signDocu_unselect.svg'),
       ));
     }
 
-<<<<<<< HEAD
-=======
     if ((userGroup != null && userGroup == DimigoinUserType.teacher)) {
       pages.insert(2, CalendarPage());
 
@@ -95,23 +83,28 @@ class _MainScreenState extends State<MainScreen> {
       );
     }
 
->>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: blueThree,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.grey.withOpacity(0.6),
-        selectedFontSize: 12,
-        currentIndex: _selectIndex,
-        onTap: (int index) {
-          setState(() {
-            _selectIndex = index;
-          });
-        },
-        items: bottomNavigatorItem,
-      ),
-      body: pages[_selectIndex]
+        extendBody: true,
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.only(topRight: Radius.circular(10),
+              topLeft: Radius.circular(10)),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.white,
+            selectedItemColor: blueEight,
+            unselectedItemColor: grayEleven,
+            selectedLabelStyle: homeBottomNavigationBarLabel,
+            unselectedLabelStyle: homeBottomNavigationBarLabel,
+            currentIndex: _selectIndex,
+            onTap: (int index) {
+              setState(() {
+                _selectIndex = index;
+              });
+            },
+            items: bottomNavigatorItem,
+          ),
+        ),
+        body: pages[_selectIndex]
     );
   }
 }
