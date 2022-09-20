@@ -1,9 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
+<<<<<<< HEAD
 import 'package:dalgeurak/models/user.dart';
 import 'package:dalgeurak/screens/auth/signup_selectgroup.dart';
 import 'package:dalgeurak/services/firestore_database.dart';
 import 'package:dio/dio.dart';
+=======
+import 'package:dalgeurak/screens/auth/login_success.dart';
+import 'package:dalgeurak_widget_package/widgets/toast.dart';
+import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -14,6 +20,12 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth authInstance = FirebaseAuth.instance;
+<<<<<<< HEAD
+=======
+  DimigoinAccount _dimigoinAccount = Get.find<DimigoinAccount>();
+  DalgeurakService _dalgeurakService = Get.find<DalgeurakService>();
+  DalgeurakToast _dalgeurakToast = DalgeurakToast();
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 
   Rxn<User> _firebaseUser = Rxn<User>();
   User? get user => _firebaseUser.value;
@@ -40,6 +52,7 @@ class AuthController extends GetxController {
     final GoogleSignInAuthentication? googleAuth =
     await googleUser?.authentication;
 
+<<<<<<< HEAD
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
@@ -85,6 +98,11 @@ class AuthController extends GetxController {
       return _authResult;
     } catch(error) {
       print(error);
+=======
+      Get.to(LoginSuccess());
+    } else {
+      _dalgeurakToast.show("로그인에 실패하였습니다. 다시 시도해주세요.");
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
     }
   }
 
@@ -95,6 +113,7 @@ class AuthController extends GetxController {
           ? await kakaoFlutterLib.UserApi.instance.loginWithKakaoTalk()
           : await kakaoFlutterLib.UserApi.instance.loginWithKakaoAccount();
 
+<<<<<<< HEAD
       kakaoFlutterLib.User user = await kakaoFlutterLib.UserApi.instance.me();
 
       loginUserInfo["userid"] = "kakao:${user.id}";
@@ -128,6 +147,20 @@ class AuthController extends GetxController {
   logOut() async {
     try {
       await authInstance.signOut();
+=======
+    _dalgeurakToast.show("로그아웃 되었습니다.");
+  }
+
+  logOutFirebaseAccount() async => await authInstance.signOut();
+
+  loginSuccessScreenAnimate(double height, double width) {
+    btnContainerPositioned.value = -(height * 0.07);
+    helloTextPositioned.value = height * 0.6;
+    subTitlePositioned['top'] = height * 0.5;
+    subTitlePositioned['left'] = width * 0.434;
+    successCheckIconPositioned["top"] = (height * 0.5);
+    successCheckIconPositioned["left"] = (width * 0.5);
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 
       Get.find<UserController>().clear();
 

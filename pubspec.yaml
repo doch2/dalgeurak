@@ -15,7 +15,11 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+<<<<<<< HEAD
 version: 1.0.9+14
+=======
+version: 2.0.0+12
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -33,10 +37,19 @@ dependencies:
   get: ^4.6.5
   dio: ^4.0.1
 
-  dimigoin_flutter_plugin: ^0.3.6
+  dimigoin_flutter_plugin: ^0.4.15
+  dalgeurak_meal_application:
+    git:
+      url: https://github.com/dimigoin/dalgeurak-meal-application.git
+      ref: main
+  dalgeurak_widget_package:
+    git:
+      url: https://github.com/dimigoin/dalgeurak-widget-package.git
+      ref: main
 
   firebase_core: ^1.19.1
   firebase_auth: ^3.1.4
+<<<<<<< HEAD
   google_sign_in: ^5.2.1
   kakao_flutter_sdk: ^1.1.1
   sign_in_with_apple: ^3.3.0
@@ -44,15 +57,24 @@ dependencies:
   firebase_performance: ^0.8.0+4
   firebase_database: ^8.0.1
   cloud_firestore: ^3.2.1
+=======
+  firebase_analytics: ^8.3.4
+  firebase_performance: ^0.8.0+4
+  firebase_remote_config: ^2.0.13
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
   firebase_messaging: ^11.1.0
-  flutter_local_notifications: ^9.0.3
+  flutter_local_notifications: ^9.7.0
 
   qr_flutter: ^4.0.0
   qr_code_scanner: ^1.0.0
 
+<<<<<<< HEAD
   shared_preferences: ^2.0.8
   cryptography: ^2.0.4
   cryptography_flutter: ^2.0.2
+=======
+  shared_preferences: ^2.0.15
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
   url_launcher: ^6.0.12
   permission_handler: ^8.2.5
   package_info_plus: ^1.2.0
@@ -65,10 +87,18 @@ dependencies:
 
   jiffy: ^4.1.0
 
-  fluttertoast: ^8.0.9
   flutter_switch: ^0.3.2
   flutter_svg: ^0.23.0+1
   extended_image: ^6.2.1
+<<<<<<< HEAD
+=======
+  lottie: ^1.2.2
+  flutter_custom_tab_bar: ^1.2.0
+  table_calendar: ^3.0.7
+  pull_to_refresh:
+    git:
+      url: https://github.com/miquelbeltran/flutter_pulltorefresh
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -140,6 +170,29 @@ flutter:
           weight: 700
         - asset: assets/fonts/MapleStory-Light.ttf
           weight: 500
+<<<<<<< HEAD
+=======
+    - family: Pretendard
+      fonts:
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Black.otf
+          weight: 900
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-ExtraBold.otf
+          weight: 800
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Bold.otf
+          weight: 700
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-SemiBold.otf
+          weight: 600
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Medium.otf
+          weight: 500
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Regular.otf
+          weight: 400
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Light.otf
+          weight: 300
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-ExtraLight.otf
+          weight: 200
+        - asset: packages/dalgeurak_widget_package/assets/fonts/Pretendard-Thin.otf
+          weight: 100
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 
 flutter_native_splash:
   color: "#ffffff"

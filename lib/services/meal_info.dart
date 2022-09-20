@@ -6,6 +6,7 @@ import 'package:jiffy/jiffy.dart';
 class MealInfo {
   final Dio _dio = Get.find<Dio>();
   DimigoinMeal _dimigoinMeal = DimigoinMeal();
+  DalgeurakService _dalgeurakService = DalgeurakService();
 
   final String apiUrl = "https://www.dimigo.hs.kr/index.php?mid=school_cafeteria";
   DateTime nowTime = DateTime.now();
@@ -32,7 +33,7 @@ class MealInfo {
 
     for (int i=weekFirstDay; i<weekFirstDay+7; i++) {
       int tempWeekDay = (i - weekFirstDay) + 1;
-      Map correctDate = getCorrectDate(i);
+      Map correctDate = _dalgeurakService.getCorrectDate(i);
 
       try {
         Response response = await _dio.get(apiUrl, queryParameters: {"document_srl": await getMealPostNum(correctDate["month"], correctDate["day"])});
@@ -52,7 +53,7 @@ class MealInfo {
       }
     }
 
-    result["weekFirstDay"] = getCorrectDate(weekFirstDay)['day'];
+    result["weekFirstDay"] = _dalgeurakService.getCorrectDate(weekFirstDay)['day'];
 
     return result;
   }
@@ -66,22 +67,5 @@ class MealInfo {
     String postUrl = response.data.toString().substring(data.indexOf('https', strIndex-125), strIndex-2);
     
     return postUrl.substring(postUrl.indexOf("&document_srl=") + 14);
-  }
-
-  Map getCorrectDate(int nowDay) {
-    Map result = {};
-
-    if (nowDay < 1) {
-      result["day"] = DateTime(nowTime.year, nowTime.month, 0).day - nowDay.abs();
-      result["month"] = (nowTime.month-1 < 1) ? 12 : nowTime.month-1;
-    } else if (nowDay > DateTime(nowTime.year, nowTime.month+1, 0).day) {
-      result["day"] = nowDay - DateTime(nowTime.year, nowTime.month+1, 0).day;
-      result["month"] = (nowTime.month+1 > 12) ? 1 : nowTime.month+1;
-    } else {
-      result["day"] = nowDay;
-      result["month"] = nowTime.month;
-    }
-
-    return result;
   }
 }

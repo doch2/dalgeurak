@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import 'package:dalgeurak_widget_package/widgets/overlay_alert.dart';
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -89,6 +93,13 @@ class NotificationController extends GetxController {
     return true;
   }
 
+<<<<<<< HEAD
+=======
+  getFCMToken() async => await _messaging.getToken();
+
+  showOverlayAlertWidget(List content) => DalgeurakOverlayAlert(context: context).show(content);
+
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
   void _launchURL(String _url) async =>
       await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 }

@@ -4,17 +4,30 @@ import 'package:dalgeurak/services/shared_preference.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/token_reference.dart';
 import 'package:dalgeurak/utils/root.dart';
+<<<<<<< HEAD
+=======
+import 'package:dalgeurak_meal_application/routes/pages.dart';
+import 'package:dalgeurak_widget_package/dalgeurak_widget_package.dart';
+import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
 import 'package:firebase_core/firebase_core.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:jiffy/jiffy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+<<<<<<< HEAD
   KakaoSdk.init(nativeAppKey: TokenReference().kakaoNativeKey);
+=======
+  await DimigoinFlutterPlugin().initializeApp();
+  DalgeurakWidgetPackage().initializeApp();
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
   SharedPreference();
+  await Jiffy.locale("ko");
 
   NotificationController _notiController = Get.put<NotificationController>(NotificationController(), permanent: true);
   await _notiController.initialize();
@@ -46,9 +59,16 @@ class MyApp extends StatelessWidget {
             },
             child: child,
           ),
+<<<<<<< HEAD
         ),
         initialBinding: MainBinding(),
         home: Root());
+=======
+          initialBinding: MainBinding(),
+          getPages: DalgeurakMealApplicationPages.pages,
+          home: Root(notiController: notiController)),
+    );
+>>>>>>> 92c83953fd75001b4a696ac8f90034ff2b2f9a90
   }
 
   void hideKeyboard(BuildContext context) {
