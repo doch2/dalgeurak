@@ -60,8 +60,9 @@ class MealCancelConfirm extends GetWidget<MealController> {
                             itemBuilder: (context, index) => GestureDetector(
                               onTap: () => Get.toNamed(DalgeurakMealApplicationRoutes.MEALCANCEL, arguments: {"pageMode": MealCancelPageMode.changeStatus, "cancelContent": mealCancelContentList[index]}),
                               child: StudentListTile(
-                                  selectStudent: mealCancelContentList[index].applierUser!,
-                                  trailingWidget: Icon(Icons.arrow_forward_ios_rounded, size: 26)
+                                isGroupTile: false,
+                                selectStudent: mealCancelContentList[index].applierUser!,
+                                trailingWidget: Icon(Icons.arrow_forward_ios_rounded, size: 26)
                               ),
                             ),
                           ),

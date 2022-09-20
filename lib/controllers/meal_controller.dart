@@ -6,6 +6,7 @@ import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/services/meal_info.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
+import 'package:dalgeurak_widget_package/widgets/dialog.dart';
 import 'package:dalgeurak_widget_package/widgets/toast.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:flutter/material.dart';
@@ -39,11 +40,14 @@ class MealController extends GetxController {
   PageController managePagePageController = PageController(initialPage: 0);
   RxMap<String, RxMap<String, Color>> managePageStudentListTileBtnColor = ({}.cast<String, RxMap<String, Color>>()).obs;
   RxMap<String, RxMap<String, Color>> managePageStudentListTileBtnTextColor = ({}.cast<String, RxMap<String, Color>>()).obs;
+  List mealExceptionConfirmPageData = [].obs;
+  RxBool isMealExceptionConfirmPageDataLoading = false.obs;
 
   UserController _userController = Get.find<UserController>();
   QrCodeController _qrCodeController = Get.find<QrCodeController>();
   DalgeurakService dalgeurakService = Get.find<DalgeurakService>();
   DalgeurakToast _dalgeurakToast = DalgeurakToast();
+  DalgeurakDialog _dalgeurakDialog = DalgeurakDialog();
   MealInfo mealInfo = MealInfo();
   DateTime nowTime = DateTime.now();
 
@@ -143,22 +147,29 @@ class MealController extends GetxController {
     }
   }
 
-  getMealExceptionStudentList() async {
-    Map result = await dalgeurakService.getAllUserMealException();
+  getMealExceptionStudentList(bool isEnterPage) async {
+    isMealExceptionConfirmPageDataLoading.value = true;
+    Map result = await dalgeurakService.getAllUserMealException(isEnterPage);
 
     if (!result['success']) { _dalgeurakToast.show("선후밥 명단 불러오기에 실패하였습니다. 인터넷 연결을 확인해주세요."); return; }
 
     List<DalgeurakMealException> originalData = (result['content'] as List).cast<DalgeurakMealException>();
     List<DalgeurakMealException> formattingData = [].cast<DalgeurakMealException>();
     originalData.forEach((element) {
-      if (element.groupApplierUserList!.isEmpty) {
-        element.groupApplierUserList!.forEach((element) => DalgeurakMealException.fromJson({"applier": element}));
+      if (isEnterPage) {
+        element.groupApplierUserList!.forEach((element2) {
+          Map exceptionContent = element.toJson();
+          exceptionContent['applier'] = element2.toJson();
+          exceptionContent['appliers'] = [];
+          formattingData.add(DalgeurakMealException.fromJson(exceptionContent));
+        });
       } else {
-        formattingData.add(element);
+        if (element.statusType == MealExceptionStatusType.waiting) { formattingData.add(element); }
       }
     });
 
-    return formattingData;
+    mealExceptionConfirmPageData = formattingData;
+    isMealExceptionConfirmPageDataLoading.value = false;
   }
 
   enterMealException(String tabBarMenuStr, String studentObjId) async {
@@ -169,6 +180,25 @@ class MealController extends GetxController {
     if (result['success']) {
       managePageStudentListTileBtnColor[tabBarMenuStr]![studentObjId] = dalgeurakBlueOne;
       managePageStudentListTileBtnTextColor[tabBarMenuStr]![studentObjId] = Colors.white;
+    }
+  }
+
+  changeMealExceptionStatus(String exceptionModelId, MealExceptionStatusType statusType, bool isEnterPage) async {
+    Map result = {};
+    if (statusType == MealExceptionStatusType.approve) {
+      result = await dalgeurakService.changeMealExceptionStatus(statusType, exceptionModelId, "<수락시엔 클라이언트에서 사유를 받지 않습니다>");
+
+      _dalgeurakToast.show("선밥 컨펌 처리에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
+
+      if (result['success']) { getMealExceptionStudentList(isEnterPage); }
+    } else {
+      _dalgeurakDialog.showTextField((reasonText) async {
+        result = await dalgeurakService.changeMealExceptionStatus(statusType, exceptionModelId, reasonText);
+
+        _dalgeurakToast.show("선밥 컨펌 처리에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
+
+        if (result['success']) { getMealExceptionStudentList(isEnterPage); }
+      });
     }
   }
 
