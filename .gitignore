@@ -1,6 +1,7 @@
 #Firebase Project Setting File
 android/app/google-services.json
 GoogleService-Info.plist
+firebase-project-info.js
 
 #Project API Token
 /lib/token_reference.dart

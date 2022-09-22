@@ -36,6 +36,35 @@
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
+
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+  <script src="firebase-project-info.js"></script>
+  <script>
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+  <script>
+    document.addEventListener('wheel', function(e) {
+      e.ctrlKey && e.preventDefault();
+    }, {
+      passive: false,
+    });
+  </script>
+  <script>
+    window.addEventListener('keydown', function(e) {
+      if (event.metaKey || event.ctrlKey) {
+        switch (event.key) {
+          case '=':
+          case '-':
+            event.preventDefault();
+            break;
+        }
+      }
+    });
+  </script>
+
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
