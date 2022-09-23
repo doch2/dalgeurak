@@ -34,7 +34,7 @@
 			</dict>
 		</array>
 		<key>CFBundleVersion</key>
-		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<string>$(CURRENT_PROJECT_VERSION)</string>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
 		<key>UIBackgroundModes</key>
@@ -63,5 +63,9 @@
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
+		<key>io.flutter.embedded_views_preview</key>
+		<true/>
+		<key>NSCameraUsageDescription</key>
+		<string>체크인 QR코드를 읽기 위해 후대폰의 카메라를 사용합니다.</string>
 	</dict>
 </plist>
