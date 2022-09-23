@@ -1,6 +1,7 @@
 import 'package:dalgeurak_widget_package/widgets/overlay_alert.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_fgbg/flutter_fgbg.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -18,23 +19,25 @@ class NotificationController extends GetxController {
   FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   Future<bool> initialize() async {
-    await _messaging.setAutoInitEnabled(true);
+    if (!kIsWeb) {
+      await _messaging.setAutoInitEnabled(true);
 
-    await _messaging.requestPermission(
-      alert: true,
-      announcement: true,
-      badge: true,
-      carPlay: true,
-      criticalAlert: true,
-      provisional: true,
-      sound: true,
-    );
+      await _messaging.requestPermission(
+        alert: true,
+        announcement: true,
+        badge: true,
+        carPlay: true,
+        criticalAlert: true,
+        provisional: true,
+        sound: true,
+      );
 
-    await _messaging.setForegroundNotificationPresentationOptions(
-      alert: false,
-      badge: false,
-      sound: true,
-    );
+      await _messaging.setForegroundNotificationPresentationOptions(
+        alert: false,
+        badge: false,
+        sound: true,
+      );
+    }
 
 
 
