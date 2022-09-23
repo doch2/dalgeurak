@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
           notiController.serviceWorkType.value = event;
         },
         child: GetMaterialApp(
+            title: "달그락",
             theme: ThemeData(
               accentColor: yellowFive,
               scrollbarTheme: ScrollbarThemeData(
