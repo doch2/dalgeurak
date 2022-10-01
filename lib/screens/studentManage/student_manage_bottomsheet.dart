@@ -142,7 +142,7 @@ class StudentManageBottomSheet {
                         title: "경고 부여",
                         iconName: "noticeCircle_fill",
                         isHome: false,
-                        sizeRatio: 0.41,
+                        containerSize: 160,
                         includeInnerShadow: true,
                         backgroundType: BigMenuButtonBackgroundType.gradient,
                         background: blueLinearGradientOne
@@ -184,7 +184,7 @@ class StudentManageBottomSheet {
                         title: "입장 처리",
                         iconName: "checkCircle",
                         isHome: false,
-                        sizeRatio: 0.41,
+                        containerSize: 160,
                         includeInnerShadow: true,
                         backgroundType: BigMenuButtonBackgroundType.color,
                         background: purpleTwo
