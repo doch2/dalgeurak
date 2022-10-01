@@ -24,10 +24,10 @@ class Login extends GetWidget<AuthController> {
           children: [
             Image.asset(
               "assets/images/logo.png",
-              width: _width * 0.25,
-              height: _width * 0.25,
+              width: 100,
+              height: 100,
             ),
-            SizedBox(height: _height * 0.01),
+            SizedBox(height: _height * 0.015),
             Text("달그락", style: loginTitle),
             SizedBox(height: _height * 0.015),
             Text("여유로운 급식 시간의 시작", style: loginSubTitle),
@@ -72,7 +72,7 @@ class Login extends GetWidget<AuthController> {
     String engTextFieldType = hintText.contains("아이디") ? "username" : "password";
 
     return SizedBox(
-      width: _width * 0.846,
+      width: 330,
       child: TextField(
         keyboardType: TextInputType.text,
         controller: textController,
