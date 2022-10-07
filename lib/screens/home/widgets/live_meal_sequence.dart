@@ -45,7 +45,7 @@ class LiveMealSequence extends GetWidget<MealController> {
 
     return Container(
       height: Get.height * 0.18,
-      width: Get.width * 0.897,
+      width: 350,
       margin: EdgeInsets.only(top: Get.height * 0.02),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(13),
@@ -56,7 +56,7 @@ class LiveMealSequence extends GetWidget<MealController> {
         children: [
           SizedBox(height: Get.height * 0.02),
           SizedBox(
-            width: Get.width * 0.725,
+            width: 280,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,9 +68,9 @@ class LiveMealSequence extends GetWidget<MealController> {
               ],
             ),
           ),
-          SizedBox(height: Get.height * 0.016),
+          SizedBox(height: 20),
           SizedBox(
-            width: Get.width * 0.65,
+            width: 264,
             child: Obx(() {
               Map mealSequence = controller.mealSequence;
               Map mealTime = controller.mealTime;
@@ -87,8 +87,8 @@ class LiveMealSequence extends GetWidget<MealController> {
                 bool isOn = ((controller.nowClassMealSequence.value == i) ? true : false);
 
                 widgetList.add(Container(
-                    width: Get.width * 0.1,
-                    height: Get.width * 0.15,
+                    width: 26,
+                    height: 39,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -124,7 +124,7 @@ class LiveMealSequence extends GetWidget<MealController> {
             alignment: Alignment.centerLeft,
             children: [
               Container(
-                width: Get.width * 0.725,
+                width: 290,
                 height: 10,
                 decoration: BoxDecoration(
                     color: blueFive,
@@ -133,7 +133,7 @@ class LiveMealSequence extends GetWidget<MealController> {
               ),
               Obx(() => AnimatedContainer(
                 duration: Duration(milliseconds: 200),
-                width: ((Get.width * 0.75) / 6) * controller.nowClassMealSequence.value,
+                width: (310 / 6) * controller.nowClassMealSequence.value,
                 height: 10,
                 decoration: BoxDecoration(
                     color: yellowFive,

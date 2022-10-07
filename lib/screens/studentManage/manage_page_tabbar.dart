@@ -46,7 +46,7 @@ class _ManagePageTabBarState extends State<ManagePageTabBar> {
               color: dalgeurakGrayOne,
               borderRadius: BorderRadius.circular(25)
           ),
-          width: 350,
+          width: Get.width * 0.864,
           height: 42,
           child: Center(
             child: CustomTabBar(
@@ -54,7 +54,7 @@ class _ManagePageTabBarState extends State<ManagePageTabBar> {
               tabBarController: _mealController.managePageTabBarController,
               pageController: _mealController.managePagePageController,
               height: 40,
-              width: 350,
+              width: Get.width * 0.864,
               indicator: RoundIndicator(
                 height: 36,
                 color: Colors.white,
