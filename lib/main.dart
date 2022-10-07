@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
             home: Root(notiController: notiController)),
       ),
       maximumSize: Size(475.0, 812.0),
-      enabled: kIsWeb,
+      enabled: false,
       backgroundColor: Colors.white,
     );
   }
