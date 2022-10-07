@@ -154,8 +154,8 @@ class Home extends StatelessWidget {
             top: _width * 0.05,
             right: _width * (isDialog ? 0.125 : 0.05),
             child: Container(
-              width: _width * 0.055,
-              height: _width * 0.055,
+              width: 20,
+              height: 20,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -180,7 +180,7 @@ class Home extends StatelessWidget {
               QrImage(
                 data: qrCodeController.qrImageData.value,
                 version: QrVersions.auto,
-                size: _width * 0.512,
+                size: 200,
               ),
               Text("${userController.user?.studentId} ${userController.user?.name}", style: homeQrCheckInStudentInfo),
               SizedBox(height: _height * 0.005),
@@ -300,7 +300,7 @@ class Home extends StatelessWidget {
                     Positioned(
                       top: _width * 0.075,
                       right: _width * 0.075,
-                      child: GestureDetector(onTap: () => Get.back(), child: Icon(Icons.close_rounded, color: dalgeurakGrayThree, size: _width * 0.08)),
+                      child: GestureDetector(onTap: () => Get.back(), child: Icon(Icons.close_rounded, color: dalgeurakGrayThree, size: 20)),
                     )
                   ],
                 ),
