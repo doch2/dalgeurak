@@ -35,12 +35,14 @@ class AuthController extends GetxController {
   }
 
   void logInWithDimigoinAccount() async {
-    bool isSuccess = await _dimigoinAccount.login(userIdTextController.text, passwordTextController.text);
+    Map loginResult = await _dimigoinAccount.login(userIdTextController.text, passwordTextController.text, true);
 
-    if (isSuccess) {
+    if (loginResult['success']) {
       await _dalgeurakService.registerFCMToken(await _notificationController.getFCMToken());
 
-      Get.to(LoginSuccess());
+      if (loginResult['content']['dalgeurakFirstLogin'] ?? true) {
+        Get.to(LoginSuccess());
+      }
     } else {
       _dalgeurakToast.show("로그인에 실패하였습니다. 다시 시도해주세요.");
     }
