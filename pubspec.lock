@@ -132,7 +132,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "38f5121a2e3c2a6769424b2ff3849494743270fd"
+      resolved-ref: "468eb21e3087115692f37c1db98ea9103101be4d"
       url: "https://github.com/dimigoin/dalgeurak-meal-application.git"
     source: git
     version: "1.0.0+1"
@@ -141,7 +141,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "01c8cef9e70b4345d6623023e8dc1dc56125d1d0"
+      resolved-ref: e61ed66f280b67ffe1a7bc90d0726b74ec655b2b
       url: "https://github.com/dimigoin/dalgeurak-widget-package.git"
     source: git
     version: "0.0.2"
@@ -894,14 +894,14 @@ packages:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.3.49"
+    version: "20.3.50"
   syncfusion_flutter_datepicker:
     dependency: transitive
     description:
       name: syncfusion_flutter_datepicker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.3.49"
+    version: "20.3.50"
   table_calendar:
     dependency: "direct main"
     description:
