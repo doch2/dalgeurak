@@ -18,9 +18,11 @@ import 'package:jiffy/jiffy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: FIREBASEOPTION
-  );
+  if (kIsWeb) {
+    await Firebase.initializeApp(options: FIREBASEOPTION);
+  } else {
+    await Firebase.initializeApp();
+  }
   await DimigoinFlutterPlugin().initializeApp();
   DalgeurakWidgetPackage().initializeApp();
   SharedPreference();

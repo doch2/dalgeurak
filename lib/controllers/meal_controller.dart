@@ -38,8 +38,8 @@ class MealController extends GetxController {
   CustomTabBarController mealPlannerTabBarController = CustomTabBarController();
   CustomTabBarController managePageTabBarController = CustomTabBarController();
   PageController managePagePageController = PageController(initialPage: 0);
-  RxMap<String, RxMap<String, Color>> managePageStudentListTileBtnColor = ({}.cast<String, RxMap<String, Color>>()).obs;
-  RxMap<String, RxMap<String, Color>> managePageStudentListTileBtnTextColor = ({}.cast<String, RxMap<String, Color>>()).obs;
+  RxMap<String, RxMap<int, Color>> managePageStudentListTileBtnColor = ({}.cast<String, RxMap<int, Color>>()).obs;
+  RxMap<String, RxMap<int, Color>> managePageStudentListTileBtnTextColor = ({}.cast<String, RxMap<int, Color>>()).obs;
   List mealExceptionConfirmPageData = [].obs;
   RxBool isMealExceptionConfirmPageDataLoading = false.obs;
 
@@ -172,14 +172,14 @@ class MealController extends GetxController {
     isMealExceptionConfirmPageDataLoading.value = false;
   }
 
-  enterMealException(String tabBarMenuStr, String studentObjId) async {
-    Map result = await dalgeurakService.enterStudentMealException(studentObjId);
+  enterMealException(String tabBarMenuStr, int studentUid) async {
+    Map result = await dalgeurakService.enterStudentMealException(studentUid);
 
     _dalgeurakToast.show("선후밥 입장 처리에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
 
     if (result['success']) {
-      managePageStudentListTileBtnColor[tabBarMenuStr]![studentObjId] = dalgeurakBlueOne;
-      managePageStudentListTileBtnTextColor[tabBarMenuStr]![studentObjId] = Colors.white;
+      managePageStudentListTileBtnColor[tabBarMenuStr]![studentUid] = dalgeurakBlueOne;
+      managePageStudentListTileBtnTextColor[tabBarMenuStr]![studentUid] = Colors.white;
     }
   }
 
@@ -250,8 +250,8 @@ class MealController extends GetxController {
     }
   }
 
-  giveStudentWarning(String studentObjId, List warningType, String reason) async {
-    Map result = await dalgeurakService.giveWarningToStudent(studentObjId, warningType, reason);
+  giveStudentWarning(int studentUid, List warningType, String reason) async {
+    Map result = await dalgeurakService.giveWarningToStudent(studentUid, warningType, reason);
 
     if (result['success']) {
       _dalgeurakToast.show("경고 등록에 성공하였습니다!");
