@@ -70,7 +70,7 @@ class Home extends StatelessWidget {
                   );
                 } else {
                   return WindowTitle(
-                    subTitle: userController.user?.userType != DimigoinUserType.teacher ? "안녕하세요!" : "${userController.user?.teacherRole}",
+                    subTitle: userController.user?.userType != DimigoinUserType.teacher ? "안녕하세요!" : "${userController.user?.teacherRole ?? "등록 부서 없음"}",
                     title: "${userController.user?.name}${userController.user?.userType != DimigoinUserType.teacher ? "님" : " 선생님"}",
                   );
                 }
