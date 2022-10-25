@@ -1,5 +1,6 @@
 import 'package:dalgeurak/screens/home/home_bottomsheet.dart';
 import 'package:dalgeurak/screens/home/widgets/live_meal_sequence.dart';
+import 'package:dalgeurak/screens/studentManage/convenience_food.dart';
 import 'package:dalgeurak/screens/studentManage/meal_exception.dart';
 import 'package:dalgeurak_meal_application/pages/teacher_meal_cancel/teacher_meal_cancel.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
@@ -344,6 +345,7 @@ class Home extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
+              onTap: () => Get.to(ConvenienceFoodCheckInPage()),
               child: BigMenuButton(
                 title: "간편식 명단",
                 iconName: "foodBucket",

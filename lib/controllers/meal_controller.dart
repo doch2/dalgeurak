@@ -42,6 +42,8 @@ class MealController extends GetxController {
   RxMap<String, RxMap<int, Color>> managePageStudentListTileBtnTextColor = ({}.cast<String, RxMap<int, Color>>()).obs;
   List mealExceptionConfirmPageData = [].obs;
   RxBool isMealExceptionConfirmPageDataLoading = false.obs;
+  Map<ConvenienceFoodType, List<DalgeurakConvenienceFood>> convenienceFoodCheckInPageData = {}.cast<ConvenienceFoodType, List<DalgeurakConvenienceFood>>().obs;
+  RxBool isConvenienceFoodCheckInPageDataLoading = false.obs;
 
   UserController _userController = Get.find<UserController>();
   QrCodeController _qrCodeController = Get.find<QrCodeController>();
@@ -145,6 +147,37 @@ class MealController extends GetxController {
 
       return result;
     }
+  }
+
+  getConvenienceFoodStudentList() async {
+    isConvenienceFoodCheckInPageDataLoading.value = true;
+
+    Map result = await dalgeurakService.getConvenienceFoodStudentList();
+    print(result);
+
+    if (!result['success']) {
+      _dalgeurakToast.show("간편식 명단 불러오기에 실패하였습니다. 인터넷 연결을 확인해주세요.");
+      isConvenienceFoodCheckInPageDataLoading.value = false;
+      convenienceFoodCheckInPageData = {
+        ConvenienceFoodType.sandwich: [],
+        ConvenienceFoodType.salad: [],
+        ConvenienceFoodType.misu: []
+      };
+      return;
+    }
+
+    convenienceFoodCheckInPageData = (result['content'] as Map<ConvenienceFoodType, List<DalgeurakConvenienceFood>>);
+
+
+    isConvenienceFoodCheckInPageDataLoading.value = false;
+  }
+
+  checkInConvenienceFood(String tabBarMenuStr, int studentUid) async {
+    Map result = await dalgeurakService.checkInConvenienceFood(studentUid);
+
+    _dalgeurakToast.show("간편식 체크인에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
+
+    getConvenienceFoodStudentList();
   }
 
   getMealExceptionStudentList(bool isEnterPage) async {

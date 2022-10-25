@@ -92,7 +92,7 @@ class _ManagePageTabBarState extends State<ManagePageTabBar> {
         builder: (context, color) {
           return Container(
             alignment: Alignment.center,
-            constraints: BoxConstraints(minWidth: (Get.width / 2.4)),
+            constraints: BoxConstraints(minWidth: (Get.width / (tabBarMenuList.length == 2 ? 2.4 : 3.5))),
             child: Text(
               tabBarMenuList[index],
               style: (tabBarMenuList.length == 2 ? managePageTabBar_big.copyWith(color: color) : managePageTabBar_small.copyWith(color: color)),
