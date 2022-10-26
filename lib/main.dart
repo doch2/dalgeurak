@@ -23,7 +23,7 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
-  await DimigoinFlutterPlugin().initializeApp();
+  await DimigoinFlutterPlugin().initializeApp(dimigoStudentAPIAuthToken: DIMIGO_STUDENTAPI_AUTHTOKEN);
   DalgeurakWidgetPackage().initializeApp();
   SharedPreference();
   await Jiffy.locale("ko");
