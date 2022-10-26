@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.0.0+17
+version: 2.0.1+18
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -33,7 +33,7 @@ dependencies:
   get: ^4.6.5
   dio: ^4.0.1
 
-  dimigoin_flutter_plugin: ^0.4.15
+  dimigoin_flutter_plugin: ^0.5.7
   dalgeurak_meal_application:
     git:
       url: https://github.com/dimigoin/dalgeurak-meal-application.git
@@ -43,12 +43,12 @@ dependencies:
       url: https://github.com/dimigoin/dalgeurak-widget-package.git
       ref: main
 
-  firebase_core: ^1.19.1
+  firebase_core: ^1.24.0
   firebase_auth: ^3.1.4
   firebase_analytics: ^8.3.4
   firebase_performance: ^0.8.0+4
   firebase_remote_config: ^2.0.13
-  firebase_messaging: ^11.1.0
+  firebase_messaging: ^13.1.0
   flutter_local_notifications: ^9.7.0
 
   qr_flutter: ^4.0.0
@@ -76,10 +76,6 @@ dependencies:
   pull_to_refresh:
     git:
       url: https://github.com/miquelbeltran/flutter_pulltorefresh
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:

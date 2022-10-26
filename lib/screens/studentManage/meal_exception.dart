@@ -68,8 +68,8 @@ class MealExceptionPage extends GetWidget<MealController> {
                     if (controller.managePageStudentListTileBtnColor.isEmpty) {
                       exceptionList.forEach((exceptionContent) {
                         tabBarMenuList.forEach((tabBarMenu) {
-                          Map<String, Color> btnColorMap = {};
-                          Map<String, Color> textColorMap = {};
+                          Map<int, Color> btnColorMap = {};
+                          Map<int, Color> textColorMap = {};
                           if (controller.managePageStudentListTileBtnColor.keys.contains(tabBarMenu)) {
                             btnColorMap.addAll(controller.managePageStudentListTileBtnColor[tabBarMenu]!);
                             textColorMap.addAll(controller.managePageStudentListTileBtnTextColor[tabBarMenu]!);

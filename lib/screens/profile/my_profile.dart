@@ -50,7 +50,7 @@ class MyProfile extends GetWidget<UserController> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   WindowTitle(
-                    subTitle: "${controller.user?.userType != DimigoinUserType.teacher ? controller.user?.studentId : controller.user?.teacherRole}",
+                    subTitle: controller.user?.userType != DimigoinUserType.teacher ? "${controller.user?.gradeNum}학년 ${controller.user?.classNum}반" : (controller.user?.teacherRole ?? "등록 부서 없음"),
                     title: "${controller.user?.name}${controller.user?.userType != DimigoinUserType.teacher ? "" : " 선생님"}",
                   ),
                   SizedBox(width: 3),
@@ -185,7 +185,7 @@ class MyProfile extends GetWidget<UserController> {
                                   }),
                                   MediumMenuButton(
                                     iconName: "foodBucket", title: "간편식", subTitle: "신청",
-                                    clickAction: () => controller.dalgeurakToast.show("현재 공개된 기능이 아닙니다. 추후 공개 예정입니다."),//Get.toNamed(DalgeurakMealApplicationRoutes.CONVENIENCEFOOD),
+                                    clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.CONVENIENCEFOOD),
                                   ),
                                 ],
                               ),

@@ -23,14 +23,17 @@
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="dalgeurak">
+  <meta name="apple-mobile-web-app-title" content="달그락">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <title>dalgeurak</title>
+  <title>달그락</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" type="text/css" href="splash/style.css">
   <script src="splash/splash.js"></script>
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+  <script src="https://unpkg.com/canvaskit-wasm@0.35.0/bin/canvaskit.js"></script>
+  <link rel="preload" href="https://unpkg.com/canvaskit-wasm@0.35.0/bin/canvaskit.wasm" as="fetch"
+        crossOrigin="anonymous">
 </head>
 <body style="position: fixed; inset: 0px; overflow: hidden; padding: 0px; margin: 0px; user-select: none; touch-action: none; font: 14px sans-serif; color: red;">
   <!-- This script installs service_worker.js to provide PWA functionality to

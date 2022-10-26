@@ -1,5 +1,6 @@
 import 'package:dalgeurak/screens/home/home_bottomsheet.dart';
 import 'package:dalgeurak/screens/home/widgets/live_meal_sequence.dart';
+import 'package:dalgeurak/screens/studentManage/convenience_food.dart';
 import 'package:dalgeurak/screens/studentManage/meal_exception.dart';
 import 'package:dalgeurak_meal_application/pages/teacher_meal_cancel/teacher_meal_cancel.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
@@ -16,7 +17,6 @@ import '../../controllers/user_controller.dart';
 import '../../themes/color_theme.dart';
 import '../../themes/text_theme.dart';
 import '../studentManage/meal_cancel_confirm.dart';
-import '../studentManage/meal_exception.dart';
 import '../widgets/big_menu_button.dart';
 import '../studentManage/student_search.dart';
 import '../studentManage/qrcode_scan.dart';
@@ -70,7 +70,7 @@ class Home extends StatelessWidget {
                   );
                 } else {
                   return WindowTitle(
-                    subTitle: userController.user?.userType != DimigoinUserType.teacher ? "안녕하세요!" : "${userController.user?.teacherRole}",
+                    subTitle: userController.user?.userType != DimigoinUserType.teacher ? "안녕하세요!" : "${userController.user?.teacherRole ?? "등록 부서 없음"}",
                     title: "${userController.user?.name}${userController.user?.userType != DimigoinUserType.teacher ? "님" : " 선생님"}",
                   );
                 }
@@ -142,7 +142,7 @@ class Home extends StatelessWidget {
     }
 
     return Container(
-      width: _width * 0.897,
+      width: 350,
       height: _height * 0.45,
       decoration: BoxDecoration(
           color: Colors.white,
@@ -155,8 +155,8 @@ class Home extends StatelessWidget {
             top: _width * 0.05,
             right: _width * (isDialog ? 0.125 : 0.05),
             child: Container(
-              width: _width * 0.055,
-              height: _width * 0.055,
+              width: 20,
+              height: 20,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -181,7 +181,7 @@ class Home extends StatelessWidget {
               QrImage(
                 data: qrCodeController.qrImageData.value,
                 version: QrVersions.auto,
-                size: _width * 0.512,
+                size: 200,
               ),
               Text("${userController.user?.studentId} ${userController.user?.name}", style: homeQrCheckInStudentInfo),
               SizedBox(height: _height * 0.005),
@@ -198,7 +198,7 @@ class Home extends StatelessWidget {
   getDienenMenuBtnWidget(BuildContext context) => Column(
     children: [
       SizedBox(
-        width: _width * 0.897,
+        width: 350,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -208,7 +208,7 @@ class Home extends StatelessWidget {
                 title: "급식 지연",
                 iconName: "clock",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: false,
                 backgroundType: BigMenuButtonBackgroundType.image,
                 background: ExtendedImage.asset("assets/images/homeMenu_clock.png"),
@@ -220,7 +220,7 @@ class Home extends StatelessWidget {
                 title: "선후밥 명단",
                 iconName: "twoPeople",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: true,
                 backgroundType: BigMenuButtonBackgroundType.gradient,
                 background: blueLinearGradientOne,
@@ -232,7 +232,7 @@ class Home extends StatelessWidget {
                 title: "선밥 컨펌",
                 iconName: "checkCircle_round",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: false,
                 backgroundType: BigMenuButtonBackgroundType.gradient,
                 background: pinkLinearGradientOne,
@@ -243,7 +243,7 @@ class Home extends StatelessWidget {
       ),
       SizedBox(height: _height * 0.0175),
       SizedBox(
-        width: _width * 0.897,
+        width: 350,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -253,7 +253,7 @@ class Home extends StatelessWidget {
                 title: "급식 순서･장소",
                 iconName: "table",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: true,
                 backgroundType: BigMenuButtonBackgroundType.gradient,
                 background: purpleGreenLinearGradientOne,
@@ -265,7 +265,7 @@ class Home extends StatelessWidget {
                 title: "학생 검색",
                 iconName: "peopleSearch",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: false,
                 backgroundType: BigMenuButtonBackgroundType.color,
                 background: blueNine,
@@ -277,7 +277,7 @@ class Home extends StatelessWidget {
                 title: "QR 입장 스캐너",
                 iconName: "qrCode",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: false,
                 backgroundType: BigMenuButtonBackgroundType.image,
                 background: ExtendedImage.asset("assets/images/homeMenu_qrCode.png"),
@@ -301,7 +301,7 @@ class Home extends StatelessWidget {
                     Positioned(
                       top: _width * 0.075,
                       right: _width * 0.075,
-                      child: GestureDetector(onTap: () => Get.back(), child: Icon(Icons.close_rounded, color: dalgeurakGrayThree, size: _width * 0.08)),
+                      child: GestureDetector(onTap: () => Get.back(), child: Icon(Icons.close_rounded, color: dalgeurakGrayThree, size: 20)),
                     )
                   ],
                 ),
@@ -310,7 +310,7 @@ class Home extends StatelessWidget {
         ),
         child: Container(
           height: _height * 0.1,
-          width: _width * 0.897,
+          width: 350,
           margin: EdgeInsets.only(top: _height * 0.02),
           decoration: BoxDecoration(
               color: Colors.white,
@@ -327,7 +327,7 @@ class Home extends StatelessWidget {
               SizedBox(height: _height * 0.02),
               SvgPicture.asset(
                 "assets/images/icons/entrance.svg",
-                width: _width * 0.1,
+                width: 39,
               ),
               Text("급식실 입장", style: homeEntranceCafeteriaWidgetTitle)
             ],
@@ -340,16 +340,17 @@ class Home extends StatelessWidget {
   getTeacherMenuBtnWidget(BuildContext context) => Column(
     children: [
       SizedBox(
-        width: _width * 0.897,
+        width: 350,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             GestureDetector(
+              onTap: () => Get.to(ConvenienceFoodCheckInPage()),
               child: BigMenuButton(
                 title: "간편식 명단",
                 iconName: "foodBucket",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: false,
                 backgroundType: BigMenuButtonBackgroundType.gradient,
                 background: greenLinearGradientOne,
@@ -361,7 +362,7 @@ class Home extends StatelessWidget {
                 title: "선후밥 명단",
                 iconName: "twoPeople",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: true,
                 backgroundType: BigMenuButtonBackgroundType.color,
                 background: blueNine,
@@ -373,7 +374,7 @@ class Home extends StatelessWidget {
                 title: "엑셀 다운",
                 iconName: "excel",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: true,
                 backgroundType: BigMenuButtonBackgroundType.gradient,
                 background: blueLinearGradientOne,
@@ -384,7 +385,7 @@ class Home extends StatelessWidget {
       ),
       SizedBox(height: _height * 0.0175),
       SizedBox(
-        width: _width * 0.897,
+        width: 350,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -394,7 +395,7 @@ class Home extends StatelessWidget {
                 title: "급식 단가 수정",
                 iconName: "signDocu",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: false,
                 backgroundType: BigMenuButtonBackgroundType.color,
                 background: dalgeurakYellowOne,
@@ -406,7 +407,7 @@ class Home extends StatelessWidget {
                 title: "급식 취소 컨펌",
                 iconName: "checkCircle_round",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: true,
                 backgroundType: BigMenuButtonBackgroundType.color,
                 background: purpleTwo,
@@ -418,7 +419,7 @@ class Home extends StatelessWidget {
                 title: "급식 취소 신청",
                 iconName: "cancelCircle",
                 isHome: true,
-                sizeRatio: 0.282,
+                containerSize: 110,
                 includeInnerShadow: true,
                 backgroundType: BigMenuButtonBackgroundType.gradient,
                 background: pinkLinearGradientOne,

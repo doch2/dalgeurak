@@ -18,10 +18,12 @@ import 'package:jiffy/jiffy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: FIREBASEOPTION
-  );
-  await DimigoinFlutterPlugin().initializeApp();
+  if (kIsWeb) {
+    await Firebase.initializeApp(options: FIREBASEOPTION);
+  } else {
+    await Firebase.initializeApp();
+  }
+  await DimigoinFlutterPlugin().initializeApp(dimigoStudentAPIAuthToken: DIMIGO_STUDENTAPI_AUTHTOKEN);
   DalgeurakWidgetPackage().initializeApp();
   SharedPreference();
   await Jiffy.locale("ko");
@@ -47,6 +49,7 @@ class MyApp extends StatelessWidget {
           notiController.serviceWorkType.value = event;
         },
         child: GetMaterialApp(
+            title: "달그락",
             theme: ThemeData(
               accentColor: yellowFive,
               scrollbarTheme: ScrollbarThemeData(
@@ -70,7 +73,7 @@ class MyApp extends StatelessWidget {
             home: Root(notiController: notiController)),
       ),
       maximumSize: Size(475.0, 812.0),
-      enabled: kIsWeb,
+      enabled: false,
       backgroundColor: Colors.white,
     );
   }

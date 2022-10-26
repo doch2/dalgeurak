@@ -14,39 +14,39 @@ class BigMenuButton extends StatelessWidget {
   final String title;
   final String iconName;
   final bool isHome;
-  double sizeRatio;
+  double containerSize;
   final BigMenuButtonBackgroundType backgroundType;
   final bool includeInnerShadow;
   dynamic background;
   BigMenuButton({
     required this.title, required this.iconName, required this.isHome,
-    required this.sizeRatio, required this.backgroundType,
+    required this.containerSize, required this.backgroundType,
     required this.includeInnerShadow,
     required this.background
   });
 
   @override
   Widget build(BuildContext context) {
-    double _displayHeight = MediaQuery.of(context).size.height;
-    double _displayWidth = MediaQuery.of(context).size.width;
-
-
     Widget childWidget = Stack(
       alignment: Alignment.center,
       children: [
         Positioned(
-          child: SizedBox(width: _displayWidth * (isHome ? 0.282 : 0.579), height: _displayHeight * (isHome ? 0.282 : 0.579)),
+          child: SizedBox(width: (isHome ? 110 : 160), height: (isHome ? 110 : 160)),
         ),
         Positioned(
-          top: _displayWidth * (isHome ? 0.08 : 0.11),
-          child: SvgPicture.asset(
-            "assets/images/icons/$iconName.svg",
-            color: Colors.white,
-            width: _displayWidth * (isHome ? 0.1 : 0.11),
+          top: (isHome ? 31 : 43),
+          child: Column(
+            children: [
+              SvgPicture.asset(
+                "assets/images/icons/$iconName.svg",
+                color: Colors.white,
+                width: (isHome ? 39 : 43),
+              ),
+            ],
           ),
         ),
         Positioned(
-          top: _displayWidth * (isHome ? 0.2 : 0.27),
+          top: (isHome ? 78 : 105),
           child: Text(
             title,
             style: isHome ? homeMenuWidgetTitle : homeMenuWidgetTitle.copyWith(fontSize: 18),
@@ -89,8 +89,8 @@ class BigMenuButton extends StatelessWidget {
     return InnerShadow(
       shadows: innerShadow,
       child: Container(
-        width: _displayWidth * sizeRatio,
-        height: _displayWidth * sizeRatio,
+        width: containerSize,
+        height: containerSize,
         decoration: boxDecoration,
         child: Center(child: childWidget),
       ),

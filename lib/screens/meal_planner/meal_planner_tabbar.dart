@@ -1,6 +1,7 @@
 import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak_widget_package/widgets/window_title.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tab_bar/library.dart';
 import 'package:flutter_svg/svg.dart';
@@ -151,7 +152,7 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
       children: [
         Container(
           width: Get.width * 0.897,
-          height: 164,
+          height: kIsWeb ? Get.height * 0.21 : 164,
           decoration: BoxDecoration(
               color: bigBoxColor,
               borderRadius: BorderRadius.circular(13)

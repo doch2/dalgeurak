@@ -46,7 +46,7 @@ class _ManagePageTabBarState extends State<ManagePageTabBar> {
               color: dalgeurakGrayOne,
               borderRadius: BorderRadius.circular(25)
           ),
-          width: 350,
+          width: Get.width * 0.864,
           height: 42,
           child: Center(
             child: CustomTabBar(
@@ -54,7 +54,7 @@ class _ManagePageTabBarState extends State<ManagePageTabBar> {
               tabBarController: _mealController.managePageTabBarController,
               pageController: _mealController.managePagePageController,
               height: 40,
-              width: 350,
+              width: Get.width * 0.864,
               indicator: RoundIndicator(
                 height: 36,
                 color: Colors.white,
@@ -92,7 +92,7 @@ class _ManagePageTabBarState extends State<ManagePageTabBar> {
         builder: (context, color) {
           return Container(
             alignment: Alignment.center,
-            constraints: BoxConstraints(minWidth: (Get.width / 2.4)),
+            constraints: BoxConstraints(minWidth: (Get.width / (tabBarMenuList.length == 2 ? 2.4 : 3.5))),
             child: Text(
               tabBarMenuList[index],
               style: (tabBarMenuList.length == 2 ? managePageTabBar_big.copyWith(color: color) : managePageTabBar_small.copyWith(color: color)),
