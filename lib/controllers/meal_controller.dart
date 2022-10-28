@@ -283,6 +283,16 @@ class MealController extends GetxController {
     }
   }
 
+  getStudentWarningList(int studentUid) async {
+    Map result = await dalgeurakService.getStudentWarningList(studentUid);
+
+    if (result['success']) {
+      return (result['content'] as List).cast<DalgeurakWarning>();
+    } else {
+      _dalgeurakToast.show("경고 목록을 불러오는데 실패하였습니다."); return;
+    }
+  }
+
   giveStudentWarning(int studentUid, List warningType, String reason) async {
     Map result = await dalgeurakService.giveWarningToStudent(studentUid, warningType, reason);
 
