@@ -1,3 +1,4 @@
+import 'package:dalgeurak/screens/studentManage/student_manage_dialog.dart';
 import 'package:dalgeurak_widget_package/services/dalgeurak_api.dart';
 import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
 import 'package:dalgeurak_widget_package/widgets/checkbox.dart';
@@ -29,6 +30,7 @@ class StudentManageBottomSheet {
   DalgeurakBottomSheet _dalgeurakBottomSheet = DalgeurakBottomSheet();
   DalgeurakDialog _dalgeurakDialog = DalgeurakDialog();
   DalgeurakOverlayAlert _dalgeurakOverlayAlert = DalgeurakOverlayAlert(context: Get.context!);
+  StudentManageDialog _studentManageDialog = StudentManageDialog();
 
   RxMap warningList = {
     "지각": false,
@@ -108,6 +110,7 @@ class StudentManageBottomSheet {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
+                      onTap: () async => _studentManageDialog.showWarningDialog(await mealController.getStudentWarningList(student.id!)),
                       child: SmallMenuButton(
                         title: "경고 횟수",
                         iconName: "onePage",
@@ -115,6 +118,7 @@ class StudentManageBottomSheet {
                       ),
                     ),
                     GestureDetector(
+                      onTap: () => _studentManageDialog.showCheckInRecordDialog(student.name!),
                       child: SmallMenuButton(
                         title: "입장 기록",
                         iconName: "logPage",

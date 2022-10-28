@@ -1,6 +1,7 @@
 import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/profile/myprofile_bottomsheet.dart';
+import 'package:dalgeurak/screens/studentManage/student_manage_dialog.dart';
 import 'package:dalgeurak_meal_application/pages/meal_cancel/page.dart';
 import 'package:dalgeurak_meal_application/routes/routes.dart';
 import 'package:dalgeurak_widget_package/widgets/dialog.dart';
@@ -32,6 +33,7 @@ class MyProfile extends GetWidget<UserController> {
 
     MyProfileBottomSheet myProfileBottomSheet = MyProfileBottomSheet();
     DalgeurakDialog dalgeurakDialog = DalgeurakDialog();
+    StudentManageDialog studentManageDialog = StudentManageDialog();
 
     controller.getUserWarningList();
 
@@ -156,31 +158,7 @@ class MyProfile extends GetWidget<UserController> {
 
                                     return MediumMenuButton(
                                       iconName: "noticeCircle", title: "경고 횟수", subTitle: "$warningAmount회",
-                                      clickAction: () => dalgeurakDialog.showList(
-                                          "경고",
-                                          "누적 $warningAmount회",
-                                          "경고 기록",
-                                          ListView.builder(
-                                            itemCount: warningAmount,
-                                            itemBuilder: (context, index) {
-                                              DalgeurakWarning warning = controller.warningList[index];
-
-                                              String warningTypeStr = "";
-                                              warning.warningTypeList?.forEach((element) => warningTypeStr = warningTypeStr + element.convertKorStr + ", ");
-                                              warningTypeStr = warningTypeStr.substring(0, warningTypeStr.length-2);
-
-                                              return Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text("${Jiffy(warning.date).format("MM.dd (E) a hh:mm")}", style: myProfile_warning_date),
-                                                  SizedBox(height: 2),
-                                                  Text("$warningTypeStr(${warning.reason})", style: myProfile_warning_reason),
-                                                  SizedBox(height: 20),
-                                                ],
-                                              );
-                                            }
-                                          )
-                                      ),
+                                      clickAction: () => studentManageDialog.showWarningDialog(controller.warningList)
                                     );
                                   }),
                                   MediumMenuButton(
@@ -197,12 +175,7 @@ class MyProfile extends GetWidget<UserController> {
                                 children: [
                                   MediumMenuButton(
                                     iconName: "checkCircle_round", title: "입장 기록", subTitle: "체크",
-                                    clickAction: () => dalgeurakDialog.showList(
-                                        "${controller.user?.name}", 
-                                        "입장 기록", 
-                                        "입장 기록", 
-                                        null
-                                    ),
+                                    clickAction: () => studentManageDialog.showCheckInRecordDialog(controller.user!.name!),
                                   ),
                                   MediumMenuButton(
                                     iconName: "signDocu", title: "선/후밥", subTitle: "신청",
