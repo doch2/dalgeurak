@@ -33,7 +33,7 @@ dependencies:
   get: ^4.6.5
   dio: ^4.0.1
 
-  dimigoin_flutter_plugin: ^0.5.7
+  dimigoin_flutter_plugin: ^0.5.9
   dalgeurak_meal_application:
     git:
       url: https://github.com/dimigoin/dalgeurak-meal-application.git
@@ -44,6 +44,7 @@ dependencies:
       ref: main
 
   firebase_core: ^1.24.0
+  firebase_core_platform_interface: 4.5.1
   firebase_auth: ^3.1.4
   firebase_analytics: ^8.3.4
   firebase_performance: ^0.8.0+4
