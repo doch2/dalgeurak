@@ -183,7 +183,7 @@ class Home extends StatelessWidget {
                 version: QrVersions.auto,
                 size: 200,
               ),
-              Text("${userController.user?.studentId} ${userController.user?.name}", style: homeQrCheckInStudentInfo),
+              Text("${userController.user?.gradeNum}학년 ${userController.user?.classNum}반 ${userController.user?.name}", style: homeQrCheckInStudentInfo),
               SizedBox(height: _height * 0.005),
               Text(mealController.userMealStatus.value == MealStatusType.onTime ? "입장 가능" : "입장 불가능", style: homeQrCheckInStatus),
               SizedBox(height: _height * 0.01),

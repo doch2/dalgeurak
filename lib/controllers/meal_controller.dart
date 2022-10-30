@@ -42,7 +42,11 @@ class MealController extends GetxController {
   RxMap<String, RxMap<int, Color>> managePageStudentListTileBtnTextColor = ({}.cast<String, RxMap<int, Color>>()).obs;
   List mealExceptionConfirmPageData = [].obs;
   RxBool isMealExceptionConfirmPageDataLoading = false.obs;
-  Map<ConvenienceFoodType, List<DalgeurakConvenienceFood>> convenienceFoodCheckInPageData = {}.cast<ConvenienceFoodType, List<DalgeurakConvenienceFood>>().obs;
+  Map<ConvenienceFoodType, List<DalgeurakConvenienceFood>> convenienceFoodCheckInPageData = {
+    ConvenienceFoodType.sandwich: [],
+    ConvenienceFoodType.salad: [],
+    ConvenienceFoodType.misu: []
+  };
   RxBool isConvenienceFoodCheckInPageDataLoading = false.obs;
 
   UserController _userController = Get.find<UserController>();
@@ -153,7 +157,6 @@ class MealController extends GetxController {
     isConvenienceFoodCheckInPageDataLoading.value = true;
 
     Map result = await dalgeurakService.getConvenienceFoodStudentList();
-    print(result);
 
     if (!result['success']) {
       _dalgeurakToast.show("간편식 명단 불러오기에 실패하였습니다. 인터넷 연결을 확인해주세요.");
@@ -166,7 +169,8 @@ class MealController extends GetxController {
       return;
     }
 
-    convenienceFoodCheckInPageData = (result['content'] as Map<ConvenienceFoodType, List<DalgeurakConvenienceFood>>);
+    Map<ConvenienceFoodType, List<dynamic>> tempData = Map<ConvenienceFoodType, List<dynamic>>.from(result['content']);
+    tempData.forEach((key, value) => convenienceFoodCheckInPageData[key] = value.cast<DalgeurakConvenienceFood>());
 
 
     isConvenienceFoodCheckInPageDataLoading.value = false;
