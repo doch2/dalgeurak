@@ -139,7 +139,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "789258d4c9dfcf7ae28bb79caa259b5cc0fec1b3"
+      resolved-ref: fb401b9a09e1b77d7da29b40a77f498bba334c3a
       url: "https://github.com/dimigoin/dalgeurak-meal-application.git"
     source: git
     version: "1.0.0+1"
@@ -148,7 +148,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: fbc68a5d2a02ba23ba37f942853139c7f6527693
+      resolved-ref: "71703810979667156f827a2fbeb514db721f2554"
       url: "https://github.com/dimigoin/dalgeurak-widget-package.git"
     source: git
     version: "0.0.2"
@@ -207,7 +207,7 @@ packages:
       name: dimigoin_flutter_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.10"
+    version: "0.5.11"
   dio:
     dependency: "direct main"
     description:
