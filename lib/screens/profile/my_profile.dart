@@ -73,6 +73,7 @@ class MyProfile extends GetWidget<UserController> {
               right: -(_width * 0.125),
               child: Image.asset(
                 "assets/images/home_flowerpot.png",
+                height: 124,
               ),
             ),
             Positioned(
@@ -207,7 +208,7 @@ class MyProfile extends GetWidget<UserController> {
                   ),
                   Container(
                     width: _width * 0.897,
-                    height: 150,
+                    height: 200,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(15)
@@ -218,6 +219,7 @@ class MyProfile extends GetWidget<UserController> {
                       children: [
                         SimpleListButton(title: "디넌 규정집", iconName: "page", clickAction: () => _launchURL(controller.getDienenManualFileUrl())),
                         SimpleListButton(title: "문의하기", iconName: "headset", clickAction: () => dalgeurakDialog.showInquiry()),
+                        SimpleListButton(title: "급식실 인스타그램 보러가기", iconName: "instagram", clickAction: () => _launchURL("https://www.instagram.com/ara__dmigo/")),
                         SimpleListButton(title: "앱 정보", iconName: "info", clickAction: () => myProfileBottomSheet.showApplicationInfo()),
                       ],
                     )

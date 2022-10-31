@@ -4,12 +4,24 @@
         <title>달그락</title>
         <!-- Android -->
         <item>
+            <title>v2.0.3</title>
+            <description>간편식 남은인원 표시 오류 등 다양한 버그가 수정되었습니다.</description>
+            <pubDate>Mon, 31 Oct 2022 12:00:00 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.iceluna.dalgeurak" sparkle:version="2.0.3" sparkle:os="android" />
+        </item>
+        <item>
             <title>v2.0.2</title>
             <description>마이너한 버그들이 수정되었습니다.</description>
             <pubDate>Sat, 29 Oct 2022 12:00:00 +0000</pubDate>
             <enclosure url="https://play.google.com/store/apps/details?id=com.iceluna.dalgeurak" sparkle:version="2.0.2" sparkle:os="android" />
         </item>
         <!-- IOS -->
+        <item>
+            <title>v2.0.3</title>
+            <description>간편식 남은인원 표시 오류 등 다양한 버그가 수정되었습니다.</description>
+            <pubDate>Mon, 31 Oct 2022 12:00:00 +0000</pubDate>
+            <enclosure url="https://apps.apple.com/app/id1599863433" sparkle:version="2.0.3" sparkle:os="ios" />
+        </item>
         <item>
             <title>v2.0.2</title>
             <description>마이너한 버그들이 수정되었습니다.</description>
