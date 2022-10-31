@@ -98,9 +98,7 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
   _getStudentListWidget(List<DalgeurakConvenienceFood> foodList, String tabBarMenuStr) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      SizedBox(
-        width: Get.width,
-        height: foodList.length * 75,
+      Expanded(
         child: ListView.builder(
           itemCount: foodList.length,
           itemBuilder: (context, index) {
