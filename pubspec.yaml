@@ -33,7 +33,7 @@ dependencies:
   get: ^4.6.5
   dio: ^4.0.1
 
-  dimigoin_flutter_plugin: ^0.5.9
+  dimigoin_flutter_plugin: ^0.5.10
   dalgeurak_meal_application:
     git:
       url: https://github.com/dimigoin/dalgeurak-meal-application.git
@@ -64,6 +64,8 @@ dependencies:
   flutter_fgbg: ^0.1.0
   flutter_vibrate: ^1.3.0
   connectivity_plus: ^2.2.1
+  upgrader: ^4.10.0
+  version: ^3.0.2
 
   jiffy: ^4.1.0
 

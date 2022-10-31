@@ -120,6 +120,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+  csslib:
+    dependency: transitive
+    description:
+      name: csslib
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.17.2"
   cupertino_icons:
     dependency: transitive
     description:
@@ -152,13 +159,55 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.3"
+  device_info_plus:
+    dependency: transitive
+    description:
+      name: device_info_plus
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
+  device_info_plus_linux:
+    dependency: transitive
+    description:
+      name: device_info_plus_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.1"
+  device_info_plus_macos:
+    dependency: transitive
+    description:
+      name: device_info_plus_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.3"
+  device_info_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: device_info_plus_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.6.1"
+  device_info_plus_web:
+    dependency: transitive
+    description:
+      name: device_info_plus_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
+  device_info_plus_windows:
+    dependency: transitive
+    description:
+      name: device_info_plus_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.1"
   dimigoin_flutter_plugin:
     dependency: "direct main"
     description:
       name: dimigoin_flutter_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.9"
+    version: "0.5.10"
   dio:
     dependency: "direct main"
     description:
@@ -482,6 +531,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.6.5"
+  html:
+    dependency: transitive
+    description:
+      name: html
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.15.1"
   http:
     dependency: transitive
     description:
@@ -594,6 +650,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.0"
+  os_detect:
+    dependency: transitive
+    description:
+      name: os_detect
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   package_info_plus:
     dependency: "direct main"
     description:
@@ -944,13 +1007,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  upgrader:
+    dependency: "direct main"
+    description:
+      name: upgrader
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.10.0"
   url_launcher:
     dependency: "direct main"
     description:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.6"
+    version: "6.1.5"
   url_launcher_android:
     dependency: transitive
     description:
@@ -1007,6 +1077,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.2"
+  version:
+    dependency: "direct main"
+    description:
+      name: version
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.2"
   win32:
     dependency: transitive
     description:

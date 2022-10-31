@@ -1,6 +1,7 @@
 import 'package:dalgeurak/controllers/bindings/main_binding.dart';
 import 'package:dalgeurak/controllers/notification_controller.dart';
 import 'package:dalgeurak/services/shared_preference.dart';
+import 'package:dalgeurak/services/upgrader.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/token_reference.dart';
 import 'package:dalgeurak/utils/root.dart';
@@ -27,6 +28,7 @@ void main() async {
   DalgeurakWidgetPackage().initializeApp();
   SharedPreference();
   await Jiffy.locale("ko");
+  await Get.putAsync<UpgraderService>(() => UpgraderService().init());
 
   NotificationController _notiController = Get.put<NotificationController>(NotificationController(), permanent: true);
   await _notiController.initialize();
