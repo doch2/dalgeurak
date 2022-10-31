@@ -25,9 +25,17 @@ class UserController extends GetxController {
   onInit() async {
     _dimigoinUser.bindStream(_dimigoinAccount.userChangeStream);
 
-    _remoteConfig.setDefaults({"dienenManualUrl": "https://dimigo.in"});
-    _remoteConfig.fetch();
-    _remoteConfig.fetchAndActivate();
+    await _remoteConfig.setConfigSettings(
+      RemoteConfigSettings(
+        fetchTimeout: Duration(seconds: 60),
+        minimumFetchInterval: Duration(seconds: 0),
+      ),
+    );
+    await _remoteConfig.setDefaults({"dienenManualUrl": "https://dimigo.in"});
+    await _remoteConfig.activate();
+    await Future.delayed(const Duration(seconds: 1));
+    await _remoteConfig.fetch();
+    await _remoteConfig.fetchAndActivate();
   }
 
   dynamic getProfileWidget(double _width) {
