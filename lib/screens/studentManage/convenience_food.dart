@@ -35,7 +35,7 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
                   alignment: Alignment.center,
                   children: [
                     SizedBox(width: Get.width),
-                    Text("간편식 명단", style: pageTitle1),
+                    Text("간편식 체크인", style: pageTitle1),
                     Positioned(
                       left: Get.width * 0.06,
                       child: GestureDetector(onTap: () => Get.back(), child: Container(color: Colors.transparent, child: Icon(Icons.arrow_back_ios_rounded, size: 26))),

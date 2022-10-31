@@ -159,7 +159,7 @@ class MealController extends GetxController {
     Map result = await dalgeurakService.getConvenienceFoodStudentList();
 
     if (!result['success']) {
-      _dalgeurakToast.show("간편식 명단 불러오기에 실패하였습니다. 인터넷 연결을 확인해주세요.");
+      _dalgeurakToast.show("간편식 명단 불러오기에 실패하였습니다.\n사유: ${result['content']}");
       isConvenienceFoodCheckInPageDataLoading.value = false;
       convenienceFoodCheckInPageData = {
         ConvenienceFoodType.sandwich: [],
@@ -171,6 +171,15 @@ class MealController extends GetxController {
 
     Map<ConvenienceFoodType, List<dynamic>> tempData = Map<ConvenienceFoodType, List<dynamic>>.from(result['content']);
     tempData.forEach((key, value) => convenienceFoodCheckInPageData[key] = value.cast<DalgeurakConvenienceFood>());
+
+    convenienceFoodCheckInPageData.forEach((key, value) {
+      managePageStudentListTileBtnColor[key.convertKor] = Map<int, Color>.from({}).obs;
+      managePageStudentListTileBtnTextColor[key.convertKor] = Map<int, Color>.from({}).obs;
+      convenienceFoodCheckInPageData[key]?.forEach((e) {
+        managePageStudentListTileBtnColor[key.convertKor]![e.student!.id!] = (e.isCheckin! ? dalgeurakGrayOne : dalgeurakBlueOne);
+        managePageStudentListTileBtnTextColor[key.convertKor]![e.student!.id!] = (e.isCheckin! ? dalgeurakGrayFour : Colors.white);
+      });
+    });
 
 
     isConvenienceFoodCheckInPageDataLoading.value = false;
