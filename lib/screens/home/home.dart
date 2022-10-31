@@ -81,6 +81,7 @@ class Home extends StatelessWidget {
               right: -(_width * 0.125),
               child: Image.asset(
                 "assets/images/home_flowerpot.png",
+                height: 124,
               ),
             ),
             Obx(() {
