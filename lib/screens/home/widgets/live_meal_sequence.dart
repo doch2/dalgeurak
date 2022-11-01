@@ -133,7 +133,7 @@ class LiveMealSequence extends GetWidget<MealController> {
               ),
               Obx(() => AnimatedContainer(
                 duration: Duration(milliseconds: 200),
-                width: (310 / 6) * controller.nowClassMealSequence.value,
+                width: (310 / 6) * controller.nowClassMealSequence[checkGradeNum]!,
                 height: 10,
                 decoration: BoxDecoration(
                     color: yellowFive,

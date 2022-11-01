@@ -207,7 +207,7 @@ packages:
       name: dimigoin_flutter_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.12"
+    version: "0.5.13"
   dio:
     dependency: "direct main"
     description:

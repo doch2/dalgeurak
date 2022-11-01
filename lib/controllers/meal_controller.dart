@@ -30,7 +30,7 @@ class MealController extends GetxController {
   Map classLeftPeople = {};
   Rx<MealStatusType> userMealStatus = MealStatusType.empty.obs;
   Rx<MealExceptionType> userMealException = MealExceptionType.normal.obs;
-  RxInt nowClassMealSequence = 0.obs;
+  RxMap<int, int> nowClassMealSequence = (Map<int, int>.from({})).obs;
   bool isCreateRefreshTimer = false;
   final mealDelayTextController = TextEditingController();
   final mealPriceTextController = TextEditingController();
@@ -58,6 +58,17 @@ class MealController extends GetxController {
   DateTime nowTime = DateTime.now();
 
   RxInt refreshTime = 0.obs;
+
+  @override
+  onInit() {
+    super.onInit();
+
+    nowClassMealSequence.value = {
+      1: 0,
+      2: 0,
+      3: 0,
+    };
+  }
 
   Future<void> refreshTimer() async {
     try {
@@ -89,7 +100,18 @@ class MealController extends GetxController {
     List mealTime = this.mealTime["extra${mealType[0].toUpperCase()}${mealType.substring(1)}"][(_userController.user?.gradeNum)!-1];
     String userMealTempTime = mealTime[mealSequence.indexOf(_userController.user?.classNum)].toString();
     userMealTime.value = "${userMealTempTime.substring(0, 2)}시 ${userMealTempTime.substring(2)}분";
-    nowClassMealSequence.value = mealSequence.indexOf((await getNowMealSequence())['content']) + 1;
+
+    Map nowMealSequenceData = await getNowMealSequence();
+    nowClassMealSequence.forEach((key, value) {
+      List mealSequence = this.mealSequence[mealType][key-1];
+
+      if (key == nowMealSequenceData['content']['grade']) {
+        nowClassMealSequence[key] = mealSequence.indexOf(nowMealSequenceData['content']['nowSequence']) + 1;
+      } else {
+        nowClassMealSequence[key] = 0;
+      }
+    });
+
 
     Map userInfo = await dalgeurakService.getUserMealInfo();
     if (userInfo['success']) {
