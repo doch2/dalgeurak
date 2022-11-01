@@ -48,6 +48,7 @@ class MealController extends GetxController {
     ConvenienceFoodType.misu: []
   };
   RxBool isConvenienceFoodCheckInPageDataLoading = false.obs;
+  Rx<MealType> nowMealType = MealType.none.obs;
 
   UserController _userController = Get.find<UserController>();
   QrCodeController _qrCodeController = Get.find<QrCodeController>();
@@ -58,6 +59,7 @@ class MealController extends GetxController {
   DateTime nowTime = DateTime.now();
 
   RxInt refreshTime = 0.obs;
+  RxInt refreshMealTypeTime = 0.obs;
 
   @override
   onInit() {
@@ -68,6 +70,9 @@ class MealController extends GetxController {
       2: 0,
       3: 0,
     };
+
+
+    refreshMealType();
   }
 
   Future<void> refreshTimer() async {
@@ -88,6 +93,23 @@ class MealController extends GetxController {
       }
     } catch (e) { //중간에 로그아웃 되서 타이머가 오류가 났을 경우
       isCreateRefreshTimer = false;
+    }
+  }
+
+  refreshMealType() async {
+    while (true) {
+      await Future.delayed(
+          Duration(seconds: 1),
+              () async {
+            if (refreshMealTypeTime.value == 0) {
+              nowMealType.value = dalgeurakService.getMealKind(true);
+
+              refreshMealTypeTime.value = 30;
+            } else {
+              refreshMealTypeTime.value = refreshMealTypeTime.value - 1;
+            }
+          }
+      );
     }
   }
 

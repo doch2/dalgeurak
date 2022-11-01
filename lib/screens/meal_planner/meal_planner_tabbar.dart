@@ -108,7 +108,7 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
   Widget mealPlannerView(int index) {
     Map correctDate = Get.find<MealController>().dalgeurakService.getCorrectDate((DateTime.now().day - (DateTime.now().weekday - 1)) + (index-1));
 
-    return Column(
+    return Obx(() => Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
@@ -126,7 +126,7 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
         SizedBox(height: Get.height * 0.0165),
         mealPlannerPanel(plannerData, index, MealType.dinner),
       ],
-    );
+    ));
   }
 
   Stack mealPlannerPanel(Map data, int index, MealType mealType) {
@@ -142,7 +142,7 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
       smallBoxColor = blueSeven;
     }
 
-    if (_mealController.dalgeurakService.getMealKind(true) == mealType) {
+    if (_mealController.nowMealType.value == mealType) {
       bigBoxColor = dalgeurakBlueOne;
       mealTextStyle = mealTextStyle.copyWith(color: Colors.white);
     }
