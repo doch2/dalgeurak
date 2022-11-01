@@ -21,7 +21,7 @@ class SimpleListButton extends StatelessWidget {
       child: InkWell(
           onTap: clickAction,
           child: Container(
-            height: _displayHeight * 0.055,
+            height: 50,
             width: _displayWidth * 0.82,
             child: Center(
                 child: SizedBox(
