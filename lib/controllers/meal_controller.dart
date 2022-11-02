@@ -237,12 +237,6 @@ class MealController extends GetxController {
     getConvenienceFoodStudentList();
   }
 
-  registerFridayHomecoming(int studentUid) async {
-    Map result = await dalgeurakService.registerFridayHomecomingInConvenienceFood(studentUid);
-
-    _dalgeurakToast.show("금요귀가 등록에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
-  }
-
   getMealExceptionStudentList(bool isEnterPage) async {
     isMealExceptionConfirmPageDataLoading.value = true;
     Map result = await dalgeurakService.getAllUserMealException(isEnterPage);
