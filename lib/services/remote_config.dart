@@ -23,4 +23,6 @@ class RemoteConfigService extends GetxService {
   }
 
   getDienenManualFileUrl() => _remoteConfig.getString("dienenManualUrl");
+
+  getMinAppVersion() => _remoteConfig.getString("minAppVersion");
 }
