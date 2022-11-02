@@ -9,6 +9,7 @@ import 'package:dalgeurak_meal_application/routes/pages.dart';
 import 'package:dalgeurak_widget_package/dalgeurak_widget_package.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -70,6 +71,9 @@ class MyApp extends StatelessWidget {
                 child: child,
               ),
             ),
+            navigatorObservers: [
+              FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+            ],
             initialBinding: MainBinding(),
             getPages: DalgeurakMealApplicationPages.pages,
             home: Root(notiController: notiController)),
