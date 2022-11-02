@@ -19,6 +19,10 @@ final downloadButton = TextStyle(
     fontSize: 18, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
 
+final listIndex = TextStyle(
+    fontSize: 14, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+
+
 final loginTitle = TextStyle(
     fontSize: 35, color: Colors.black, fontFamily: 'MapleStory', fontWeight: FontWeight.w400);
 final loginSubTitle = TextStyle(

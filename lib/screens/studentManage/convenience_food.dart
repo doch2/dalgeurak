@@ -107,41 +107,51 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
 
             return Column(
               children: [
-                StudentListTile(
-                    isGroupTile: false,
-                    selectStudent: selectStudent,
-                    trailingWidget: SizedBox(
-                      width: 124,
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                              onTap: () => controller.registerFridayHomecoming(selectStudent.id!),
-                              child: Container(
-                                width: 55,
-                                height: 33,
-                                decoration: BoxDecoration(
-                                    color: dalgeurakYellowOne,
-                                    borderRadius: BorderRadius.circular(5)
+                Row(
+                  children: [
+                    const SizedBox(width: 18),
+                    Text("${index+1}", style: listIndex),
+                    SizedBox(
+                      width: Get.width-27,
+                      height: 70,
+                      child: StudentListTile(
+                          isGroupTile: false,
+                          selectStudent: selectStudent,
+                          trailingWidget: SizedBox(
+                            width: 124,
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                    onTap: () => controller.registerFridayHomecoming(selectStudent.id!),
+                                    child: Container(
+                                      width: 55,
+                                      height: 33,
+                                      decoration: BoxDecoration(
+                                          color: dalgeurakYellowOne,
+                                          borderRadius: BorderRadius.circular(5)
+                                      ),
+                                      child: Center(child: Text("금요귀가", style: studentSearchListTileBtn.copyWith(color: Colors.white, fontSize: 13))),
+                                    )
                                 ),
-                                child: Center(child: Text("금요귀가", style: studentSearchListTileBtn.copyWith(color: Colors.white, fontSize: 13))),
-                              )
-                          ),
-                          const SizedBox(width: 8),
-                          GestureDetector(
-                              onTap: () => controller.checkInConvenienceFood(tabBarMenuStr, selectStudent.id!),
-                              child: Obx(() => Container(
-                                width: 55,
-                                height: 33,
-                                decoration: BoxDecoration(
-                                    color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![selectStudent.id],
-                                    borderRadius: BorderRadius.circular(5)
+                                const SizedBox(width: 8),
+                                GestureDetector(
+                                    onTap: () => controller.checkInConvenienceFood(tabBarMenuStr, selectStudent.id!),
+                                    child: Obx(() => Container(
+                                      width: 55,
+                                      height: 33,
+                                      decoration: BoxDecoration(
+                                          color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![selectStudent.id],
+                                          borderRadius: BorderRadius.circular(5)
+                                      ),
+                                      child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![selectStudent.id]))),
+                                    ))
                                 ),
-                                child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![selectStudent.id]))),
-                              ))
-                          ),
-                        ],
+                              ],
+                            ),
+                          )
                       ),
-                    )
+                    ),
+                  ],
                 ),
                 Container(width: Get.width, child: Divider(color: dalgeurakGrayOne, thickness: 1.0))
               ],
