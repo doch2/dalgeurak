@@ -348,7 +348,7 @@ class Home extends StatelessWidget {
             GestureDetector(
               onTap: () => Get.to(ConvenienceFoodCheckInPage()),
               child: BigMenuButton(
-                title: "간편식 명단",
+                title: "간편식 체크인",
                 iconName: "foodBucket",
                 isHome: true,
                 containerSize: 110,
