@@ -105,41 +105,46 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
             DalgeurakConvenienceFood foodContent = foodList[index];
             DimigoinUser selectStudent = foodContent.student!;
 
-            return StudentListTile(
-                isGroupTile: false,
-                selectStudent: selectStudent,
-                trailingWidget: SizedBox(
-                  width: 124,
-                  child: Row(
-                     children: [
-                       GestureDetector(
-                           onTap: () => controller.registerFridayHomecoming(selectStudent.id!),
-                           child: Container(
-                             width: 55,
-                             height: 33,
-                             decoration: BoxDecoration(
-                                 color: dalgeurakYellowOne,
-                                 borderRadius: BorderRadius.circular(5)
-                             ),
-                             child: Center(child: Text("금요귀가", style: studentSearchListTileBtn.copyWith(color: Colors.white, fontSize: 13))),
-                           )
-                       ),
-                       const SizedBox(width: 8),
-                       GestureDetector(
-                           onTap: () => controller.checkInConvenienceFood(tabBarMenuStr, selectStudent.id!),
-                           child: Obx(() => Container(
-                             width: 55,
-                             height: 33,
-                             decoration: BoxDecoration(
-                                 color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![selectStudent.id],
-                                 borderRadius: BorderRadius.circular(5)
-                             ),
-                             child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![selectStudent.id]))),
-                           ))
-                       ),
-                     ],
-                  ),
-                )
+            return Column(
+              children: [
+                StudentListTile(
+                    isGroupTile: false,
+                    selectStudent: selectStudent,
+                    trailingWidget: SizedBox(
+                      width: 124,
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                              onTap: () => controller.registerFridayHomecoming(selectStudent.id!),
+                              child: Container(
+                                width: 55,
+                                height: 33,
+                                decoration: BoxDecoration(
+                                    color: dalgeurakYellowOne,
+                                    borderRadius: BorderRadius.circular(5)
+                                ),
+                                child: Center(child: Text("금요귀가", style: studentSearchListTileBtn.copyWith(color: Colors.white, fontSize: 13))),
+                              )
+                          ),
+                          const SizedBox(width: 8),
+                          GestureDetector(
+                              onTap: () => controller.checkInConvenienceFood(tabBarMenuStr, selectStudent.id!),
+                              child: Obx(() => Container(
+                                width: 55,
+                                height: 33,
+                                decoration: BoxDecoration(
+                                    color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![selectStudent.id],
+                                    borderRadius: BorderRadius.circular(5)
+                                ),
+                                child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![selectStudent.id]))),
+                              ))
+                          ),
+                        ],
+                      ),
+                    )
+                ),
+                Container(width: Get.width, child: Divider(color: dalgeurakGrayOne, thickness: 1.0))
+              ],
             );
           },
         ),
