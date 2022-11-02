@@ -32,7 +32,7 @@ dependencies:
 
   get: ^4.6.5
   dio: ^4.0.1
-
+  
   dimigoin_flutter_plugin: ^0.5.14
   dalgeurak_meal_application:
     git:
