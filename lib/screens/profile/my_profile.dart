@@ -2,6 +2,7 @@ import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/profile/myprofile_bottomsheet.dart';
 import 'package:dalgeurak/screens/studentManage/student_manage_dialog.dart';
+import 'package:dalgeurak/services/remote_config.dart';
 import 'package:dalgeurak_meal_application/pages/meal_cancel/page.dart';
 import 'package:dalgeurak_meal_application/routes/routes.dart';
 import 'package:dalgeurak_widget_package/widgets/dialog.dart';
@@ -217,7 +218,7 @@ class MyProfile extends GetWidget<UserController> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SimpleListButton(title: "디넌 규정집", iconName: "page", clickAction: () => _launchURL(controller.getDienenManualFileUrl())),
+                        SimpleListButton(title: "디넌 규정집", iconName: "page", clickAction: () => _launchURL(Get.find<RemoteConfigService>().getDienenManualFileUrl())),
                         SimpleListButton(title: "문의하기", iconName: "headset", clickAction: () => dalgeurakDialog.showInquiry()),
                         SimpleListButton(title: "급식실 인스타그램 보러가기", iconName: "instagram", clickAction: () => _launchURL("https://www.instagram.com/ara__dmigo/")),
                         SimpleListButton(title: "앱 정보", iconName: "info", clickAction: () => myProfileBottomSheet.showApplicationInfo()),

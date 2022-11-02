@@ -2,13 +2,10 @@ import 'package:dalgeurak/services/shared_preference.dart';
 import 'package:dalgeurak_widget_package/widgets/toast.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UserController extends GetxController {
-  FirebaseRemoteConfig _remoteConfig = FirebaseRemoteConfig.instance;
-
   DalgeurakToast dalgeurakToast = DalgeurakToast();
   DalgeurakService dalgeurakService = Get.find<DalgeurakService>();
   DimigoinAccount _dimigoinAccount = Get.find<DimigoinAccount>();
@@ -24,18 +21,6 @@ class UserController extends GetxController {
   @override
   onInit() async {
     _dimigoinUser.bindStream(_dimigoinAccount.userChangeStream);
-
-    await _remoteConfig.setConfigSettings(
-      RemoteConfigSettings(
-        fetchTimeout: Duration(seconds: 60),
-        minimumFetchInterval: Duration(seconds: 0),
-      ),
-    );
-    await _remoteConfig.setDefaults({"dienenManualUrl": "https://dimigo.in"});
-    await _remoteConfig.activate();
-    await Future.delayed(const Duration(seconds: 1));
-    await _remoteConfig.fetch();
-    await _remoteConfig.fetchAndActivate();
   }
 
   dynamic getProfileWidget(double _width) {
@@ -72,6 +57,4 @@ class UserController extends GetxController {
     SharedPreference().saveAllowAlert(isAllow);
     isAllowAlert.value = isAllow;
   }
-
-  getDienenManualFileUrl() => _remoteConfig.getString("dienenManualUrl");
 }
