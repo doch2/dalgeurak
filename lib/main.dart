@@ -32,10 +32,11 @@ void main() async {
   DalgeurakWidgetPackage().initializeApp();
   SharedPreference();
   await Jiffy.locale("ko");
-  if (!kIsWeb) { await Get.putAsync<UpgraderService>(() => UpgraderService().init()); }
 
   NotificationController _notiController = Get.put<NotificationController>(NotificationController(), permanent: true);
   await _notiController.initialize();
+
+  if (!kIsWeb) { await Get.putAsync<UpgraderService>(() => UpgraderService().init()); }
 
 
   runApp(MyApp(notiController: _notiController));
