@@ -185,7 +185,7 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
                     ),
                   ),
                   SizedBox(height: 12),
-                  Text(data["$index"][mealType.convertEngStr], style: mealTextStyle, textAlign: TextAlign.start)
+                  Text(data["$index"][mealType.convertEngStr], style: mealTextStyle.copyWith(fontSize: (Get.width > 1000 ? 15 : 13)), textAlign: TextAlign.start)
                 ],
               ),
             ),

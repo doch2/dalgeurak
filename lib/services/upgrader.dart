@@ -1,3 +1,4 @@
+import 'package:dalgeurak/services/remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:upgrader/upgrader.dart';
@@ -42,6 +43,7 @@ class UpgraderService extends GetxService {
       debugLogging: !kReleaseMode, // REMOVE this for release builds
       showIgnore: false,
       messages: DalgeurakUpgradeMessages(),
+      minAppVersion: Get.find<RemoteConfigService>().getMinAppVersion(),
       dialogStyle: GetPlatform.isAndroid ? UpgradeDialogStyle.material : UpgradeDialogStyle.cupertino,
     );
     await Future.wait([
