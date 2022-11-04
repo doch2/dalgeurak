@@ -135,81 +135,84 @@ class MyProfile extends GetWidget<UserController> {
                       ),
                     ),
                   ),
-                  Container(
-                    width: _width * 0.897,
-                    height: 240,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15)
-                    ),
-                    margin: EdgeInsets.only(bottom: 15),
-                    child: Center(
-                      child: SizedBox(
-                        width: _width * 0.68,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 200,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Obx(() {
-                                    int warningAmount = controller.warningList.length;
+                  (
+                   controller.user?.userType! != DimigoinUserType.teacher ?
+                   Container(
+                     width: _width * 0.897,
+                     height: 240,
+                     decoration: BoxDecoration(
+                         color: Colors.white,
+                         borderRadius: BorderRadius.circular(15)
+                     ),
+                     margin: EdgeInsets.only(bottom: 15),
+                     child: Center(
+                         child: SizedBox(
+                           width: _width * 0.68,
+                           child: Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             crossAxisAlignment: CrossAxisAlignment.start,
+                             children: [
+                               SizedBox(
+                                 height: 200,
+                                 child: Column(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     Obx(() {
+                                       int warningAmount = controller.warningList.length;
 
-                                    return MediumMenuButton(
-                                      iconName: "noticeCircle", title: "경고 횟수", subTitle: "$warningAmount회",
-                                      clickAction: () => studentManageDialog.showWarningDialog(controller.warningList)
-                                    );
-                                  }),
-                                  MediumMenuButton(
-                                    iconName: "foodBucket", title: "간편식", subTitle: "신청",
-                                    clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.CONVENIENCEFOOD),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 200,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  MediumMenuButton(
-                                    iconName: "checkCircle_round", title: "입장 기록", subTitle: "체크",
-                                    clickAction: () => studentManageDialog.showCheckInRecordDialog(controller.user!.name!),
-                                  ),
-                                  MediumMenuButton(
-                                    iconName: "signDocu", title: "선/후밥", subTitle: "신청",
-                                    clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.MEALEXCEPTION),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 200,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  MediumMenuButton(
-                                    iconName: "twoTicket", title: "선밥권", subTitle: "사용",
-                                    clickAction: () => DalgeurakToast().show("선밥권 기능은 현재 지원하지 않습니다."),
-                                  ),
-                                  MediumMenuButton(
-                                    iconName: "cancel", title: "급식 취소", subTitle: "신청",
-                                    clickAction: () => controller.dalgeurakToast.show("현재 공개된 기능이 아닙니다. 추후 공개 예정입니다."),//Get.toNamed(DalgeurakMealApplicationRoutes.MEALCANCEL, arguments: {"pageMode": MealCancelPageMode.application}),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ),
+                                       return MediumMenuButton(
+                                           iconName: "noticeCircle", title: "경고 횟수", subTitle: "$warningAmount회",
+                                           clickAction: () => studentManageDialog.showWarningDialog(controller.warningList)
+                                       );
+                                     }),
+                                     MediumMenuButton(
+                                       iconName: "foodBucket", title: "간편식", subTitle: "신청",
+                                       clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.CONVENIENCEFOOD),
+                                     ),
+                                   ],
+                                 ),
+                               ),
+                               SizedBox(
+                                 height: 200,
+                                 child: Column(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     MediumMenuButton(
+                                       iconName: "checkCircle_round", title: "입장 기록", subTitle: "체크",
+                                       clickAction: () => studentManageDialog.showCheckInRecordDialog(controller.user!.name!),
+                                     ),
+                                     MediumMenuButton(
+                                       iconName: "signDocu", title: "선/후밥", subTitle: "신청",
+                                       clickAction: () => Get.toNamed(DalgeurakMealApplicationRoutes.MEALEXCEPTION),
+                                     ),
+                                   ],
+                                 ),
+                               ),
+                               SizedBox(
+                                 height: 200,
+                                 child: Column(
+                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     MediumMenuButton(
+                                       iconName: "twoTicket", title: "선밥권", subTitle: "사용",
+                                       clickAction: () => DalgeurakToast().show("선밥권 기능은 현재 지원하지 않습니다."),
+                                     ),
+                                     MediumMenuButton(
+                                       iconName: "cancel", title: "급식 취소", subTitle: "신청",
+                                       clickAction: () => controller.dalgeurakToast.show("현재 공개된 기능이 아닙니다. 추후 공개 예정입니다."),//Get.toNamed(DalgeurakMealApplicationRoutes.MEALCANCEL, arguments: {"pageMode": MealCancelPageMode.application}),
+                                     ),
+                                   ],
+                                 ),
+                               ),
+                             ],
+                           ),
+                         )
+                     ),
+                   ) : SizedBox()
                   ),
                   Container(
                     width: _width * 0.897,
-                    height: 200,
+                    height: (getTeacherMenu().length + 4) * 50,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(15)
@@ -218,6 +221,7 @@ class MyProfile extends GetWidget<UserController> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        ...getTeacherMenu(),
                         SimpleListButton(title: "디넌 규정집", iconName: "page", clickAction: () => _launchURL(Get.find<RemoteConfigService>().getDienenManualFileUrl())),
                         SimpleListButton(title: "문의하기", iconName: "headset", clickAction: () => dalgeurakDialog.showInquiry()),
                         SimpleListButton(title: "급식실 인스타그램 보러가기", iconName: "instagram", clickAction: () => _launchURL("https://www.instagram.com/ara__dmigo/")),
@@ -232,6 +236,19 @@ class MyProfile extends GetWidget<UserController> {
         )
       ),
     );
+  }
+
+  List<Widget> getTeacherMenu() {
+    if (controller.user?.userType! == DimigoinUserType.teacher) {
+      return [
+        SimpleListButton(title: "차주 간편식, 선후밥 신청 현황", iconName: "foodBucket", clickAction: () => print("onClick")),
+        SimpleListButton(title: "학생 식사 여부 통계", iconName: "graph", clickAction: () => print("onClick")),
+        SimpleListButton(title: "학생 신청 금지 설정", iconName: "setting", clickAction: () => print("onClick")),
+        SimpleListButton(title: "학생 급식비 납부금", iconName: "coin", clickAction: () => print("onClick")),
+      ];
+    } else {
+      return [];
+    }
   }
 
   void _launchURL(String _url) async =>
