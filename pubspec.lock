@@ -139,7 +139,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "10c0e7ac3599460787722010bd003d5b701a4fc4"
+      resolved-ref: ee3cf084fc3361748d453a11b8f99c6635d3105a
       url: "https://github.com/dimigoin/dalgeurak-meal-application.git"
     source: git
     version: "1.0.0+1"
@@ -148,7 +148,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "71703810979667156f827a2fbeb514db721f2554"
+      resolved-ref: "8448973db50e9d0fbb581fa5086c5f9b947113a8"
       url: "https://github.com/dimigoin/dalgeurak-widget-package.git"
     source: git
     version: "0.0.2"
