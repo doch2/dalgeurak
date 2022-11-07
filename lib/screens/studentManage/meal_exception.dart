@@ -116,7 +116,7 @@ class MealExceptionPage extends GetWidget<MealController> {
 
     studentListView(List<DalgeurakMealException> mealExceptionList) => SizedBox(
       width: Get.width,
-      height: mealExceptionList.length * 75,
+      height: Get.height/3.2,
       child: ListView.builder(
         itemCount: mealExceptionList.length,
         itemBuilder: (context, index) {
