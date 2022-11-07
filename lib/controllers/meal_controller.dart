@@ -253,12 +253,17 @@ class MealController extends GetxController {
     List<DalgeurakMealException> formattingData = [].cast<DalgeurakMealException>();
     originalData.forEach((element) {
       if (isEnterPage) {
-        element.groupApplierUserList!.forEach((element2) {
+        if (element.groupApplierUserList!.isNotEmpty) {
+          element.groupApplierUserList!.forEach((element2) {
+            Map exceptionContent = element.toJson();
+            exceptionContent['applier'] = element2.toJson();
+            exceptionContent['appliers'] = [];
+            formattingData.add(DalgeurakMealException.fromJson(exceptionContent));
+          });
+        } else {
           Map exceptionContent = element.toJson();
-          exceptionContent['applier'] = element2.toJson();
-          exceptionContent['appliers'] = [];
           formattingData.add(DalgeurakMealException.fromJson(exceptionContent));
-        });
+        }
       } else {
         if (element.statusType == MealExceptionStatusType.waiting) { formattingData.add(element); }
       }
