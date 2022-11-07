@@ -83,12 +83,14 @@ class MealExceptionPage extends GetWidget<MealController> {
                       });
                     }
 
-                    return ManagePageTabBar(
-                      tabBarMenuList: tabBarMenuList,
-                      tabBarMenuWidgetList: [
-                        _getStudentListWidget(exceptionList, MealType.lunch, tabBarMenuList[0]),
-                        _getStudentListWidget(exceptionList, MealType.dinner, tabBarMenuList[1])
-                      ],
+                    return Expanded(
+                      child: ManagePageTabBar(
+                        tabBarMenuList: tabBarMenuList,
+                        tabBarMenuWidgetList: [
+                          _getStudentListWidget(exceptionList, MealType.lunch, tabBarMenuList[0]),
+                          _getStudentListWidget(exceptionList, MealType.dinner, tabBarMenuList[1])
+                        ],
+                      ),
                     );
                   } else {
                     return Stack(
@@ -116,9 +118,10 @@ class MealExceptionPage extends GetWidget<MealController> {
 
     studentListView(List<DalgeurakMealException> mealExceptionList) => SizedBox(
       width: Get.width,
-      height: Get.height/3.2,
+      height: mealExceptionList.length * 75,
       child: ListView.builder(
         itemCount: mealExceptionList.length,
+        physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           DalgeurakMealException mealExceptionContent = mealExceptionList[index];
           DimigoinUser selectStudent = mealExceptionContent.applierUser!;
@@ -173,35 +176,37 @@ class MealExceptionPage extends GetWidget<MealController> {
       }
     });
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            SizedBox(width: 44),
-            Text("선밥 ${firstExceptionList.length}명", style: mealExceptionList_exceptionType),
-          ],
-        ),
-        Container(width: Get.width, child: Divider(color: dalgeurakGrayOne, thickness: 1.0)),
-        studentListView(firstExceptionList),
-        (
-          pageMode == MealExceptionPageMode.list ?
-            Column(
-              children: [
-                SizedBox(height: 8),
-                Row(
-                  children: [
-                    SizedBox(width: 44),
-                    Text("후밥 ${lastExceptionList.length}명", style: mealExceptionList_exceptionType),
-                  ],
-                ),
-                Container(width: Get.width, child: Divider(color: dalgeurakGrayOne, thickness: 1.0)),
-                studentListView(lastExceptionList),
-              ],
-            )
-            : SizedBox()
-        )
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 44),
+              Text("선밥 ${firstExceptionList.length}명", style: mealExceptionList_exceptionType),
+            ],
+          ),
+          Container(width: Get.width, child: Divider(color: dalgeurakGrayOne, thickness: 1.0)),
+          studentListView(firstExceptionList),
+          (
+            pageMode == MealExceptionPageMode.list ?
+              Column(
+                children: [
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      SizedBox(width: 44),
+                      Text("후밥 ${lastExceptionList.length}명", style: mealExceptionList_exceptionType),
+                    ],
+                  ),
+                  Container(width: Get.width, child: Divider(color: dalgeurakGrayOne, thickness: 1.0)),
+                  studentListView(lastExceptionList),
+                ],
+              )
+              : SizedBox()
+          )
+        ],
+      ),
     );
   }
 }
