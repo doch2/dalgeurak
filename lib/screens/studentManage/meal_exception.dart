@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
+import 'package:dalgeurak_meal_application/pages/meal_exception/controller.dart';
 import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
 import 'package:dalgeurak_widget_package/widgets/student_list_tile.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
@@ -62,9 +63,29 @@ class MealExceptionPage extends GetWidget<MealController> {
                 SizedBox(height: 32),
                 Obx(() {
                   if (!(controller.isMealExceptionConfirmPageDataLoading.value)) {
+                    List<DalgeurakMealException> exceptionList = controller.mealExceptionConfirmPageData.cast<DalgeurakMealException>();
+
+
                     List<String> tabBarMenuList = ["점심", "저녁"];
 
-                    List<DalgeurakMealException> exceptionList = controller.mealExceptionConfirmPageData.cast<DalgeurakMealException>();
+                    DateTime nowTime = DateTime.now();
+                    List<String> tabBarWeekDayMenuList = [];
+                    List<Widget> tabBarWeekDayWidgetList = [];
+                    for (int i=1; i<6; i++) {
+                      tabBarWeekDayMenuList.add(i.convertWeekDayKorStr);
+
+                      tabBarWeekDayWidgetList.add(
+                        ManagePageTabBar(
+                          tabBarTitle: "exceptionList_$i",
+                          tabBarMenuList: tabBarMenuList,
+                          tabBarMenuWidgetList: [
+                            _getStudentListWidget(exceptionList, MealType.lunch, tabBarMenuList[0], nowTime.subtract(Duration(days: nowTime.weekday - i))),
+                            _getStudentListWidget(exceptionList, MealType.dinner, tabBarMenuList[1], nowTime.subtract(Duration(days: nowTime.weekday - i)))
+                          ],
+                        )
+                      );
+                    }
+
                     if (controller.managePageStudentListTileBtnColor.isEmpty) {
                       exceptionList.forEach((exceptionContent) {
                         tabBarMenuList.forEach((tabBarMenu) {
@@ -83,12 +104,13 @@ class MealExceptionPage extends GetWidget<MealController> {
                       });
                     }
 
-                    return ManagePageTabBar(
-                      tabBarMenuList: tabBarMenuList,
-                      tabBarMenuWidgetList: [
-                        _getStudentListWidget(exceptionList, MealType.lunch, tabBarMenuList[0]),
-                        _getStudentListWidget(exceptionList, MealType.dinner, tabBarMenuList[1])
-                      ],
+
+                    return Expanded(
+                      child: ManagePageTabBar(
+                        tabBarTitle: "exceptionMainList",
+                        tabBarMenuList: tabBarWeekDayMenuList,
+                        tabBarMenuWidgetList: tabBarWeekDayWidgetList
+                      )
                     );
                   } else {
                     return Stack(
@@ -107,18 +129,13 @@ class MealExceptionPage extends GetWidget<MealController> {
     );
   }
 
-  _getStudentListWidget(List<DalgeurakMealException> mealExceptionList, MealType mealType, String tabBarMenuStr) {
-    isSameDate(DateTime dateTime1, DateTime dateTime2) => (
-        dateTime1.year == dateTime2.year &&
-            dateTime1.month == dateTime2.month &&
-            dateTime1.day == dateTime2.day
-    );
-
+  _getStudentListWidget(List<DalgeurakMealException> mealExceptionList, MealType mealType, String tabBarMenuStr, DateTime dateTime) {
     studentListView(List<DalgeurakMealException> mealExceptionList) => SizedBox(
       width: Get.width,
-      height: Get.height/3.2,
+      height: mealExceptionList.length * 75,
       child: ListView.builder(
         itemCount: mealExceptionList.length,
+        physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           DalgeurakMealException mealExceptionContent = mealExceptionList[index];
           DimigoinUser selectStudent = mealExceptionContent.applierUser!;
@@ -129,17 +146,20 @@ class MealExceptionPage extends GetWidget<MealController> {
               groupStudentAmount: (mealExceptionContent.groupApplierUserList!.length-1),
               trailingWidget: (
                 pageMode == MealExceptionPageMode.list ?
-                GestureDetector(
-                    onTap: () => controller.enterMealException(tabBarMenuStr, selectStudent.id!),
-                    child: Obx(() => Container(
-                      width: Get.width * 0.15,
-                      height: Get.height * 0.045,
-                      decoration: BoxDecoration(
-                          color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![selectStudent.id],
-                          borderRadius: BorderRadius.circular(5)
-                      ),
-                      child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![selectStudent.id]))),
-                    ))
+                (
+                  controller.isSameDate(mealExceptionContent.date!, DateTime.now()) ?
+                  GestureDetector(
+                      onTap: () => controller.enterMealException(tabBarMenuStr, selectStudent.id!),
+                      child: Obx(() => Container(
+                        width: Get.width * 0.15,
+                        height: Get.height * 0.045,
+                        decoration: BoxDecoration(
+                            color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![selectStudent.id],
+                            borderRadius: BorderRadius.circular(5)
+                        ),
+                        child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![selectStudent.id]))),
+                      ))
+                  ) : SizedBox()
                 ) :
                 SizedBox(
                   width: 125,
@@ -168,40 +188,42 @@ class MealExceptionPage extends GetWidget<MealController> {
     List<DalgeurakMealException> firstExceptionList = [].cast<DalgeurakMealException>();
     List<DalgeurakMealException> lastExceptionList = [].cast<DalgeurakMealException>();
     mealExceptionList.forEach((element) {
-      if (element.mealType! == mealType && (pageMode == MealExceptionPageMode.confirm || isSameDate(element.date!, DateTime.now()))) {
+      if (element.mealType! == mealType && (pageMode == MealExceptionPageMode.confirm || controller.isSameDate(element.date!, dateTime))) {
         (element.exceptionType == MealExceptionType.first ? firstExceptionList.add(element) : lastExceptionList.add(element));
       }
     });
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            SizedBox(width: 44),
-            Text("선밥 ${firstExceptionList.length}명", style: mealExceptionList_exceptionType),
-          ],
-        ),
-        Container(width: Get.width, child: Divider(color: dalgeurakGrayOne, thickness: 1.0)),
-        studentListView(firstExceptionList),
-        (
-          pageMode == MealExceptionPageMode.list ?
-            Column(
-              children: [
-                SizedBox(height: 8),
-                Row(
-                  children: [
-                    SizedBox(width: 44),
-                    Text("후밥 ${lastExceptionList.length}명", style: mealExceptionList_exceptionType),
-                  ],
-                ),
-                Container(width: Get.width, child: Divider(color: dalgeurakGrayOne, thickness: 1.0)),
-                studentListView(lastExceptionList),
-              ],
-            )
-            : SizedBox()
-        )
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 44),
+              Text("선밥 ${firstExceptionList.length}명", style: mealExceptionList_exceptionType),
+            ],
+          ),
+          Container(width: Get.width, child: Divider(color: dalgeurakGrayOne, thickness: 1.0)),
+          studentListView(firstExceptionList),
+          (
+            pageMode == MealExceptionPageMode.list ?
+              Column(
+                children: [
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      SizedBox(width: 44),
+                      Text("후밥 ${lastExceptionList.length}명", style: mealExceptionList_exceptionType),
+                    ],
+                  ),
+                  Container(width: Get.width, child: Divider(color: dalgeurakGrayOne, thickness: 1.0)),
+                  studentListView(lastExceptionList),
+                ],
+              )
+              : SizedBox()
+          )
+        ],
+      ),
     );
   }
 }

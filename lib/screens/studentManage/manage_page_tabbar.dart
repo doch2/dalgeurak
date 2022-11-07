@@ -11,18 +11,20 @@ import '../../themes/color_theme.dart';
 import '../../themes/text_theme.dart';
 
 class ManagePageTabBar extends StatefulWidget {
+  String tabBarTitle;
   List<String> tabBarMenuList = [];
   List<Widget> tabBarMenuWidgetList = [];
-  ManagePageTabBar({required this.tabBarMenuList, required this.tabBarMenuWidgetList});
+  ManagePageTabBar({required this.tabBarTitle, required this.tabBarMenuList, required this.tabBarMenuWidgetList});
 
   @override
-  _ManagePageTabBarState createState() => _ManagePageTabBarState(tabBarMenuList: tabBarMenuList, tabBarMenuWidgetList: tabBarMenuWidgetList);
+  _ManagePageTabBarState createState() => _ManagePageTabBarState(tabBarTitle: tabBarTitle, tabBarMenuList: tabBarMenuList, tabBarMenuWidgetList: tabBarMenuWidgetList);
 }
 
 class _ManagePageTabBarState extends State<ManagePageTabBar> {
+  String tabBarTitle;
   List<String> tabBarMenuList = [];
   List<Widget> tabBarMenuWidgetList = [];
-  _ManagePageTabBarState({required this.tabBarMenuList, required this.tabBarMenuWidgetList});
+  _ManagePageTabBarState({required this.tabBarTitle, required this.tabBarMenuList, required this.tabBarMenuWidgetList});
 
 
   late MealController _mealController;
@@ -30,13 +32,15 @@ class _ManagePageTabBarState extends State<ManagePageTabBar> {
   @override
   void initState() {
     super.initState();
+
+    _mealController = Get.find<MealController>();
+
+    (_mealController.managePageTabBarController)[tabBarTitle] = CustomTabBarController();
+    (_mealController.managePagePageController)[tabBarTitle] = PageController(initialPage: 0);
   }
 
   @override
   Widget build(BuildContext context) {
-    _mealController = Get.find<MealController>();
-
-    
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,8 +55,8 @@ class _ManagePageTabBarState extends State<ManagePageTabBar> {
           child: Center(
             child: CustomTabBar(
               itemCount: tabBarMenuList.length,
-              tabBarController: _mealController.managePageTabBarController,
-              pageController: _mealController.managePagePageController,
+              tabBarController: (_mealController.managePageTabBarController)[tabBarTitle],
+              pageController: (_mealController.managePagePageController)[tabBarTitle]!,
               height: 40,
               width: Get.width * 0.864,
               indicator: RoundIndicator(
@@ -69,11 +73,9 @@ class _ManagePageTabBarState extends State<ManagePageTabBar> {
           ),
         ),
         SizedBox(height: 20),
-        SizedBox(
-          width: Get.width,
-          height: Get.height-208,
+        Expanded(
           child: PageView.builder(
-              controller: _mealController.managePagePageController,
+              controller: (_mealController.managePagePageController)[tabBarTitle]!,
               itemCount: tabBarMenuList.length,
               itemBuilder: (context, index) {
                 return Center(child: tabBarMenuWidgetList[index]);
@@ -92,7 +94,7 @@ class _ManagePageTabBarState extends State<ManagePageTabBar> {
         builder: (context, color) {
           return Container(
             alignment: Alignment.center,
-            constraints: BoxConstraints(minWidth: (Get.width / (tabBarMenuList.length == 2 ? 2.4 : 3.5))),
+            constraints: BoxConstraints(minWidth: (Get.width / (tabBarMenuList.length == 2 ? 2.4 : (tabBarMenuList.length == 5 ? 5.9 : 3.5)))),
             child: Text(
               tabBarMenuList[index],
               style: (tabBarMenuList.length == 2 ? managePageTabBar_big.copyWith(color: color) : managePageTabBar_small.copyWith(color: color)),

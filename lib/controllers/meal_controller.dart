@@ -36,8 +36,8 @@ class MealController extends GetxController {
   final mealPriceTextController = TextEditingController();
   late PageController mealPlannerPageController = PageController(initialPage: (DateTime.now().weekday-1));
   CustomTabBarController mealPlannerTabBarController = CustomTabBarController();
-  CustomTabBarController managePageTabBarController = CustomTabBarController();
-  PageController managePagePageController = PageController(initialPage: 0);
+  Map<String, CustomTabBarController> managePageTabBarController = Map<String, CustomTabBarController>.from({});
+  Map<String, PageController> managePagePageController = Map<String, PageController>.from({});
   RxMap<String, RxMap<int, Color>> managePageStudentListTileBtnColor = ({}.cast<String, RxMap<int, Color>>()).obs;
   RxMap<String, RxMap<int, Color>> managePageStudentListTileBtnTextColor = ({}.cast<String, RxMap<int, Color>>()).obs;
   List mealExceptionConfirmPageData = [].obs;
@@ -47,6 +47,7 @@ class MealController extends GetxController {
     ConvenienceFoodType.salad: [],
     ConvenienceFoodType.misu: []
   };
+  List convenienceFoodCheckInPageHistoryData = [];
   RxBool isConvenienceFoodCheckInPageDataLoading = false.obs;
   Rx<MealType> nowMealType = MealType.none.obs;
 
@@ -202,7 +203,9 @@ class MealController extends GetxController {
 
     Map result = await dalgeurakService.getConvenienceFoodStudentList();
 
-    if (!result['success']) {
+    Map historyData = await dalgeurakService.getConvenienceCheckInInfo();
+
+    if (!result['success'] || !historyData['success']) {
       _dalgeurakToast.show("간편식 명단 불러오기에 실패하였습니다.\n사유: ${result['content']}");
       isConvenienceFoodCheckInPageDataLoading.value = false;
       convenienceFoodCheckInPageData = {
@@ -225,9 +228,17 @@ class MealController extends GetxController {
       });
     });
 
+    convenienceFoodCheckInPageHistoryData = historyData['content'];
+
 
     isConvenienceFoodCheckInPageDataLoading.value = false;
   }
+
+  isSameDate(DateTime dateTime1, DateTime dateTime2) => (
+      dateTime1.year == dateTime2.year &&
+          dateTime1.month == dateTime2.month &&
+          dateTime1.day == dateTime2.day
+  );
 
   checkInConvenienceFood(String tabBarMenuStr, int studentUid) async {
     Map result = await dalgeurakService.checkInConvenienceFood(studentUid);
@@ -253,12 +264,17 @@ class MealController extends GetxController {
     List<DalgeurakMealException> formattingData = [].cast<DalgeurakMealException>();
     originalData.forEach((element) {
       if (isEnterPage) {
-        element.groupApplierUserList!.forEach((element2) {
+        if (element.groupApplierUserList!.isNotEmpty) {
+          element.groupApplierUserList!.forEach((element2) {
+            Map exceptionContent = element.toJson();
+            exceptionContent['applier'] = element2.toJson();
+            exceptionContent['appliers'] = [];
+            formattingData.add(DalgeurakMealException.fromJson(exceptionContent));
+          });
+        } else {
           Map exceptionContent = element.toJson();
-          exceptionContent['applier'] = element2.toJson();
-          exceptionContent['appliers'] = [];
           formattingData.add(DalgeurakMealException.fromJson(exceptionContent));
-        });
+        }
       } else {
         if (element.statusType == MealExceptionStatusType.waiting) { formattingData.add(element); }
       }

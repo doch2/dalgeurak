@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:dalgeurak/controllers/meal_controller.dart';
 import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
+import 'package:dalgeurak_meal_application/pages/meal_exception/controller.dart';
 import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
 import 'package:dalgeurak_widget_package/widgets/student_list_tile.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
@@ -35,7 +36,7 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
                   alignment: Alignment.center,
                   children: [
                     SizedBox(width: Get.width),
-                    Text("간편식 체크인", style: pageTitle1),
+                    Text("${controller.dalgeurakService.getMealKind(true).convertKor2Str} 간편식 체크인", style: pageTitle1),
                     Positioned(
                       left: Get.width * 0.06,
                       child: GestureDetector(onTap: () => Get.back(), child: Container(color: Colors.transparent, child: Icon(Icons.arrow_back_ios_rounded, size: 26))),
@@ -70,13 +71,16 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
                       }
                     }
 
-                    return ManagePageTabBar(
-                      tabBarMenuList: tabBarMenuList,
-                      tabBarMenuWidgetList: [
-                        _getStudentListWidget(foodList[ConvenienceFoodType.salad]!, tabBarMenuList[0]),
-                        _getStudentListWidget(foodList[ConvenienceFoodType.sandwich]!, tabBarMenuList[1]),
-                        _getStudentListWidget(foodList[ConvenienceFoodType.misu]!, tabBarMenuList[2]),
-                      ],
+                    return Expanded(
+                      child: ManagePageTabBar(
+                        tabBarTitle: "convenienceFood",
+                        tabBarMenuList: tabBarMenuList,
+                        tabBarMenuWidgetList: [
+                          _getStudentListWidget(foodList[ConvenienceFoodType.salad]!, tabBarMenuList[0]),
+                          _getStudentListWidget(foodList[ConvenienceFoodType.sandwich]!, tabBarMenuList[1]),
+                          _getStudentListWidget(foodList[ConvenienceFoodType.misu]!, tabBarMenuList[2]),
+                        ],
+                      ),
                     );
                   } else {
                     return Stack(
@@ -102,44 +106,83 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
         child: ListView.builder(
           itemCount: foodList.length,
           itemBuilder: (context, index) {
+            DateTime nowTime = DateTime.now();
             DalgeurakConvenienceFood foodContent = foodList[index];
             DimigoinUser selectStudent = foodContent.student!;
 
-            return StudentListTile(
-                isGroupTile: false,
-                selectStudent: selectStudent,
-                trailingWidget: SizedBox(
-                  width: 124,
+            List<Widget> weekDayTextWidget = [];
+            for (int i=1; i<6; i++) {
+              TextStyle textStyle = convenienceCheckInPageHistory;
+
+              if (controller.isSameDate(nowTime.subtract(Duration(days: nowTime.weekday - i)), nowTime)) {
+                textStyle = textStyle.copyWith(color: dalgeurakBlueOne, fontWeight: FontWeight.w700);
+              }
+
+              weekDayTextWidget.add(Text("${i.convertWeekDayKorStr}", style: textStyle));
+            }
+
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: Get.width * 0.95,
                   child: Row(
-                     children: [
-                       GestureDetector(
-                           onTap: () => controller.registerFridayHomecoming(selectStudent.id!),
-                           child: Container(
-                             width: 55,
-                             height: 33,
-                             decoration: BoxDecoration(
-                                 color: dalgeurakYellowOne,
-                                 borderRadius: BorderRadius.circular(5)
-                             ),
-                             child: Center(child: Text("금요귀가", style: studentSearchListTileBtn.copyWith(color: Colors.white, fontSize: 13))),
-                           )
-                       ),
-                       const SizedBox(width: 8),
-                       GestureDetector(
-                           onTap: () => controller.checkInConvenienceFood(tabBarMenuStr, selectStudent.id!),
-                           child: Obx(() => Container(
-                             width: 55,
-                             height: 33,
-                             decoration: BoxDecoration(
-                                 color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![selectStudent.id],
-                                 borderRadius: BorderRadius.circular(5)
-                             ),
-                             child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![selectStudent.id]))),
-                           ))
-                       ),
-                     ],
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox(width: 10),
+                      Text("${index+1}", style: listIndex),
+                      SizedBox(
+                        width: 340,
+                        height: 70,
+                        child: StudentListTile(
+                            isGroupTile: false,
+                            selectStudent: selectStudent,
+                            trailingWidget: SizedBox(
+                              width: 124,
+                              child: Row(
+                                children: [
+                                  GestureDetector(
+                                      onTap: () => controller.registerFridayHomecoming(selectStudent.id!),
+                                      child: Container(
+                                        width: 55,
+                                        height: 33,
+                                        decoration: BoxDecoration(
+                                            color: dalgeurakYellowOne,
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                        child: Center(child: Text("금요귀가", style: studentSearchListTileBtn.copyWith(color: Colors.white, fontSize: 13))),
+                                      )
+                                  ),
+                                  const SizedBox(width: 8),
+                                  GestureDetector(
+                                      onTap: () => controller.checkInConvenienceFood(tabBarMenuStr, selectStudent.id!),
+                                      child: Obx(() => Container(
+                                        width: 55,
+                                        height: 33,
+                                        decoration: BoxDecoration(
+                                            color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![selectStudent.id],
+                                            borderRadius: BorderRadius.circular(5)
+                                        ),
+                                        child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![selectStudent.id]))),
+                                      ))
+                                  ),
+                                ],
+                              ),
+                            )
+                        ),
+                      ),
+                    ],
                   ),
-                )
+                ),
+                SizedBox(
+                  width: Get.width * 0.6,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: weekDayTextWidget,
+                  ),
+                ),
+                Container(width: Get.width, child: Divider(color: dalgeurakGrayOne, thickness: 1.0))
+              ],
             );
           },
         ),
