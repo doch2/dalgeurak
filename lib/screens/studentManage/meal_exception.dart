@@ -132,7 +132,7 @@ class MealExceptionPage extends GetWidget<MealController> {
   _getStudentListWidget(List<DalgeurakMealException> mealExceptionList, MealType mealType, String tabBarMenuStr, DateTime dateTime) {
     studentListView(List<DalgeurakMealException> mealExceptionList) => SizedBox(
       width: Get.width,
-      height: mealExceptionList.length * 75,
+      height: Get.height/3.2,
       child: ListView.builder(
         itemCount: mealExceptionList.length,
         physics: NeverScrollableScrollPhysics(),
