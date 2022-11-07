@@ -71,6 +71,7 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
                     }
 
                     return ManagePageTabBar(
+                      tabBarTitle: "convenienceFood",
                       tabBarMenuList: tabBarMenuList,
                       tabBarMenuWidgetList: [
                         _getStudentListWidget(foodList[ConvenienceFoodType.salad]!, tabBarMenuList[0]),

@@ -36,8 +36,8 @@ class MealController extends GetxController {
   final mealPriceTextController = TextEditingController();
   late PageController mealPlannerPageController = PageController(initialPage: (DateTime.now().weekday-1));
   CustomTabBarController mealPlannerTabBarController = CustomTabBarController();
-  CustomTabBarController managePageTabBarController = CustomTabBarController();
-  PageController managePagePageController = PageController(initialPage: 0);
+  Map<String, CustomTabBarController> managePageTabBarController = Map<String, CustomTabBarController>.from({});
+  Map<String, PageController> managePagePageController = Map<String, PageController>.from({});
   RxMap<String, RxMap<int, Color>> managePageStudentListTileBtnColor = ({}.cast<String, RxMap<int, Color>>()).obs;
   RxMap<String, RxMap<int, Color>> managePageStudentListTileBtnTextColor = ({}.cast<String, RxMap<int, Color>>()).obs;
   List mealExceptionConfirmPageData = [].obs;
