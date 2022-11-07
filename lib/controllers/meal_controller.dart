@@ -47,6 +47,7 @@ class MealController extends GetxController {
     ConvenienceFoodType.salad: [],
     ConvenienceFoodType.misu: []
   };
+  List convenienceFoodCheckInPageHistoryData = [];
   RxBool isConvenienceFoodCheckInPageDataLoading = false.obs;
   Rx<MealType> nowMealType = MealType.none.obs;
 
@@ -202,7 +203,9 @@ class MealController extends GetxController {
 
     Map result = await dalgeurakService.getConvenienceFoodStudentList();
 
-    if (!result['success']) {
+    Map historyData = await dalgeurakService.getConvenienceCheckInInfo();
+
+    if (!result['success'] || !historyData['success']) {
       _dalgeurakToast.show("간편식 명단 불러오기에 실패하였습니다.\n사유: ${result['content']}");
       isConvenienceFoodCheckInPageDataLoading.value = false;
       convenienceFoodCheckInPageData = {
@@ -225,9 +228,17 @@ class MealController extends GetxController {
       });
     });
 
+    convenienceFoodCheckInPageHistoryData = historyData['content'];
+
 
     isConvenienceFoodCheckInPageDataLoading.value = false;
   }
+
+  isSameDate(DateTime dateTime1, DateTime dateTime2) => (
+      dateTime1.year == dateTime2.year &&
+          dateTime1.month == dateTime2.month &&
+          dateTime1.day == dateTime2.day
+  );
 
   checkInConvenienceFood(String tabBarMenuStr, int studentUid) async {
     Map result = await dalgeurakService.checkInConvenienceFood(studentUid);

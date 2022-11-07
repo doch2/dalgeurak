@@ -130,12 +130,6 @@ class MealExceptionPage extends GetWidget<MealController> {
   }
 
   _getStudentListWidget(List<DalgeurakMealException> mealExceptionList, MealType mealType, String tabBarMenuStr, DateTime dateTime) {
-    isSameDate(DateTime dateTime1, DateTime dateTime2) => (
-        dateTime1.year == dateTime2.year &&
-            dateTime1.month == dateTime2.month &&
-            dateTime1.day == dateTime2.day
-    );
-
     studentListView(List<DalgeurakMealException> mealExceptionList) => SizedBox(
       width: Get.width,
       height: mealExceptionList.length * 75,
@@ -153,7 +147,7 @@ class MealExceptionPage extends GetWidget<MealController> {
               trailingWidget: (
                 pageMode == MealExceptionPageMode.list ?
                 (
-                  isSameDate(mealExceptionContent.date!, DateTime.now()) ?
+                  controller.isSameDate(mealExceptionContent.date!, DateTime.now()) ?
                   GestureDetector(
                       onTap: () => controller.enterMealException(tabBarMenuStr, selectStudent.id!),
                       child: Obx(() => Container(
@@ -194,7 +188,7 @@ class MealExceptionPage extends GetWidget<MealController> {
     List<DalgeurakMealException> firstExceptionList = [].cast<DalgeurakMealException>();
     List<DalgeurakMealException> lastExceptionList = [].cast<DalgeurakMealException>();
     mealExceptionList.forEach((element) {
-      if (element.mealType! == mealType && (pageMode == MealExceptionPageMode.confirm || isSameDate(element.date!, dateTime))) {
+      if (element.mealType! == mealType && (pageMode == MealExceptionPageMode.confirm || controller.isSameDate(element.date!, dateTime))) {
         (element.exceptionType == MealExceptionType.first ? firstExceptionList.add(element) : lastExceptionList.add(element));
       }
     });
