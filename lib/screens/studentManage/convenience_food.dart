@@ -7,6 +7,7 @@ import 'package:dalgeurak_meal_application/pages/meal_exception/controller.dart'
 import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
 import 'package:dalgeurak_widget_package/widgets/student_list_tile.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -110,12 +111,20 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
             DalgeurakConvenienceFood foodContent = foodList[index];
             DimigoinUser selectStudent = foodContent.student!;
 
+
+            List<DateTime> studentHistoryData = [];
+            for (Map tempHistoryData in (controller.convenienceFoodCheckInPageHistoryData)) {
+              if (tempHistoryData['student'] == selectStudent.id!) { studentHistoryData = (tempHistoryData['date'] as List).cast<DateTime>(); }
+            }
+
             List<Widget> weekDayTextWidget = [];
             for (int i=1; i<6; i++) {
               TextStyle textStyle = convenienceCheckInPageHistory;
 
-              if (controller.isSameDate(nowTime.subtract(Duration(days: nowTime.weekday - i)), nowTime)) {
-                textStyle = textStyle.copyWith(color: dalgeurakBlueOne, fontWeight: FontWeight.w700);
+              for (DateTime time in studentHistoryData) {
+                if (controller.isSameDate(nowTime.subtract(Duration(days: nowTime.weekday - i)), time)) {
+                  textStyle = textStyle.copyWith(color: dalgeurakBlueOne, fontWeight: FontWeight.w700);
+                }
               }
 
               weekDayTextWidget.add(Text("${i.convertWeekDayKorStr}", style: textStyle));
@@ -125,11 +134,10 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: Get.width * 0.95,
+                  width: Get.width * 0.62,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(width: 10),
                       Text("${index+1}", style: listIndex),
                       SizedBox(
                         width: 340,
