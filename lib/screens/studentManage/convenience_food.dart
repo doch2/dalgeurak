@@ -130,6 +130,8 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
               weekDayTextWidget.add(Text("${i.convertWeekDayKorStr}", style: textStyle));
             }
 
+            MealType mealType = controller.dalgeurakService.getMealKind(true);
+
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -149,17 +151,20 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
                               width: 124,
                               child: Row(
                                 children: [
-                                  GestureDetector(
-                                      onTap: () => controller.registerFridayHomecoming(selectStudent.id!),
-                                      child: Container(
-                                        width: 55,
-                                        height: 33,
-                                        decoration: BoxDecoration(
-                                            color: dalgeurakYellowOne,
-                                            borderRadius: BorderRadius.circular(5)
-                                        ),
-                                        child: Center(child: Text("금요귀가", style: studentSearchListTileBtn.copyWith(color: Colors.white, fontSize: 13))),
-                                      )
+                                  (
+                                      mealType == MealType.dinner ?
+                                      GestureDetector(
+                                          onTap: () => controller.registerFridayHomecoming(selectStudent.id!),
+                                          child: Container(
+                                            width: 55,
+                                            height: 33,
+                                            decoration: BoxDecoration(
+                                                color: dalgeurakYellowOne,
+                                                borderRadius: BorderRadius.circular(5)
+                                            ),
+                                            child: Center(child: Text("금요귀가", style: studentSearchListTileBtn.copyWith(color: Colors.white, fontSize: 13))),
+                                          )
+                                      ) : SizedBox()
                                   ),
                                   const SizedBox(width: 8),
                                   GestureDetector(
