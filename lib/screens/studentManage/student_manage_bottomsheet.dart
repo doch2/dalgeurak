@@ -1,4 +1,5 @@
 import 'package:dalgeurak/screens/studentManage/student_manage_dialog.dart';
+import 'package:dalgeurak_widget_package/screens/basic_student_search.dart';
 import 'package:dalgeurak_widget_package/services/dalgeurak_api.dart';
 import 'package:dalgeurak_widget_package/widgets/blue_button.dart';
 import 'package:dalgeurak_widget_package/widgets/checkbox.dart';
@@ -16,11 +17,10 @@ import '../../controllers/meal_controller.dart';
 import '../../controllers/user_controller.dart';
 import '../../themes/color_theme.dart';
 import '../../themes/text_theme.dart';
-import 'student_search.dart';
 import '../widgets/big_menu_button.dart';
 
 class StudentManageBottomSheet {
-  StudentSearch studentSearch;
+  BasicStudentSearch studentSearch;
   DimigoinUser student;
   StudentManageBottomSheet({required this.student, required this.studentSearch});
 
@@ -350,4 +350,108 @@ class StudentManageBottomSheet {
         ],
       )
   );
+
+  showStudentBlackListBottomSheet() {
+    if (student.isConvenienceBlack == null) { _dalgeurakToast.show("블랙리스트 여부가 불러와지지 않았습니다. 앱을 제거한 후 재설치 해 명단을 다시 불러와주세요."); }
+
+    bool convenienceFood = student.isConvenienceBlack!;
+    bool mealException = student.isExceptionBlack!;
+    int studentUid = student.id!;
+
+
+    _dalgeurakBottomSheet.show(
+        0.579,
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            SizedBox(width: Get.width, height: Get.height * 0.579),
+            Positioned(
+              top: Get.height * 0.075,
+              left: Get.width * 0.0925,
+              child: Text(student.studentId.toString(), style: studentManageDialogId),
+            ),
+            Positioned(
+              top: Get.height * 0.105,
+              left: Get.width * 0.0925,
+              child: Text(student.name!, style: studentManageDialogName),
+            ),
+            Positioned(
+              top: Get.height * 0.145,
+              left: Get.width * 0.0925,
+              child: Row(
+                children: [
+                  Text("선후밥 신청 ${mealException ? "불" : ""}가능", style: studentBlacklistStatus),
+                  const SizedBox(width: 32),
+                  Text("간편식 신청 ${convenienceFood ? "불" : ""}가능", style: studentBlacklistStatus),
+                ],
+              ),
+            ),
+            Positioned(
+                top: Get.height * 0.185,
+                child: Container(width: Get.width * 0.82, child: Divider(color: dalgeurakGrayOne, thickness: 1.0))
+            ),
+            Positioned(
+                top: Get.height * 0.215,
+                child: SizedBox(
+                  width: Get.width * 0.846,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (mealException) {
+                            mealController.removeStudentInMealExceptionBlacklist(studentUid);
+                          } else {
+                            mealController.addStudentInMealExceptionBlacklist(studentUid);
+                          }
+
+                          Get.back();
+                          Get.back();
+                        },
+                        child: BigMenuButton(
+                            title: "선후밥 신청 금지 ${mealException ? "해제" : ""}",
+                            iconName: "foodBucket",
+                            isHome: false,
+                            containerSize: 160,
+                            includeInnerShadow: true,
+                            backgroundType: BigMenuButtonBackgroundType.gradient,
+                            background: blueLinearGradientOne
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          if (convenienceFood) {
+                            mealController.removeStudentInConvenienceFoodBlacklist(studentUid);
+                          } else {
+                            mealController.addStudentInConvenienceFoodBlacklist(studentUid);
+                          }
+                          
+                          Get.back();
+                          Get.back();
+                        },
+                        child: BigMenuButton(
+                            title: "간편식 신청 금지 ${convenienceFood ? "해제": ""}",
+                            iconName: "signDocu",
+                            isHome: false,
+                            containerSize: 160,
+                            includeInnerShadow: true,
+                            backgroundType: BigMenuButtonBackgroundType.color,
+                            background: purpleTwo
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+            ),
+            Positioned(
+                bottom: Get.height * 0.08,
+                child: GestureDetector(
+                  onTap: () => Get.back(),
+                  child: BlueButton(content: "확인", isLong: true, isFill: true, isSmall: false, isDisable: false),
+                )
+            ),
+          ],
+        )
+    );
+  }
 }
