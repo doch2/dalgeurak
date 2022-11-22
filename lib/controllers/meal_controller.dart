@@ -254,6 +254,30 @@ class MealController extends GetxController {
     _dalgeurakToast.show("금요귀가 등록에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
   }
 
+  addStudentInConvenienceFoodBlacklist(int studentUid) async {
+    Map result = await dalgeurakService.addStudentInBlackListConvenienceFood(studentUid);
+
+    _dalgeurakToast.show("간편식 블랙리스트 등록에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
+  }
+
+  removeStudentInConvenienceFoodBlacklist(int studentUid) async {
+    Map result = await dalgeurakService.removeStudentInBlackListConvenienceFood(studentUid);
+
+    _dalgeurakToast.show("간편식 블랙리스트 해제에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
+  }
+
+  addStudentInMealExceptionBlacklist(int studentUid) async {
+    Map result = await dalgeurakService.addStudentInBlackListMealException(studentUid);
+
+    _dalgeurakToast.show("선/후밥 블랙리스트 등록에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
+  }
+
+  removeStudentInMealExceptionBlacklist(int studentUid) async {
+    Map result = await dalgeurakService.removeStudentInBlackListMealException(studentUid);
+
+    _dalgeurakToast.show("선/후밥 블랙리스트 해제에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
+  }
+
   getMealExceptionStudentList(bool isEnterPage) async {
     isMealExceptionConfirmPageDataLoading.value = true;
     Map result = await dalgeurakService.getAllUserMealException(isEnterPage);

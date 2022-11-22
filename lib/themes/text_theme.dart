@@ -116,6 +116,9 @@ final studentManageDialogSetDienen = TextStyle(
 final studentManageWarningReasonDialogTextField = TextStyle(
     fontSize: 15, color: Colors.black, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
 
+final studentBlacklistStatus = TextStyle(
+    fontSize: 15, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w400);
+
 
 final adminPageDescription = TextStyle(
     fontSize: 20, color: Colors.white, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
