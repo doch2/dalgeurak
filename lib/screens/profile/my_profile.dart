@@ -2,6 +2,7 @@ import 'package:dalgeurak/controllers/auth_controller.dart';
 import 'package:dalgeurak/controllers/user_controller.dart';
 import 'package:dalgeurak/screens/profile/myprofile_bottomsheet.dart';
 import 'package:dalgeurak/screens/studentManage/application_blacklist.dart';
+import 'package:dalgeurak/screens/studentManage/application_status.dart';
 import 'package:dalgeurak/screens/studentManage/student_manage_dialog.dart';
 import 'package:dalgeurak/services/remote_config.dart';
 import 'package:dalgeurak_meal_application/pages/meal_cancel/page.dart';
@@ -242,7 +243,7 @@ class MyProfile extends GetWidget<UserController> {
   List<Widget> getTeacherMenu() {
     if (controller.user?.userType! == DimigoinUserType.teacher) {
       return [
-        SimpleListButton(title: "차주 간편식, 선후밥 신청 현황", iconName: "foodBucket", clickAction: () => print("onClick")),
+        SimpleListButton(title: "차주 간편식, 선후밥 신청 현황", iconName: "foodBucket", clickAction: () => Get.to(ApplicationStatus())),
         SimpleListButton(title: "학생 식사 여부 통계", iconName: "graph", clickAction: () => print("onClick")),
         SimpleListButton(title: "학생 신청 금지 설정", iconName: "setting", clickAction: () => showSearch(context: Get.context!, delegate: ApplicationBlackList())),
         SimpleListButton(title: "학생 급식비 납부금", iconName: "coin", clickAction: () => print("onClick")),

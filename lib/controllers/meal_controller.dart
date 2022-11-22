@@ -278,6 +278,14 @@ class MealController extends GetxController {
     _dalgeurakToast.show("선/후밥 블랙리스트 해제에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
   }
 
+  getAllConvenienceFoodInfo() async {
+    Map result = await dalgeurakService.getAllConvenienceFoodInfo();
+
+    _dalgeurakToast.show("간편식 정보 불러오기에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
+
+    if (result['success']) { return result['content']; } else { return; }
+  }
+
   getMealExceptionStudentList(bool isEnterPage) async {
     isMealExceptionConfirmPageDataLoading.value = true;
     Map result = await dalgeurakService.getAllUserMealException(isEnterPage);
