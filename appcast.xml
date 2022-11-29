@@ -4,6 +4,12 @@
         <title>달그락</title>
         <!-- Android -->
         <item>
+            <title>v2.0.7</title>
+            <description>로그아웃 버튼 스타일을 수정하였으며, 선후밥 명단 UX를 개선하였습니다.</description>
+            <pubDate>Tue, 29 Nov 2022 12:00:00 +0000</pubDate>
+            <enclosure url="https://play.google.com/store/apps/details?id=com.iceluna.dalgeurak" sparkle:version="2.0.7" sparkle:os="android" />
+        </item>
+        <item>
             <title>v2.0.4</title>
             <description>선후밥이 다중 신청이 가능하도록 개편되었으며, 다양한 버그들이 수정되었습니다.</description>
             <pubDate>Wed, 2 Nov 2022 12:00:00 +0000</pubDate>
@@ -22,6 +28,12 @@
             <enclosure url="https://play.google.com/store/apps/details?id=com.iceluna.dalgeurak" sparkle:version="2.0.2" sparkle:os="android" />
         </item>
         <!-- IOS -->
+        <item>
+            <title>v2.0.7</title>
+            <description>로그아웃 버튼 스타일을 수정하였으며, 선후밥 명단 UX를 개선하였습니다.</description>
+            <pubDate>Tue, 29 Nov 2022 12:00:00 +0000</pubDate>
+            <enclosure url="https://apps.apple.com/app/id1599863433" sparkle:version="2.0.7" sparkle:os="ios" />
+        </item>
         <item>
             <title>v2.0.4</title>
             <description>선후밥이 다중 신청이 가능하도록 개편되었으며, 다양한 버그들이 수정되었습니다.</description>

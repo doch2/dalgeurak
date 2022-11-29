@@ -50,26 +50,10 @@ class MyProfile extends GetWidget<UserController> {
             Positioned(
               top: _height * 0.115,
               left: _width * 0.1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  WindowTitle(
-                    subTitle: controller.user?.userType != DimigoinUserType.teacher ? "${controller.user?.gradeNum}학년 ${controller.user?.classNum}반" : (controller.user?.teacherRole ?? "등록 부서 없음"),
-                    title: "${controller.user?.name}${controller.user?.userType != DimigoinUserType.teacher ? "" : " 선생님"}",
-                  ),
-                  SizedBox(width: 3),
-                  Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () => authController.logOut(),
-                        child: SvgPicture.asset("assets/images/icons/logout.svg", width: 24, color: grayThree)
-                      ),
-                      SizedBox(height: 3)
-                    ],
-                  )
-                ],
-              )
+              child: WindowTitle(
+                subTitle: controller.user?.userType != DimigoinUserType.teacher ? "${controller.user?.gradeNum}학년 ${controller.user?.classNum}반" : (controller.user?.teacherRole ?? "등록 부서 없음"),
+                title: "${controller.user?.name}${controller.user?.userType != DimigoinUserType.teacher ? "" : " 선생님"}",
+              ),
             ),
             Positioned(
               top: _height * 0.065,
@@ -214,7 +198,7 @@ class MyProfile extends GetWidget<UserController> {
                   ),
                   Container(
                     width: _width * 0.897,
-                    height: (getTeacherMenu().length + 4) * 50,
+                    height: (getTeacherMenu().length + 5) * 50,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(15)
@@ -228,6 +212,7 @@ class MyProfile extends GetWidget<UserController> {
                         SimpleListButton(title: "문의하기", iconName: "headset", clickAction: () => dalgeurakDialog.showInquiry()),
                         SimpleListButton(title: "급식실 인스타그램 보러가기", iconName: "instagram", clickAction: () => _launchURL("https://www.instagram.com/ara__dmigo/")),
                         SimpleListButton(title: "앱 정보", iconName: "info", clickAction: () => myProfileBottomSheet.showApplicationInfo()),
+                        SimpleListButton(title: "로그아웃", iconName: "logout", color: Colors.red, clickAction: () => authController.logOut())
                       ],
                     )
                   ),

@@ -117,6 +117,7 @@ class MealController extends GetxController {
   refreshInfo() async {
     await getMealSequence();
     await getMealTime();
+    print(this.mealSequence);
 
     String mealType = dalgeurakService.getMealKind(false).convertEngStr;
     List mealSequence = this.mealSequence[mealType][(_userController.user?.gradeNum)!-1];
@@ -313,19 +314,32 @@ class MealController extends GetxController {
     });
 
     mealExceptionConfirmPageData = formattingData;
+
+    managePageStudentListTileBtnColor.clear();
+    managePageStudentListTileBtnTextColor.clear();
+
+
     isMealExceptionConfirmPageDataLoading.value = false;
   }
 
-  enterMealException(String tabBarMenuStr, int studentUid) async {
+  enterMealException(String tabBarMenuStr, int studentUid, int colorIndex) async {
     Map result = await dalgeurakService.enterStudentMealException(studentUid);
 
     _dalgeurakToast.show("선후밥 입장 처리에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
 
     if (result['success']) {
-      managePageStudentListTileBtnColor[tabBarMenuStr]![studentUid] = dalgeurakBlueOne;
-      managePageStudentListTileBtnTextColor[tabBarMenuStr]![studentUid] = Colors.white;
+      managePageStudentListTileBtnColor[tabBarMenuStr]![colorIndex] = dalgeurakBlueOne;
+      managePageStudentListTileBtnTextColor[tabBarMenuStr]![colorIndex] = Colors.white;
     }
   }
+
+  getExceptionColorIndex(DalgeurakMealException exceptionContent) => int.parse(""
+      "${(exceptionContent).applierUser!.id!}"
+      "${exceptionContent.date!.month}"
+      "${exceptionContent.date!.day}"
+      "${exceptionContent.mealType! == MealType.lunch ? 0 : 1}"
+      "${exceptionContent.exceptionType! == MealExceptionType.first ? 0 : 1}"
+  );
 
   changeMealExceptionStatus(String exceptionModelId, MealExceptionStatusType statusType, bool isEnterPage) async {
     Map result = {};

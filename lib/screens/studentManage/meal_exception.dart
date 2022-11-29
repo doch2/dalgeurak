@@ -91,12 +91,22 @@ class MealExceptionPage extends GetWidget<MealController> {
                         tabBarMenuList.forEach((tabBarMenu) {
                           Map<int, Color> btnColorMap = {};
                           Map<int, Color> textColorMap = {};
+
+                          String dateStr = exceptionContent.date.toString();
+                          if (controller.managePageStudentListTileBtnColor.keys.contains(dateStr)) {
+
+                          }
                           if (controller.managePageStudentListTileBtnColor.keys.contains(tabBarMenu)) {
                             btnColorMap.addAll(controller.managePageStudentListTileBtnColor[tabBarMenu]!);
                             textColorMap.addAll(controller.managePageStudentListTileBtnTextColor[tabBarMenu]!);
                           }
-                          btnColorMap.addAll({(exceptionContent).applierUser!.id!: dalgeurakGrayOne});
-                          textColorMap.addAll({(exceptionContent).applierUser!.id!: dalgeurakGrayFour});
+
+                          bool? isEnter = exceptionContent.isEnter; isEnter ??= false;
+                          if (exceptionContent.isGroup! && exceptionContent.applierUser!.isExceptionEnter!) { isEnter = true; }
+
+                          int colorIndex = controller.getExceptionColorIndex(exceptionContent);
+                          btnColorMap.addAll({colorIndex: (isEnter ? dalgeurakBlueOne : dalgeurakGrayOne)});
+                          textColorMap.addAll({colorIndex: (isEnter ? Colors.white : dalgeurakGrayFour)});
 
                           controller.managePageStudentListTileBtnColor.addAll({tabBarMenu: btnColorMap.obs});
                           controller.managePageStudentListTileBtnTextColor.addAll({tabBarMenu: textColorMap.obs});
@@ -140,6 +150,8 @@ class MealExceptionPage extends GetWidget<MealController> {
           DalgeurakMealException mealExceptionContent = mealExceptionList[index];
           DimigoinUser selectStudent = mealExceptionContent.applierUser!;
 
+          int colorIndex = controller.getExceptionColorIndex(mealExceptionContent);
+
           return StudentListTile(
               isGroupTile: mealExceptionContent.groupApplierUserList!.isNotEmpty,
               selectStudent: selectStudent,
@@ -147,17 +159,17 @@ class MealExceptionPage extends GetWidget<MealController> {
               trailingWidget: (
                 pageMode == MealExceptionPageMode.list ?
                 (
-                  controller.isSameDate(mealExceptionContent.date!, DateTime.now()) ?
+                  controller.isSameDate(mealExceptionContent.date!, DateTime.now()) && mealExceptionContent.mealType == controller.nowMealType.value ?
                   GestureDetector(
-                      onTap: () => controller.enterMealException(tabBarMenuStr, selectStudent.id!),
+                      onTap: () => controller.enterMealException(tabBarMenuStr, selectStudent.id!, colorIndex),
                       child: Obx(() => Container(
                         width: Get.width * 0.15,
                         height: Get.height * 0.045,
                         decoration: BoxDecoration(
-                            color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![selectStudent.id],
+                            color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![colorIndex],
                             borderRadius: BorderRadius.circular(5)
                         ),
-                        child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![selectStudent.id]))),
+                        child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![colorIndex]))),
                       ))
                   ) : SizedBox()
                 ) :
