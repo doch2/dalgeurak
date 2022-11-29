@@ -8,8 +8,9 @@ import '../../themes/text_theme.dart';
 class SimpleListButton extends StatelessWidget {
   final String title;
   final String iconName;
+  final Color color;
   dynamic clickAction;
-  SimpleListButton({required this.title, required this.iconName, required this.clickAction});
+  SimpleListButton({required this.title, required this.iconName, required this.clickAction, this.color = Colors.black});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +32,9 @@ class SimpleListButton extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          SvgPicture.asset("assets/images/icons/$iconName.svg", width: 20),
+                          SvgPicture.asset("assets/images/icons/$iconName.svg", width: 20, color: color),
                           SizedBox(width: 15),
-                          Text(title, style: simpleListButtonTitle)
+                          Text(title, style: simpleListButtonTitle.copyWith(color: color))
                         ],
                       ),
                       Icon(Icons.chevron_right_rounded, color: Colors.black, size: 15)
