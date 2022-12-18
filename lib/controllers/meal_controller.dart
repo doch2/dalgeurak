@@ -27,6 +27,7 @@ class MealController extends GetxController {
   RxString userMealTime = "로드 중..".obs;
   RxMap mealSequence = {}.obs;
   RxMap mealTime = {}.obs;
+  RxString noticeText = "로드 중..".obs;
   Map classLeftPeople = {};
   Rx<MealStatusType> userMealStatus = MealStatusType.empty.obs;
   Rx<MealExceptionType> userMealException = MealExceptionType.normal.obs;
@@ -34,8 +35,10 @@ class MealController extends GetxController {
   bool isCreateRefreshTimer = false;
   final mealDelayTextController = TextEditingController();
   final mealPriceTextController = TextEditingController();
+  final noticeTextController = TextEditingController();
   late PageController mealPlannerPageController = PageController(initialPage: (DateTime.now().weekday-1));
   CustomTabBarController mealPlannerTabBarController = CustomTabBarController();
+  RxInt mealPlannerCurrentPageIndex = (DateTime.now().weekday-1).obs;
   Map<String, CustomTabBarController> managePageTabBarController = Map<String, CustomTabBarController>.from({});
   Map<String, PageController> managePagePageController = Map<String, PageController>.from({});
   RxMap<String, RxMap<int, Color>> managePageStudentListTileBtnColor = ({}.cast<String, RxMap<int, Color>>()).obs;
@@ -117,7 +120,9 @@ class MealController extends GetxController {
   refreshInfo() async {
     await getMealSequence();
     await getMealTime();
-    print(this.mealSequence);
+
+    Map noticeData = await dalgeurakService.getNotice();
+    if (noticeData['success']) { noticeText.value = noticeData['content']; }
 
     String mealType = dalgeurakService.getMealKind(false).convertEngStr;
     List mealSequence = this.mealSequence[mealType][(_userController.user?.gradeNum)!-1];
@@ -145,6 +150,15 @@ class MealController extends GetxController {
     } else {
       _dalgeurakToast.show("현재 정보를 불러오는데 실패했습니다. \n인터넷에 연결되어있는지 확인해주세요.");
     }
+  }
+
+  setNotice(String notice) async{
+    Map result = await dalgeurakService.setNotice(notice);
+    refreshInfo();
+
+    _dalgeurakToast.show("공지 등록에 ${result['success'] ? "성공" : "실패"}하였습니다.${result['success'] ? "" : "\n실패 사유: ${result['content']}"}");
+
+    Get.back();
   }
 
   getMealPlanner() async {

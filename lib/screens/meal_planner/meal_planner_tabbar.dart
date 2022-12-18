@@ -131,7 +131,7 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
     ));
   }
 
-  Stack mealPlannerPanel(Map data, int index, MealType mealType) {
+  Container mealPlannerPanel(Map data, int index, MealType mealType) {
     Color smallBoxColor = emptyColor;
     Color bigBoxColor = Colors.white;
     TextStyle mealTextStyle = mealPlannerContent;
@@ -149,51 +149,46 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
       mealTextStyle = mealTextStyle.copyWith(color: Colors.white);
     }
 
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          width: Get.width * 0.897,
-          height: kIsWeb ? Get.height * 0.21 : 164,
-          decoration: BoxDecoration(
-              color: bigBoxColor,
-              borderRadius: BorderRadius.circular(13)
-          ),
-          child: Center(
-            child: SizedBox(
-              width: Get.width * 0.76,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 70,
-                    height: 25,
-                    decoration: BoxDecoration(
-                        color: smallBoxColor,
-                        borderRadius: BorderRadius.circular(4)
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/mealPlanner_${mealType.convertEngStr}.svg',
-                          width: 18,
-                        ),
-                        SizedBox(width: 8),
-                        Text(mealType.convertKorStr, style: mealPlannerMealType)
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  Text(data["$index"][mealType.convertEngStr], style: mealTextStyle.copyWith(fontSize: (Get.width > 1000 ? 15 : 13)), textAlign: TextAlign.start)
-                ],
-              ),
-            ),
-          )
+    return Container(
+        width: Get.width * 0.897,
+        height: kIsWeb ? Get.height * 0.21 : 164,
+        decoration: BoxDecoration(
+            color: bigBoxColor,
+            borderRadius: BorderRadius.circular(13)
         ),
-      ],
+        child: Center(
+          child: SizedBox(
+            width: Get.width * 0.76,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 70,
+                  height: 25,
+                  decoration: BoxDecoration(
+                      color: smallBoxColor,
+                      borderRadius: BorderRadius.circular(4)
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/mealPlanner_${mealType.convertEngStr}.svg',
+                        width: 18,
+                      ),
+                      SizedBox(width: 8),
+                      Text(mealType.convertKorStr, style: mealPlannerMealType)
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text(data["$index"][mealType.convertEngStr], style: mealTextStyle.copyWith(fontSize: (Get.width > 1000 ? 15 : 13)), textAlign: TextAlign.start)
+              ],
+            ),
+          ),
+        )
     );
   }
 }
