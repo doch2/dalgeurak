@@ -245,6 +245,15 @@ class MyProfile extends GetWidget<UserController> {
   }
 
   List<Widget> getStudentMenu() {
+    if (controller.user?.userType! == DimigoinUserType.student) {
+      return [
+        SimpleListButton(title: "간편식, 선후밥 신청 현황", iconName: "signDocu", clickAction: () => Get.to(ApplicationStatus())),
+      ];
+    } else {
+      return [];
+    }
+  }
+
   void _launchURL(String _url) async =>
       await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
 }
