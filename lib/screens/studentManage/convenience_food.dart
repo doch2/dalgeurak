@@ -47,40 +47,51 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
                 SizedBox(height: 27),
                 Obx(() {
                   if (!(controller.isConvenienceFoodCheckInPageDataLoading.value)) {
+                    List<Widget> tabBarWidgetList = [];
+
                     List<String> tabBarMenuList = ["샐러드", "샌드위치", "선식"];
+                    List<String> tabBarMenuMealTypeList = ["아침", "저녁"];
 
-                    Map<ConvenienceFoodType, List<DalgeurakConvenienceFood>> foodList = controller.convenienceFoodCheckInPageData;
-                    if (controller.managePageStudentListTileBtnColor.isEmpty) {
-                      for (ConvenienceFoodType foodType in [ConvenienceFoodType.sandwich, ConvenienceFoodType.salad, ConvenienceFoodType.misu]) {
-                        if ((foodList[foodType] as List).isNotEmpty) {
-                          foodList[foodType]!.forEach((foodContent) {
-                            tabBarMenuList.forEach((tabBarMenu) {
-                              Map<int, Color> btnColorMap = {};
-                              Map<int, Color> textColorMap = {};
-                              if (controller.managePageStudentListTileBtnColor.keys.contains(tabBarMenu)) {
-                                btnColorMap.addAll(controller.managePageStudentListTileBtnColor[tabBarMenu]!);
-                                textColorMap.addAll(controller.managePageStudentListTileBtnTextColor[tabBarMenu]!);
-                              }
-                              btnColorMap.addAll({(foodContent).student!.id!: dalgeurakGrayOne});
-                              textColorMap.addAll({(foodContent).student!.id!: dalgeurakGrayFour});
+                    for (String mealTypeStr in tabBarMenuMealTypeList) {
+                      Map<ConvenienceFoodType, List<DalgeurakConvenienceFood>> foodList = controller.convenienceFoodCheckInPageData;
+                      if (controller.managePageStudentListTileBtnColor.isEmpty) {
+                        for (ConvenienceFoodType foodType in [ConvenienceFoodType.sandwich, ConvenienceFoodType.salad, ConvenienceFoodType.misu]) {
+                          if ((foodList[foodType] as List).isNotEmpty) {
+                            foodList[foodType]!.forEach((foodContent) {
+                              tabBarMenuList.forEach((tabBarMenu) {
+                                Map<int, Color> btnColorMap = {};
+                                Map<int, Color> textColorMap = {};
+                                if (controller.managePageStudentListTileBtnColor.keys.contains(tabBarMenu)) {
+                                  btnColorMap.addAll(controller.managePageStudentListTileBtnColor[tabBarMenu]!);
+                                  textColorMap.addAll(controller.managePageStudentListTileBtnTextColor[tabBarMenu]!);
+                                }
+                                btnColorMap.addAll({(foodContent).student!.id!: dalgeurakGrayOne});
+                                textColorMap.addAll({(foodContent).student!.id!: dalgeurakGrayFour});
 
-                              controller.managePageStudentListTileBtnColor.addAll({tabBarMenu: btnColorMap.obs});
-                              controller.managePageStudentListTileBtnTextColor.addAll({tabBarMenu: textColorMap.obs});
+                                controller.managePageStudentListTileBtnColor.addAll({tabBarMenu: btnColorMap.obs});
+                                controller.managePageStudentListTileBtnTextColor.addAll({tabBarMenu: textColorMap.obs});
+                              });
                             });
-                          });
+                          }
                         }
                       }
+
+                      tabBarWidgetList.add(ManagePageTabBar(
+                        tabBarTitle: "convenienceFood_$mealTypeStr",
+                        tabBarMenuList: tabBarMenuList,
+                        tabBarMenuWidgetList: [
+                          _getStudentListWidget(foodList[ConvenienceFoodType.salad]!.where((element) => (element.mealType! == (mealTypeStr == "아침" ? MealType.breakfast : MealType.dinner))).toList(), tabBarMenuList[0]),
+                          _getStudentListWidget(foodList[ConvenienceFoodType.sandwich]!.where((element) => (element.mealType! == (mealTypeStr == "아침" ? MealType.breakfast : MealType.dinner))).toList(), tabBarMenuList[1]),
+                          _getStudentListWidget(foodList[ConvenienceFoodType.misu]!.where((element) => (element.mealType! == (mealTypeStr == "아침" ? MealType.breakfast : MealType.dinner))).toList(), tabBarMenuList[2]),
+                        ],
+                      ));
                     }
 
                     return Expanded(
                       child: ManagePageTabBar(
                         tabBarTitle: "convenienceFood",
-                        tabBarMenuList: tabBarMenuList,
-                        tabBarMenuWidgetList: [
-                          _getStudentListWidget(foodList[ConvenienceFoodType.salad]!, tabBarMenuList[0]),
-                          _getStudentListWidget(foodList[ConvenienceFoodType.sandwich]!, tabBarMenuList[1]),
-                          _getStudentListWidget(foodList[ConvenienceFoodType.misu]!, tabBarMenuList[2]),
-                        ],
+                        tabBarMenuList: tabBarMenuMealTypeList,
+                        tabBarMenuWidgetList: tabBarWidgetList,
                       ),
                     );
                   } else {
@@ -167,17 +178,20 @@ class ConvenienceFoodCheckInPage extends GetWidget<MealController> {
                                       ) : SizedBox()
                                   ),
                                   const SizedBox(width: 8),
-                                  GestureDetector(
-                                      onTap: () => controller.checkInConvenienceFood(tabBarMenuStr, selectStudent.id!),
-                                      child: Obx(() => Container(
-                                        width: 55,
-                                        height: 33,
-                                        decoration: BoxDecoration(
-                                            color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![selectStudent.id],
-                                            borderRadius: BorderRadius.circular(5)
-                                        ),
-                                        child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![selectStudent.id]))),
-                                      ))
+                                  (
+                                    foodContent.mealType! == mealType ?
+                                    GestureDetector(
+                                        onTap: () => controller.checkInConvenienceFood(tabBarMenuStr, selectStudent.id!),
+                                        child: Obx(() => Container(
+                                          width: 55,
+                                          height: 33,
+                                          decoration: BoxDecoration(
+                                              color: controller.managePageStudentListTileBtnColor[tabBarMenuStr]![selectStudent.id],
+                                              borderRadius: BorderRadius.circular(5)
+                                          ),
+                                          child: Center(child: Text("입장", style: studentSearchListTileBtn.copyWith(color: controller.managePageStudentListTileBtnTextColor[tabBarMenuStr]![selectStudent.id]))),
+                                        ))
+                                    ) : SizedBox()
                                   ),
                                 ],
                               ),
