@@ -36,50 +36,61 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
     _mealController = Get.find<MealController>();
 
     
-    return Stack(
-      alignment: Alignment.topCenter,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Positioned(
-          top: Get.height * 0.023,
-          child: SizedBox(
-            width: Get.width,
-            height: Get.height,
-            child: PageView.builder(
-                controller: _mealController.mealPlannerPageController,
-                itemCount: 7,
-                itemBuilder: (context, index) {
-                  return Center(child: mealPlannerView((index+1)));
-                }
+        const SizedBox(height: 36),
+        Obx(() {
+          int index = _mealController.mealPlannerCurrentPageIndex.value;
+          Map correctDate = Get.find<MealController>().dalgeurakService.getCorrectDate((DateTime.now().day - (DateTime.now().weekday - 1)) + index);
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(width: Get.width * 0.1),
+              WindowTitle(subTitle: "급식", title: "${correctDate["month"]}월 ${correctDate["day"]}일"),
+            ],
+          );
+        }),
+        const SizedBox(height: 32),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25)
+          ),
+          width: Get.width * 0.897,
+          height: 45,
+          child: Center(
+            child: CustomTabBar(
+              itemCount: 7,
+              tabBarController: _mealController.mealPlannerTabBarController,
+              pageController: _mealController.mealPlannerPageController,
+              height: 40,
+              width: Get.width * 0.9,
+              indicator: RoundIndicator(
+                color: dalgeurakBlueOne,
+                top: 2.5,
+                bottom: 2.5,
+                left: 2.5,
+                right: 2.5,
+                radius: BorderRadius.circular(21),
+              ),
+              builder: getTabBarChild,
             ),
           ),
         ),
-        Positioned(
-          top: (Get.height * 0.023) + 80,
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25)
-            ),
-            width: Get.width * 0.897,
-            height: 45,
-            child: Center(
-              child: CustomTabBar(
-                itemCount: 7,
-                tabBarController: _mealController.mealPlannerTabBarController,
-                pageController: _mealController.mealPlannerPageController,
-                height: 40,
-                width: Get.width * 0.9,
-                indicator: RoundIndicator(
-                  color: dalgeurakBlueOne,
-                  top: 2.5,
-                  bottom: 2.5,
-                  left: 2.5,
-                  right: 2.5,
-                  radius: BorderRadius.circular(21),
-                ),
-                builder: getTabBarChild,
-              ),
-            ),
+        const SizedBox(height: 26),
+        SizedBox(
+          width: Get.width,
+          height: Get.height,
+          child: PageView.builder(
+            controller: _mealController.mealPlannerPageController,
+            itemCount: 7,
+            onPageChanged: (index) => _mealController.mealPlannerCurrentPageIndex.value = index,
+            itemBuilder: (context, index) {
+              return Center(child: mealPlannerView((index+1)));
+            },
           ),
         ),
       ],
@@ -111,15 +122,6 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
     return Obx(() => Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(width: Get.width * 0.1),
-            WindowTitle(subTitle: "급식", title: "${correctDate["month"]}월 ${correctDate["day"]}일"),
-          ],
-        ),
-        SizedBox(height: Get.height * 0.11),
         mealPlannerPanel(plannerData, index, MealType.breakfast),
         SizedBox(height: Get.height * 0.0165),
         mealPlannerPanel(plannerData, index, MealType.lunch),
