@@ -1,4 +1,5 @@
 import 'package:dalgeurak/screens/home/home_bottomsheet.dart';
+import 'package:dalgeurak/screens/home/register_notice.dart';
 import 'package:dalgeurak/screens/home/widgets/live_meal_sequence.dart';
 import 'package:dalgeurak/screens/studentManage/convenience_food.dart';
 import 'package:dalgeurak/screens/studentManage/meal_exception.dart';
@@ -46,69 +47,118 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: dalgeurakGrayOne,
       body: Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              width: _width,
-              height: _height,
-              decoration: BoxDecoration(
-                color: dalgeurakGrayOne
-              ),
-            ),
-            Positioned(
-              top: _height * 0.115,
-              left: _width * 0.1,
-              child: Obx(() {
-                if (userController.user?.userType != DimigoinUserType.teacher && userController.user?.userType != DimigoinUserType.dormitoryTeacher) {
-                  mealController.getMealTime();
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    SizedBox(width: Get.width, height: 140),
+                    Positioned(
+                      top: _height * 0.05,
+                      left: _width * 0.1,
+                      child: Obx(() {
+                        if (userController.user?.userType != DimigoinUserType.teacher && userController.user?.userType != DimigoinUserType.dormitoryTeacher) {
+                          mealController.getMealTime();
 
-                  return WindowTitle(
-                    subTitle: "${Get.find<UserController>().user?.classNum}반 " + mealController.dalgeurakService.getMealKind(false).convertKorStr,
-                    title: mealController.userMealTime.value,
-                  );
-                } else {
-                  return WindowTitle(
-                    subTitle: userController.user?.userType != DimigoinUserType.teacher ? "안녕하세요!" : "${userController.user?.teacherRole ?? "등록 부서 없음"}",
-                    title: "${userController.user?.name}${userController.user?.userType != DimigoinUserType.teacher ? "님" : " 선생님"}",
-                  );
-                }
-              }),
-            ),
-            Positioned(
-              top: _height * 0.065,
-              right: -(_width * 0.125),
-              child: Image.asset(
-                "assets/images/home_flowerpot.png",
-                height: 124,
-              ),
-            ),
-            Obx(() {
-              bool? isDienen = userController.user?.permissions?.contains(DimigoinPermissionType.dalgeurak); isDienen ??= false;
-              bool isStudent = userController.user?.userType != DimigoinUserType.teacher;
+                          return WindowTitle(
+                            subTitle: "${Get.find<UserController>().user?.classNum}반 " + mealController.dalgeurakService.getMealKind(false).convertKorStr,
+                            title: mealController.userMealTime.value,
+                          );
+                        } else {
+                          return WindowTitle(
+                            subTitle: userController.user?.userType != DimigoinUserType.teacher ? "안녕하세요!" : "${userController.user?.teacherRole ?? "등록 부서 없음"}",
+                            title: "${userController.user?.name}${userController.user?.userType != DimigoinUserType.teacher ? "님" : " 선생님"}",
+                          );
+                        }
+                      }),
+                    ),
+                    Positioned(
+                      right: -(_width * 0.125),
+                      child: Image.asset(
+                        "assets/images/home_flowerpot.png",
+                        height: 124,
+                      ),
+                    ),
+                  ],
+                ),
+                Obx(() {
+                  bool? isDienen = userController.user?.permissions?.contains(DimigoinPermissionType.dalgeurak); isDienen ??= false;
+                  bool isStudent = userController.user?.userType != DimigoinUserType.teacher;
 
-              return Positioned(
-                top: _height * (isStudent ? 0.22 : 0.2),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    (isStudent ? (isDienen ? getDienenMenuBtnWidget(context) : getQrCodeShowWidget(false)) : getTeacherMenuBtnWidget(context)),
-                    (
-                      isStudent ?
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 350,
+                        margin: EdgeInsets.only(bottom: Get.height * 0.02),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 8),
+                            SizedBox(
+                              width: 280,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+
+                                  Text("공지사항", style: homeMealSequenceTitle.copyWith(color: Colors.black)),
+                                  (
+                                      userController.user?.userType == DimigoinUserType.teacher ?
+                                          GestureDetector(onTap: () => Get.to(RegisterNotice()), child: SvgPicture.asset("assets/images/icons/signDocu.svg", color: Colors.black, width: 20)) : SizedBox()
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            SizedBox(
+                                width: 280,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Obx(() => Flexible(
+                                      child: RichText(
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                        strutStyle: StrutStyle(fontSize: 16.0),
+                                        text: TextSpan(
+                                            text: mealController.noticeText.value,
+                                            style: homeNotice
+                                        ),
+                                      ),
+                                    ))
+                                  ],
+                                )
+                            ),
+                            const SizedBox(height: 8),
+                          ],
+                        ),
+                      ),
+                      (isStudent ? (isDienen ? getDienenMenuBtnWidget(context) : SizedBox()) : getTeacherMenuBtnWidget(context)),
+                      (
+                          isStudent ?
                           LiveMealSequence(mealSequenceMode: LiveMealSequenceMode.blue)
-                        : Column(children: [
+                              : Column(children: [
                             LiveMealSequence(mealSequenceMode: LiveMealSequenceMode.white, checkGradeNum: 2),
                             LiveMealSequence(mealSequenceMode: LiveMealSequenceMode.blue, checkGradeNum: 1),
                           ]
-                        )
-                    )
-                  ],
-                ),
-              );
-            }),
-          ],
+                          )
+                      )
+                    ],
+                  );
+                }),
+              ],
+            ),
+          ),
         )
       ),
     );

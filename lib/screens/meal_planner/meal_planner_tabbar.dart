@@ -36,50 +36,61 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
     _mealController = Get.find<MealController>();
 
     
-    return Stack(
-      alignment: Alignment.topCenter,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Positioned(
-          top: Get.height * 0.023,
-          child: SizedBox(
-            width: Get.width,
-            height: Get.height,
-            child: PageView.builder(
-                controller: _mealController.mealPlannerPageController,
-                itemCount: 7,
-                itemBuilder: (context, index) {
-                  return Center(child: mealPlannerView((index+1)));
-                }
+        const SizedBox(height: 36),
+        Obx(() {
+          int index = _mealController.mealPlannerCurrentPageIndex.value;
+          Map correctDate = Get.find<MealController>().dalgeurakService.getCorrectDate((DateTime.now().day - (DateTime.now().weekday - 1)) + index);
+
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(width: Get.width * 0.1),
+              WindowTitle(subTitle: "급식", title: "${correctDate["month"]}월 ${correctDate["day"]}일"),
+            ],
+          );
+        }),
+        const SizedBox(height: 32),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(25)
+          ),
+          width: Get.width * 0.897,
+          height: 45,
+          child: Center(
+            child: CustomTabBar(
+              itemCount: 7,
+              tabBarController: _mealController.mealPlannerTabBarController,
+              pageController: _mealController.mealPlannerPageController,
+              height: 40,
+              width: Get.width * 0.9,
+              indicator: RoundIndicator(
+                color: dalgeurakBlueOne,
+                top: 2.5,
+                bottom: 2.5,
+                left: 2.5,
+                right: 2.5,
+                radius: BorderRadius.circular(21),
+              ),
+              builder: getTabBarChild,
             ),
           ),
         ),
-        Positioned(
-          top: (Get.height * 0.023) + 80,
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(25)
-            ),
-            width: Get.width * 0.897,
-            height: 45,
-            child: Center(
-              child: CustomTabBar(
-                itemCount: 7,
-                tabBarController: _mealController.mealPlannerTabBarController,
-                pageController: _mealController.mealPlannerPageController,
-                height: 40,
-                width: Get.width * 0.9,
-                indicator: RoundIndicator(
-                  color: dalgeurakBlueOne,
-                  top: 2.5,
-                  bottom: 2.5,
-                  left: 2.5,
-                  right: 2.5,
-                  radius: BorderRadius.circular(21),
-                ),
-                builder: getTabBarChild,
-              ),
-            ),
+        const SizedBox(height: 26),
+        SizedBox(
+          width: Get.width,
+          height: Get.height,
+          child: PageView.builder(
+            controller: _mealController.mealPlannerPageController,
+            itemCount: 7,
+            onPageChanged: (index) => _mealController.mealPlannerCurrentPageIndex.value = index,
+            itemBuilder: (context, index) {
+              return Center(child: mealPlannerView((index+1)));
+            },
           ),
         ),
       ],
@@ -111,15 +122,6 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
     return Obx(() => Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(width: Get.width * 0.1),
-            WindowTitle(subTitle: "급식", title: "${correctDate["month"]}월 ${correctDate["day"]}일"),
-          ],
-        ),
-        SizedBox(height: Get.height * 0.11),
         mealPlannerPanel(plannerData, index, MealType.breakfast),
         SizedBox(height: Get.height * 0.0165),
         mealPlannerPanel(plannerData, index, MealType.lunch),
@@ -129,7 +131,7 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
     ));
   }
 
-  Stack mealPlannerPanel(Map data, int index, MealType mealType) {
+  Container mealPlannerPanel(Map data, int index, MealType mealType) {
     Color smallBoxColor = emptyColor;
     Color bigBoxColor = Colors.white;
     TextStyle mealTextStyle = mealPlannerContent;
@@ -147,51 +149,46 @@ class _MealPlannerTabBarState extends State<MealPlannerTabBar> {
       mealTextStyle = mealTextStyle.copyWith(color: Colors.white);
     }
 
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          width: Get.width * 0.897,
-          height: kIsWeb ? Get.height * 0.21 : 164,
-          decoration: BoxDecoration(
-              color: bigBoxColor,
-              borderRadius: BorderRadius.circular(13)
-          ),
-          child: Center(
-            child: SizedBox(
-              width: Get.width * 0.76,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: 70,
-                    height: 25,
-                    decoration: BoxDecoration(
-                        color: smallBoxColor,
-                        borderRadius: BorderRadius.circular(4)
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/mealPlanner_${mealType.convertEngStr}.svg',
-                          width: 18,
-                        ),
-                        SizedBox(width: 8),
-                        Text(mealType.convertKorStr, style: mealPlannerMealType)
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  Text(data["$index"][mealType.convertEngStr], style: mealTextStyle.copyWith(fontSize: (Get.width > 1000 ? 15 : 13)), textAlign: TextAlign.start)
-                ],
-              ),
-            ),
-          )
+    return Container(
+        width: Get.width * 0.897,
+        height: kIsWeb ? Get.height * 0.21 : 164,
+        decoration: BoxDecoration(
+            color: bigBoxColor,
+            borderRadius: BorderRadius.circular(13)
         ),
-      ],
+        child: Center(
+          child: SizedBox(
+            width: Get.width * 0.76,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 70,
+                  height: 25,
+                  decoration: BoxDecoration(
+                      color: smallBoxColor,
+                      borderRadius: BorderRadius.circular(4)
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/mealPlanner_${mealType.convertEngStr}.svg',
+                        width: 18,
+                      ),
+                      SizedBox(width: 8),
+                      Text(mealType.convertKorStr, style: mealPlannerMealType)
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text(data["$index"][mealType.convertEngStr], style: mealTextStyle.copyWith(fontSize: (Get.width > 1000 ? 15 : 13)), textAlign: TextAlign.start)
+              ],
+            ),
+          ),
+        )
     );
   }
 }

@@ -5,23 +5,17 @@ import 'package:dalgeurak/themes/color_theme.dart';
 import 'package:dalgeurak/themes/text_theme.dart';
 import 'package:dalgeurak_widget_package/widgets/student_list_tile.dart';
 import 'package:dimigoin_flutter_plugin/dimigoin_flutter_plugin.dart';
-import 'package:dalgeurak_meal_application/pages/convenience_food_teacher/page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import 'manage_page_tabbar.dart';
+import '../studentManage/manage_page_tabbar.dart';
 
-class ApplicationStatus extends GetWidget<MealController> {
-  ApplicationStatus({Key? key}) : super(key: key);
+class StudentApplicationStatus extends GetWidget<MealController> {
+  StudentApplicationStatus({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => showSearch(context: context, delegate: ConvenienceFoodTeacherPage()),
-        child: SvgPicture.asset("assets/images/icons/pencil.svg", width: 30),
-      ),
       body: Center(
           child: SafeArea(
             child: Column(

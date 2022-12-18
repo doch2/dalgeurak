@@ -16,44 +16,34 @@ class MealPlanner extends GetWidget<MealController> {
 
     return Scaffold(
       backgroundColor: blueThree,
-      body: SafeArea(
-        child: Center(
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Container(
-                width: _width,
-                height: _height,
-                color: blueThree
-              ),
-              FutureBuilder(
-                  future: controller.getMealPlanner(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      return SafeArea(child: MealPlannerTabBar(plannerData: (snapshot.data as Map)));
-                    } else if (snapshot.hasError) { //데이터를 정상적으로 불러오지 못했을 때
-                      return Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          SizedBox(width: _width, height: _height * 0.835),
-                          Center(child: Text("데이터를 정상적으로 불러오지 못했습니다. \n다시 시도해 주세요.", textAlign: TextAlign.center)),
-                        ],
-                      );
-                    } else { //데이터를 불러오는 중
-                      return Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          SizedBox(width: _width, height: _height * 0.835),
-                          Center(child: CircularProgressIndicator()),
-                        ],
-                      );
-                    }
-                  }
-              ),
-            ],
-          )
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: FutureBuilder(
+              future: controller.getMealPlanner(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return MealPlannerTabBar(plannerData: (snapshot.data as Map));
+                } else if (snapshot.hasError) { //데이터를 정상적으로 불러오지 못했을 때
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(width: _width, height: _height * 0.835),
+                      Center(child: Text("데이터를 정상적으로 불러오지 못했습니다. \n다시 시도해 주세요.", textAlign: TextAlign.center)),
+                    ],
+                  );
+                } else { //데이터를 불러오는 중
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(width: _width, height: _height * 0.835),
+                      Center(child: CircularProgressIndicator()),
+                    ],
+                  );
+                }
+              }
+          ),
         ),
-      ),
+      )
     );
   }
 }

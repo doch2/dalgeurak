@@ -52,6 +52,9 @@ final homeMenuWidgetTwoTitle = TextStyle(
 final homeEntranceCafeteriaWidgetTitle = TextStyle(
     fontSize: 14, color: dalgeurakBlueOne, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 
+final homeNotice = TextStyle(
+    fontSize: 14, color: dalgeurakGrayFour, fontFamily: 'Pretendard', fontWeight: FontWeight.w500);
+
 final homeQrRefreshTime = TextStyle(
     fontSize: 10, color: dalgeurakGrayTwo, fontFamily: 'Pretendard', fontWeight: FontWeight.w700);
 final homeQrCheckInTitle = TextStyle(
